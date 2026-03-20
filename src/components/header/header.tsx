@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { ToggleButton, ToggleButtonGroup, Button, Box } from '@mui/material'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
-import { HeaderContainer, HeaderLogo } from './header.styles'
-import { useViewer, type ViewerType } from '../../context/viewer-context'
+import { HeaderContainer, HeaderLogo, HeaderToggleSection } from './header.styles'
+import { useViewerContext, type ViewerType } from '../../context/viewer-context'
 import { calendarUrl } from '../../data/content'
+import logo from '../../images/logo.svg'
 
 const SCROLL_THRESHOLD = 300
 
 export function Header() {
-  const { viewer, setViewer } = useViewer()
+  const { viewer, setViewer } = useViewerContext()
   const [scrolledPast, setScrolledPast] = useState(false)
 
   useEffect(() => {
@@ -25,17 +26,9 @@ export function Header() {
 
   return (
     <HeaderContainer>
-      <HeaderLogo src="/logo.png" alt="Rami Alshaza" />
+      <HeaderLogo src={logo} alt="Rami Alshaza" />
       <Box sx={{ position: 'relative', minHeight: 36, display: 'flex', alignItems: 'center' }}>
-        <Box
-          sx={{
-            opacity: scrolledPast ? 0 : 1,
-            transform: scrolledPast ? 'translateY(-8px)' : 'translateY(0)',
-            transition: 'opacity 0.25s ease, transform 0.25s ease',
-            pointerEvents: scrolledPast ? 'none' : 'auto',
-            position: scrolledPast ? 'absolute' : 'relative',
-          }}
-        >
+        <HeaderToggleSection scrolledPast={scrolledPast}>
           <ToggleButtonGroup
             value={viewer}
             exclusive
@@ -45,7 +38,7 @@ export function Header() {
             <ToggleButton value="engineer">For Engineers</ToggleButton>
             <ToggleButton value="recruiter">For Recruiters</ToggleButton>
           </ToggleButtonGroup>
-        </Box>
+        </HeaderToggleSection>
         <Box
           sx={{
             opacity: scrolledPast ? 1 : 0,

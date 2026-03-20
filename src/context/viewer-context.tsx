@@ -19,7 +19,7 @@ export function ViewerProvider({ children }: { children: ReactNode }) {
   )
 }
 
-export function useViewer() {
+export function useViewerContext() {
   const context = useContext(ViewerContext)
   if (!context) {
     throw new Error('useViewer must be used within a ViewerProvider')

@@ -20,6 +20,16 @@ export const HeaderContainer = styled(Stack)(({ theme }) => ({
 }))
 
 export const HeaderLogo = styled('img')({
-  height: 40,
-  width: 'auto',
+  height: "100px",
+  width: '100px',
 })
+
+export const HeaderToggleSection = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'scrolledPast',
+})<{scrolledPast: boolean}>(({ scrolledPast }) => ({
+  opacity: scrolledPast ? 0 : 1,
+  transform: scrolledPast ? 'translateY(-8px)' : 'translateY(0)',
+  transition: 'opacity 0.25s ease, transform 0.25s ease',
+  pointerEvents: scrolledPast ? 'none' : 'auto',
+  position: scrolledPast ? 'absolute' : 'relative',
+}))

@@ -1,16 +1,17 @@
 import { Typography } from '@mui/material'
-import { useViewer } from '../../context/viewer-context'
+import { useViewerContext } from '../../context/viewer-context'
 import { heroContent } from '../../data/content'
+import heroImage from '../../images/main-image.png'
 import { HeroContainer, HeroImageWrapper, HeroTextWrapper } from './hero-section.styles'
 
 export function HeroSection() {
-  const { viewer } = useViewer()
+  const { viewer } = useViewerContext()
   const content = heroContent[viewer]
 
   return (
     <HeroContainer as="section">
       <HeroImageWrapper>
-        <img src="/images/rami.png" alt="Rami Alshaza" />
+        <img src={heroImage} alt="Rami Alshaza" />
       </HeroImageWrapper>
       <HeroTextWrapper>
         <Typography variant="h1" gutterBottom>

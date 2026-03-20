@@ -137,13 +137,13 @@ export interface LinkedInPost {
 
 export const linkedinPosts: LinkedInPost[] = [
   {
-    embedHtml: '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7000000000000000001" height="400" width="100%" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
+    embedHtml: '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7424718608733388800?collapsed=1" height="250" width="750" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
   },
   {
-    embedHtml: '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7000000000000000002" height="400" width="100%" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
+    embedHtml: '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7395982345448816640?collapsed=1" height="250" width="750" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
   },
   {
-    embedHtml: '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7000000000000000003" height="400" width="100%" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
+    embedHtml: '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7420397102842920961?collapsed=1" height="250" width="750" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
   },
 ]
 

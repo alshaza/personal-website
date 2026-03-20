@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
-import { useViewer } from '../../context/viewer-context'
+import { useViewerContext } from '../../context/viewer-context'
 import { testimonials } from '../../data/content'
 import {
   TestimonialsContainer,
@@ -9,7 +9,7 @@ import {
 } from './testimonials.styles'
 
 export function Testimonials() {
-  const { viewer } = useViewer()
+  const { viewer } = useViewerContext()
   const items = testimonials[viewer]
 
   return (
