@@ -19,7 +19,7 @@ export function ContactCTA() {
           </Typography>
           <Typography
             variant="body1"
-            sx={{ maxWidth: 520, color: 'rgba(255,255,255,0.8)' }}
+            sx={{ maxWidth: 520, color: 'text.secondary' }}
           >
             Interested in working together? Book a time that works for you and let's
             have a conversation.
@@ -36,9 +36,6 @@ export function ContactCTA() {
               fontSize: '1rem',
               px: 4,
               py: 1.5,
-              backgroundColor: '#ffffff',
-              color: 'primary.main',
-              '&:hover': { backgroundColor: 'rgba(255,255,255,0.9)' },
             }}
           >
             Book a Call
@@ -47,7 +44,7 @@ export function ContactCTA() {
 
         <CTALinkedInBlock>
           <Link
-            href="https://www.linkedin.com/in/rami-alshaza?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+            href="https://www.linkedin.com/in/rami-alshaza"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Rami Alshaza LinkedIn profile"
@@ -56,17 +53,17 @@ export function ContactCTA() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 1,
-              color: '#ffffff',
-              textDecorationColor: '#ffffff',
+              color: 'primary.main',
+              textDecorationColor: 'primary.main',
               '&:hover': {
-                color: '#ffffff',
-                textDecorationColor: '#ffffff',
+                color: 'primary.main',
+                textDecorationColor: 'primary.main',
               },
             }}
           >
             <LinkedInIcon />
             <Typography component="span" variant="body1" color="inherit">
-                Let's Connect
+              Let's Connect
             </Typography>
           </Link>
         </CTALinkedInBlock>
@@ -75,9 +72,9 @@ export function ContactCTA() {
         component="footer"
         variant="body2"
         textAlign="center"
-        sx={{ mt: 4, color: 'rgba(255,255,255,0.82)' }}
+        sx={{ mt: 5, mb: 3, color: 'text.secondary' }}
       >
-        Generated with love by Rami @ 2026
+        Generated with love by Rami © 2026
       </Typography>
     </CTAContainer>
   )

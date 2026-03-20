@@ -1,14 +1,14 @@
 import { Box, styled } from '@mui/material'
 
 export const CTAContainer = styled(Box)(({ theme }) => ({
-  padding: '64px 16px',
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.common.white,
+  padding: '0 16px',
+  backgroundColor: 'transparent',
+  color: theme.palette.text.primary,
   [theme.breakpoints.up('sm')]: {
-    padding: '80px 32px',
+    padding: '0 32px',
   },
   [theme.breakpoints.up('md')]: {
-    padding: '100px 64px',
+    padding: '0 64px',
   },
 }))
 
@@ -23,7 +23,7 @@ export const CTAContent = styled(Box)(({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 40,
+    gap: 48,
   },
 }))
 
@@ -45,10 +45,8 @@ export const CTALinkedInBlock = styled(Box)(({ theme }) => ({
   width: '100%',
   display: 'flex',
   justifyContent: 'center',
-  '& .badge-base': {
-    margin: '0 auto',
-  },
   [theme.breakpoints.up('md')]: {
+    width: 'auto',
     justifyContent: 'flex-end',
     flex: '0 0 auto',
   },

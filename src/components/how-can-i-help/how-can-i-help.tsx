@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react'
 import { Typography } from '@mui/material'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { useViewerContext } from '../../context/viewer-context'
 import { helpItems } from '../../data/content'
 import {
   HelpContainer,
@@ -17,7 +16,6 @@ import {
 } from './how-can-i-help.styles'
 
 export function HowCanIHelp() {
-  const { viewer } = useViewerContext()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const totalSlides = helpItems.length
@@ -47,8 +45,6 @@ export function HowCanIHelp() {
       window.clearInterval(intervalId)
     }
   }, [isPaused, totalSlides])
-
-  if (viewer !== 'engineer') return null
 
   return (
     <HelpContainer as="section" id="how-can-i-help">
