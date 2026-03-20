@@ -10,14 +10,14 @@ export const PostsContainer = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const PostsGrid = styled(Box)(({ theme }) => ({
+export const PostsGrid = styled(Box)({
   position: 'relative',
   maxWidth: 750,
   margin: '0 auto',
   width: '100%',
   overflow: 'hidden',
   borderRadius: 16,
-}))
+})
 
 export const PostsTrack = styled(Box)(() => ({
   display: 'flex',
