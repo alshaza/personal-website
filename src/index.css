@@ -1,18 +1,27 @@
 :root {
-  font-family: WF Visual Sans Variable, Arial, sans-seriff;
+  --color-blue: #4A90D9;
+
+  font-family: Inter, Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  overflow-x: hidden;
-  height: 100vh;
+}
+
+body {
   margin: 0;
+  overflow-x: hidden;
+  background-color: #ffffff;
 }
 
 img {
+  display: block;
+  max-width: 100%;
   object-fit: cover;
 }

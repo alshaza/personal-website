@@ -1,3 +1,22 @@
+import { Box } from '@mui/material'
+import { HeroSection } from '../components/hero-section/hero-section'
+import { Testimonials } from '../components/testimonials/testimonials'
+import { HowCanIHelp } from '../components/how-can-i-help/how-can-i-help'
+import { Timeline } from '../components/timeline/timeline'
+import { LatestPosts } from '../components/latest-posts/latest-posts'
+import { ImageSlider } from '../components/image-slider/image-slider'
+import { ContactCTA } from '../components/contact-cta/contact-cta'
+
 export function HomePage() {
-  return null;
+  return (
+    <Box component="main">
+      <HeroSection />
+      <Testimonials />
+      <HowCanIHelp />
+      <Timeline />
+      <LatestPosts />
+      <ImageSlider />
+      <ContactCTA />
+    </Box>
+  )
 }
