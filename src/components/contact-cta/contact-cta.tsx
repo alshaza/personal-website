@@ -47,7 +47,7 @@ export function ContactCTA() {
 
         <CTALinkedInBlock>
           <Link
-            href="https://www.linkedin.com/in/rami-alshaza"
+            href="https://www.linkedin.com/in/rami-alshaza?utm_source=share_via&utm_content=profile&utm_medium=member_android"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Rami Alshaza LinkedIn profile"
