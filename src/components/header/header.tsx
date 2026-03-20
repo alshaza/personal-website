@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
-import { ToggleButton, ToggleButtonGroup, Button, Box } from '@mui/material'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import { ToggleButton, ToggleButtonGroup, Box } from '@mui/material'
 import { HeaderContainer, HeaderLogo, HeaderToggleSection } from './header.styles'
 import { useViewerContext, type ViewerType } from '../../context/viewer-context'
-import { calendarUrl } from '../../data/content'
 import logo from '../../images/logo.svg'
 
 const SCROLL_THRESHOLD = 300
@@ -34,32 +32,19 @@ export function Header() {
             exclusive
             onChange={handleChange}
             size="small"
+            sx={{
+              maxWidth: '100%',
+              '& .MuiToggleButton-root': {
+                px: { xs: 1.25, sm: 1.75 },
+                fontSize: { xs: '0.72rem', sm: '0.8125rem' },
+                whiteSpace: 'nowrap',
+              },
+            }}
           >
             <ToggleButton value="engineer">For Engineers</ToggleButton>
             <ToggleButton value="recruiter">For Recruiters</ToggleButton>
           </ToggleButtonGroup>
         </HeaderToggleSection>
-        <Box
-          sx={{
-            opacity: scrolledPast ? 1 : 0,
-            transform: scrolledPast ? 'translateY(0)' : 'translateY(8px)',
-            transition: 'opacity 0.25s ease, transform 0.25s ease',
-            pointerEvents: scrolledPast ? 'auto' : 'none',
-            position: scrolledPast ? 'relative' : 'absolute',
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            startIcon={<CalendarMonthIcon />}
-            href={calendarUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Book a free 1:1
-          </Button>
-        </Box>
       </Box>
     </HeaderContainer>
   )

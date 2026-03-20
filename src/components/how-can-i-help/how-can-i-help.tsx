@@ -51,7 +51,7 @@ export function HowCanIHelp() {
   if (viewer !== 'engineer') return null
 
   return (
-    <HelpContainer as="section">
+    <HelpContainer as="section" id="how-can-i-help">
       <Typography variant="h2" textAlign="center" sx={{ mb: { xs: 4, md: 6 } }}>
         How Can I Help You
       </Typography>

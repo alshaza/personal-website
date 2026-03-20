@@ -6,7 +6,13 @@ import { ViewerProvider } from './context/viewer-context'
 export function App() {
   return (
     <ViewerProvider>
-      <Stack width="100%" minHeight="100vh">
+      <Stack
+        width="100%"
+        minHeight="100vh"
+        maxWidth="1024px"
+        mx="auto"
+        sx={{ overflowX: 'clip' }}
+      >
         <Header />
         <HomePage />
       </Stack>

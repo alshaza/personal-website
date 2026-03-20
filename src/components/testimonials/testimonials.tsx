@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 import { useViewerContext } from '../../context/viewer-context'
 import { testimonials } from '../../data/content'
@@ -35,6 +35,11 @@ export function Testimonials() {
           </TestimonialCard>
         ))}
       </TestimonialsGrid>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 4, md: 5 } }}>
+        <Button variant="outlined" color="primary" href="#how-can-i-help">
+          See how can I benfit you
+        </Button>
+      </Box>
     </TestimonialsContainer>
   )
 }
