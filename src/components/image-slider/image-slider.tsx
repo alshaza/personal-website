@@ -34,9 +34,6 @@ export function ImageSlider() {
             </SliderEmblaTrack>
           </SliderEmblaViewport>
         </SliderLeft>
-        <SliderRight>
-          <img src={highlightPhoto} alt="Rami Alshaza" />
-        </SliderRight>
       </SliderLayout>
     </SliderContainer>
   )

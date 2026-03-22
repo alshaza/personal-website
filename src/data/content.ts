@@ -2,7 +2,12 @@ import type { ViewerType } from '../context/viewer-context'
 import communicationImage from '../images/communication.svg'
 import EQImage from '../images/EQ.svg'
 import leadershipImage from '../images/leadership.svg'
-import heroImage from '../images/main-image.png'
+import codaverse from '../images/codaverse.png'
+import community from '../images/community.png'
+import tippspiel from '../images/tippspiel.png'
+
+
+
 export interface HeroContent {
   heading: string
   subheading: string
@@ -91,12 +96,10 @@ export const timelineEntries: TimelineEntry[] = [
 ]
 
 export const sliderImages: SliderImage[] = [
-  { src: '/images/slide-1.jpg', alt: 'Project showcase 1' },
-  { src: '/images/slide-2.jpg', alt: 'Project showcase 2' },
-  { src: '/images/slide-3.jpg', alt: 'Project showcase 3' },
+  { src: community, alt: 'Community Project' },
+  { src: tippspiel, alt: 'Tippspiel Project' },
+  { src: codaverse, alt: 'Codaverse Project' },
 ]
-
-export const highlightPhoto = heroImage
 
 export interface HelpItem {
   title: string
