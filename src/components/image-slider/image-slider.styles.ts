@@ -75,6 +75,7 @@ export const SliderCTASlide = styled(Box)({
   justifyContent: 'center',
   textAlign: 'center',
   gap: 20,
+  width: '100%',
 })
 
 export const SliderCTAButton = styled(Button)({

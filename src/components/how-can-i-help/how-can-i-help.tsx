@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { Typography } from '@mui/material'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { useViewerContext } from '../../context/viewer-context'
 import { helpItems } from '../../data/content'
 import {
   HelpContainer,
@@ -17,7 +16,6 @@ import {
 } from './how-can-i-help.styles'
 
 export function HowCanIHelp() {
-  const { viewer } = useViewerContext()
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
@@ -40,8 +38,6 @@ export function HowCanIHelp() {
     if (!emblaApi) return
     emblaApi.scrollTo(index)
   }, [emblaApi])
-
-  if (viewer !== 'engineer') return null
 
   return (
     <HelpContainer as="section" id="how-can-i-help">

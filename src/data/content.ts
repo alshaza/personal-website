@@ -124,19 +124,19 @@ export interface HelpItem {
 
 export const helpItems: HelpItem[] = [
   {
-    title: 'Code Reviews & Architecture',
-    description: 'Get expert feedback on your code, system design, and architecture decisions.',
+    title: 'Master the Art of Communication',
+    description: 'Active listening techniques, Team collaboration, and Giving and receiving feedback.',
     image: communicationImage,
   },
   {
-    title: 'Mentorship & Coaching',
-    description: 'Level up your engineering career with personalized 1-on-1 guidance.',
-    image: leadershipImage,
+    title: 'Strengthen Your Emotional Intelligence',
+    description: 'Develop self-awareness, empathy, and social skills to build stronger relationships and lead more effectively.',
+    image: EQImage,
   },
   {
-    title: 'Technical Consulting',
-    description: "Need help choosing the right stack or scaling your product? Let's talk.",
-    image: EQImage,
+    title: 'Develop Strong Leadership Skills',
+    description: 'Drive results with confidence, inspire and motivate teams, and navigate challenges with resilience.',
+    image: leadershipImage,
   },
 ]
 
