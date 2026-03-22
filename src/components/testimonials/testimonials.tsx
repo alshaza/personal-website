@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { useViewerContext } from '../../context/viewer-context'
 import { testimonials } from '../../data/content'
 import {
@@ -8,7 +8,6 @@ import {
   TestimonialCard,
   QuoteIcon,
   QuoteText,
-  TestimonialsButtonWrapper,
 } from './testimonials.styles'
 
 export function Testimonials() {
@@ -36,11 +35,6 @@ export function Testimonials() {
           </TestimonialCard>
         ))}
       </TestimonialsGrid>
-      <TestimonialsButtonWrapper>
-        <Button variant="outlined" color="primary" href="#how-can-i-help">
-          See how can I benfit you
-        </Button>
-      </TestimonialsButtonWrapper>
     </TestimonialsContainer>
   )
 }

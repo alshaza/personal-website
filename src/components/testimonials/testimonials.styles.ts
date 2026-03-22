@@ -47,12 +47,3 @@ export const QuoteText = styled(Typography)({
   flex: 1,
   fontStyle: 'italic',
 })
-
-export const TestimonialsButtonWrapper = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  marginTop: 32,
-  [theme.breakpoints.up('md')]: {
-    marginTop: 40,
-  },
-}))
