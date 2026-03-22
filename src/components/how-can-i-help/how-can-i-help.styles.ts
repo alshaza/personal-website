@@ -69,8 +69,9 @@ export const HelpPreviewItem = styled(Box, {
   borderRadius: 12,
   cursor: 'pointer',
   border: `2px solid ${active ? theme.palette.primary.main : 'transparent'}`,
+  boxShadow: active ? 'var(--shadow-blue)' : 'none',
   opacity: active ? 1 : 0.4,
-  transition: 'opacity 0.2s ease, border-color 0.2s ease',
+  transition: 'opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {
     opacity: 1,
   },

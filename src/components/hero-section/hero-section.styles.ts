@@ -4,11 +4,14 @@ export const HeroContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '64px 0',
+  justifyContent: 'center',
+  minHeight: 'calc(100vh - 104px)',
+  padding: '32px 0',
   gap: 32,
   [theme.breakpoints.up('md')]: {
     flexDirection: 'row',
     gap: 64,
+    minHeight: 'calc(100vh - 132px)',
   },
 }))
 

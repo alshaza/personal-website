@@ -68,5 +68,5 @@ export const TimelineCard = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   borderRadius: 16,
   padding: 24,
-  boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+  boxShadow: 'var(--shadow-blue)',
 }))

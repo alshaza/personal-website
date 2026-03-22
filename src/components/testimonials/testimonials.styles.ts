@@ -1,9 +1,13 @@
 import { Box, Card, Typography, styled } from '@mui/material'
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 
-export const TestimonialsContainer = styled(Box)({
+export const TestimonialsContainer = styled(Box)(({ theme }) => ({
   marginTop: 'var(--section-spacing)',
-})
+  border: `2px solid ${theme.palette.primary.main}`,
+  borderRadius: 16,
+  padding: '40px 24px',
+  boxShadow: 'var(--shadow-blue)',
+}))
 
 export const SectionHeading = styled(Typography)(({ theme }) => ({
   textAlign: 'center',
@@ -27,10 +31,11 @@ export const TestimonialCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: 16,
+  boxShadow: 'var(--shadow-blue)',
   transition: 'transform 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+    boxShadow: 'var(--shadow-blue), 0 8px 32px rgba(0,0,0,0.1)',
   },
   [theme.breakpoints.down('sm')]: {
     padding: 24,

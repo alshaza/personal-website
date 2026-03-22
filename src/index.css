@@ -3,6 +3,7 @@
   --color-cream: #F5F5F0;
   --color-cream-rgb: 245, 245, 240;
   --section-spacing: 96px;
+  --shadow-blue: 0px 0px 15px -5px var(--color-blue);
 
   font-family: Inter, Arial, sans-serif;
   font-synthesis: none;
