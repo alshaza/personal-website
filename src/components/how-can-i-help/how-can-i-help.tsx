@@ -1,52 +1,55 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Typography } from '@mui/material'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
+import { useViewerContext } from '../../context/viewer-context'
 import { helpItems } from '../../data/content'
 import {
   HelpContainer,
-  HelpSliderViewport,
-  HelpSliderTrack,
+  HelpSectionHeading,
+  HelpEmblaViewport,
+  HelpEmblaTrack,
   HelpSlide,
   HelpSlideImage,
   HelpSlideContent,
-  HelpDots,
-  HelpDot,
+  HelpPreviews,
+  HelpPreviewItem,
 } from './how-can-i-help.styles'
 
 export function HowCanIHelp() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
-  const totalSlides = helpItems.length
+  const { viewer } = useViewerContext()
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false }),
+  ])
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+  }, [emblaApi])
 
   useEffect(() => {
-    if (totalSlides <= 1 || isPaused) return
+    if (!emblaApi) return
+    onSelect()
+    emblaApi.on('select', onSelect)
+    return () => { emblaApi.off('select', onSelect) }
+  }, [emblaApi, onSelect])
 
-    const reducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reducedMotion) return
+  const handlePreviewClick = useCallback((index: number) => {
+    if (!emblaApi) return
+    emblaApi.scrollTo(index)
+  }, [emblaApi])
 
-    const intervalId = window.setInterval(() => {
-      setActiveIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
-    }, 5000)
-
-    return () => {
-      window.clearInterval(intervalId)
-    }
-  }, [isPaused, totalSlides])
+  if (viewer !== 'engineer') return null
 
   return (
     <HelpContainer as="section" id="how-can-i-help">
-      <Typography variant="h2" textAlign="center" sx={{ mb: { xs: 4, md: 6 } }}>
+      <HelpSectionHeading variant="h2">
         How Can I Help You
-      </Typography>
-      <HelpSliderViewport
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onFocus={() => setIsPaused(true)}
-        onBlur={() => setIsPaused(false)}
-      >
-        <HelpSliderTrack sx={{ transform: `translateX(-${activeIndex * 100}%)` }}>
+      </HelpSectionHeading>
+      <HelpEmblaViewport ref={emblaRef}>
+        <HelpEmblaTrack>
           {helpItems.map((item) => (
             <HelpSlide key={item.title}>
               <HelpSlideImage>
@@ -62,17 +65,19 @@ export function HowCanIHelp() {
               </HelpSlideContent>
             </HelpSlide>
           ))}
-        </HelpSliderTrack>
-      </HelpSliderViewport>
-      <HelpDots>
+        </HelpEmblaTrack>
+      </HelpEmblaViewport>
+      <HelpPreviews>
         {helpItems.map((item, index) => (
-          <HelpDot
+          <HelpPreviewItem
             key={item.title}
-            active={index === activeIndex}
-            onClick={() => setActiveIndex(index)}
-          />
+            active={index === selectedIndex}
+            onClick={() => handlePreviewClick(index)}
+          >
+            <img src={item.image} alt={item.title} />
+          </HelpPreviewItem>
         ))}
-      </HelpDots>
+      </HelpPreviews>
     </HelpContainer>
   )
 }

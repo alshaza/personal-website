@@ -2,6 +2,7 @@ import type { ViewerType } from '../context/viewer-context'
 import communicationImage from '../images/communication.svg'
 import EQImage from '../images/EQ.svg'
 import leadershipImage from '../images/leadership.svg'
+import heroImage from '../images/main-image.png'
 export interface HeroContent {
   heading: string
   subheading: string
@@ -95,6 +96,8 @@ export const sliderImages: SliderImage[] = [
   { src: '/images/slide-3.jpg', alt: 'Project showcase 3' },
 ]
 
+export const highlightPhoto = heroImage
+
 export interface HelpItem {
   title: string
   description: string
@@ -135,4 +138,15 @@ export const linkedinPosts: LinkedInPost[] = [
   },
 ]
 
-export const calendarUrl = 'https://calendly.com/rami-alshaza'
+export interface CTAContent {
+  calendarUrl: string
+}
+
+export const ctaContent: Record<ViewerType, CTAContent> = {
+  engineer: {
+    calendarUrl: 'https://calendly.com/rami-alshaza',
+  },
+  recruiter: {
+    calendarUrl: 'https://calendly.com/rami-alshaza',
+  },
+}

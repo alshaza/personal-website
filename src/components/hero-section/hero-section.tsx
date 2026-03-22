@@ -2,7 +2,7 @@ import { Typography } from '@mui/material'
 import { useViewerContext } from '../../context/viewer-context'
 import { heroContent } from '../../data/content'
 import heroImage from '../../images/main-image.png'
-import { HeroContainer, HeroImageWrapper, HeroTextWrapper } from './hero-section.styles'
+import { HeroContainer, HeroImageWrapper, HeroTextWrapper, HeroSubheading } from './hero-section.styles'
 
 export function HeroSection() {
   const { viewer } = useViewerContext()
@@ -17,14 +17,9 @@ export function HeroSection() {
         <Typography variant="h1" gutterBottom>
           {content.heading}
         </Typography>
-        <Typography
-          variant="h3"
-          color="primary"
-          gutterBottom
-          sx={{ mb: 2 }}
-        >
+        <HeroSubheading variant="h3" color="primary" gutterBottom>
           {content.subheading}
-        </Typography>
+        </HeroSubheading>
         <Typography variant="body1" color="text.secondary">
           {content.body}
         </Typography>

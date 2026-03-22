@@ -1,61 +1,43 @@
-import { useState, useCallback } from 'react'
-import { Typography } from '@mui/material'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { sliderImages } from '../../data/content'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
+import { sliderImages, highlightPhoto } from '../../data/content'
 import {
   SliderContainer,
-  SliderViewport,
-  SliderTrack,
-  SliderArrow,
-  SliderDots,
-  Dot,
+  SliderSectionHeading,
+  SliderLayout,
+  SliderLeft,
+  SliderEmblaViewport,
+  SliderEmblaTrack,
+  SliderRight,
+  SliderSlide,
 } from './image-slider.styles'
 
 export function ImageSlider() {
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const goTo = useCallback((index: number) => {
-    setActiveIndex(index)
-  }, [])
-
-  const goPrev = useCallback(() => {
-    setActiveIndex((prev) => (prev === 0 ? sliderImages.length - 1 : prev - 1))
-  }, [])
-
-  const goNext = useCallback(() => {
-    setActiveIndex((prev) => (prev === sliderImages.length - 1 ? 0 : prev + 1))
-  }, [])
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false }),
+  ])
 
   return (
     <SliderContainer as="section">
-      <Typography variant="h2" textAlign="center" sx={{ mb: { xs: 4, md: 6 } }}>
+      <SliderSectionHeading variant="h2">
         Highlights
-      </Typography>
-      <SliderViewport>
-        <SliderTrack
-          sx={{ transform: `translateX(-${activeIndex * 100}%)` }}
-        >
-          {sliderImages.map((image) => (
-            <img key={image.alt} src={image.src} alt={image.alt} />
-          ))}
-        </SliderTrack>
-        <SliderArrow onClick={goPrev} sx={{ left: 12 }}>
-          <ChevronLeftIcon />
-        </SliderArrow>
-        <SliderArrow onClick={goNext} sx={{ right: 12 }}>
-          <ChevronRightIcon />
-        </SliderArrow>
-      </SliderViewport>
-      <SliderDots>
-        {sliderImages.map((image, index) => (
-          <Dot
-            key={image.alt}
-            active={index === activeIndex}
-            onClick={() => goTo(index)}
-          />
-        ))}
-      </SliderDots>
+      </SliderSectionHeading>
+      <SliderLayout>
+        <SliderLeft>
+          <SliderEmblaViewport ref={emblaRef}>
+            <SliderEmblaTrack>
+              {sliderImages.map((image) => (
+                <SliderSlide key={image.alt}>
+                  <img src={image.src} alt={image.alt} />
+                </SliderSlide>
+              ))}
+            </SliderEmblaTrack>
+          </SliderEmblaViewport>
+        </SliderLeft>
+        <SliderRight>
+          <img src={highlightPhoto} alt="Rami Alshaza" />
+        </SliderRight>
+      </SliderLayout>
     </SliderContainer>
   )
 }

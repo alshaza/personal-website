@@ -1,12 +1,15 @@
-import { Box, Card, styled } from '@mui/material'
+import { Box, Card, Typography, styled } from '@mui/material'
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 
-export const TestimonialsContainer = styled(Box)(({ theme }) => ({
-  padding: '48px 16px',
-  [theme.breakpoints.up('sm')]: {
-    padding: '64px 32px',
-  },
+export const TestimonialsContainer = styled(Box)({
+  marginTop: 'var(--section-spacing)',
+})
+
+export const SectionHeading = styled(Typography)(({ theme }) => ({
+  textAlign: 'center',
+  marginBottom: 32,
   [theme.breakpoints.up('md')]: {
-    padding: '80px 64px',
+    marginBottom: 48,
   },
 }))
 
@@ -31,5 +34,25 @@ export const TestimonialCard = styled(Card)(({ theme }) => ({
   },
   [theme.breakpoints.down('sm')]: {
     padding: 24,
+  },
+}))
+
+export const QuoteIcon = styled(FormatQuoteIcon)(({ theme }) => ({
+  fontSize: 40,
+  color: theme.palette.primary.main,
+  opacity: 0.6,
+}))
+
+export const QuoteText = styled(Typography)({
+  flex: 1,
+  fontStyle: 'italic',
+})
+
+export const TestimonialsButtonWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: 32,
+  [theme.breakpoints.up('md')]: {
+    marginTop: 40,
   },
 }))

@@ -1,4 +1,4 @@
-import { Stack, styled } from '@mui/material'
+import { Box, Stack, ToggleButtonGroup, styled } from '@mui/material'
 
 export const HeaderContainer = styled(Stack)(({ theme }) => ({
   width: '100%',
@@ -43,6 +43,28 @@ export const HeaderLogo = styled('img')({
   },
 })
 
-export const HeaderToggleSection = styled('div')({
+export const HeaderRightSection = styled(Box)({
+  position: 'relative',
+  minHeight: 36,
+  display: 'flex',
+  alignItems: 'center',
+})
+
+export const HeaderToggleSection = styled(Box)({
   position: 'relative',
 })
+
+export const HeaderToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  maxWidth: '100%',
+  '& .MuiToggleButton-root': {
+    paddingLeft: 12,
+    paddingRight: 12,
+    fontSize: '0.84rem',
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: 18,
+      paddingRight: 18,
+      fontSize: '0.95rem',
+    },
+  },
+}))
