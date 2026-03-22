@@ -26,6 +26,8 @@ export const HelpSlide = styled(Box)(({ theme }) => ({
   flex: '0 0 100%',
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: "center",
+  alignItems: "center",
   gap: 16,
   padding: '0 8px',
   [theme.breakpoints.up('md')]: {
@@ -41,6 +43,8 @@ export const HelpSlideImage = styled(Box)({
   height: '300px',
   '& img': {
     objectFit: 'cover',
+    width: '300px',
+    height: '300px',
   },
 })
 

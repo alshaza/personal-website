@@ -74,7 +74,7 @@ export function ContactCTA() {
         textAlign="center"
         sx={{ mt: 5, mb: 3, color: 'text.secondary' }}
       >
-        Generated with love by Rami © 2026
+        Created by Rami © 2026
       </Typography>
     </CTAContainer>
   )
