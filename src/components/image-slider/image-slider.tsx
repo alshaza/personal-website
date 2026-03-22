@@ -22,7 +22,7 @@ import {
 export function ImageSlider() {
   const { viewer } = useViewerContext()
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 20000, stopOnMouseEnter: true, stopOnInteraction: false }),
+    Autoplay({ delay: 2000, stopOnMouseEnter: true, stopOnInteraction: false }),
   ])
 
   return (
