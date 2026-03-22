@@ -10,10 +10,10 @@ export function HomePage() {
   return (
     <MainContainer>
       <HeroSection />
-      <Testimonials />
       <HowCanIHelp />
-      <Timeline />
+      <Testimonials />
       <ImageSlider />
+      <Timeline />
       <ContactCTA />
     </MainContainer>
   )

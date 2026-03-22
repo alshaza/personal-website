@@ -75,12 +75,7 @@ export const SliderCTASlide = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   textAlign: 'center',
   gap: 20,
-  minHeight: 280,
-  padding: '48px 16px',
-  [theme.breakpoints.up('md')]: {
-    minHeight: 360,
-    padding: '64px 32px',
-  },
+
 }))
 
 export const SliderCTAButton = styled(Button)({
