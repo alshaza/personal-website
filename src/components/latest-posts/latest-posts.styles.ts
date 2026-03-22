@@ -41,11 +41,11 @@ export const PostsSliderArrow = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   top: '50%',
   transform: 'translateY(-50%)',
-  backgroundColor: 'rgba(255,255,255,0.85)',
+  backgroundColor: 'rgba(var(--color-cream-rgb), 0.85)',
   backdropFilter: 'blur(4px)',
   zIndex: 2,
   '&:hover': {
-    backgroundColor: 'rgba(255,255,255,0.95)',
+    backgroundColor: 'rgba(var(--color-cream-rgb), 0.95)',
   },
   [theme.breakpoints.down('sm')]: {
     display: 'none',

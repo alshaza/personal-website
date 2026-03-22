@@ -14,7 +14,7 @@ export const HeaderContainer = styled(Stack)(({ theme }) => ({
   top: 0,
   zIndex: 1100,
   backdropFilter: 'blur(4px)',
-  background: 'rgba(255, 255, 255, 0.5)',
+  background: 'rgba(var(--color-cream-rgb), 0.9)',
   [theme.breakpoints.up('sm')]: {
     paddingTop: 'calc(16px + env(safe-area-inset-top, 0px))',
     paddingRight: '32px',

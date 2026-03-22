@@ -1,5 +1,7 @@
 :root {
   --color-blue: #4A90D9;
+  --color-cream: #F5F5F0;
+  --color-cream-rgb: 245, 245, 240;
 
   font-family: Inter, Arial, sans-serif;
   font-synthesis: none;
@@ -17,7 +19,7 @@
 body {
   margin: 0;
   overflow-x: clip;
-  background-color: #ffffff;
+  background-color: var(--color-cream);
 }
 
 #root {

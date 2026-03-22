@@ -1,5 +1,7 @@
 import type { ViewerType } from '../context/viewer-context'
-
+import communicationImage from '../images/communication.svg'
+import EQImage from '../images/EQ.svg'
+import leadershipImage from '../images/leadership.svg'
 export interface HeroContent {
   heading: string
   subheading: string
@@ -27,77 +29,63 @@ export interface SliderImage {
 export const heroContent: Record<ViewerType, HeroContent> = {
   engineer: {
     heading: "Hi, I'm Rami",
-    subheading: 'Full Stack Senior Engineer',
-    body: 'I build scalable, high-performance web applications with modern technologies. Passionate about clean architecture, developer experience, and shipping products that make an impact.',
+    subheading: 'Helping You Improve Soft Skills',
+    body: "Mentored +50 Engineers, equipping you to stand out in your job or during your interviews.",
   },
   recruiter: {
     heading: "Hi, I'm Rami",
-    subheading: 'Full Stack Senior Engineer',
-    body: 'A results-driven senior engineer with extensive experience delivering end-to-end solutions. I thrive in fast-paced environments and bring deep expertise across the full stack.',
+    subheading: 'Senior Full Stack Engineer',
+    body: 'Launched major projects reaching millions of customers. Main stack is PHP and ReactJs',
   },
 }
 
+const sharedTestimonials: Testimonial[] = [
+  {
+    name: 'Stefan Lang',
+    role: 'Team Leader @ CHECK24',
+    quote: `Rami is an exceptionally engaged and motivated engineer who consistently delivers high-quality work.`,
+  },
+  {
+    name: 'Khaled Ayash',
+    role: 'CEO @ Tessafold',
+    quote: `Rami's dedication to his work, attention to detail, and problem-solving skills were truly impressive.`,
+  },
+  {
+    name: 'William Turbayevsky',
+    role: 'CTO and Co-Founder @ Livedata Limited',
+    quote: "Rami is very passionate and has great vision for his work. His focus keeps everything moving smoothly.",
+  },
+]
+
 export const testimonials: Record<ViewerType, Testimonial[]> = {
-  engineer: [
-    {
-      name: 'Alex Chen',
-      role: 'Staff Engineer at TechCorp',
-      quote: "Rami's code reviews are next-level. He consistently raises the bar for our entire team's engineering standards.",
-    },
-    {
-      name: 'Sarah Kim',
-      role: 'Frontend Lead at StartupX',
-      quote: 'Working with Rami taught me more about system design in six months than I learned in years. A truly exceptional engineer.',
-    },
-    {
-      name: 'James Rodriguez',
-      role: 'CTO at DevStudio',
-      quote: "Rami architected our entire platform migration. His technical depth and pragmatic approach saved us months of work.",
-    },
-  ],
-  recruiter: [
-    {
-      name: 'Emily Watson',
-      role: 'VP of Engineering at ScaleUp',
-      quote: 'Rami is the kind of engineer every team needs — technically brilliant, a natural leader, and someone who elevates everyone around them.',
-    },
-    {
-      name: 'Michael Torres',
-      role: 'Engineering Director at FinFlow',
-      quote: 'Hiring Rami was one of the best decisions we made. He delivered a critical project ahead of schedule and under budget.',
-    },
-    {
-      name: 'Lisa Park',
-      role: 'Head of Product at CloudBase',
-      quote: 'Rami bridges the gap between engineering and product like no one else. He understands both the technical and business sides deeply.',
-    },
-  ],
+  engineer: sharedTestimonials,
+  recruiter: sharedTestimonials,
 }
 
 export const timelineEntries: TimelineEntry[] = [
   {
-    year: '2024 - Present',
+    year: 'Aug 2022 - Present',
     title: 'Senior Full Stack Engineer',
-    company: 'TechCorp',
-    description: 'Leading architecture decisions for a high-traffic SaaS platform. Driving migration to microservices and mentoring junior engineers.',
+    company: 'CHECK24 - Munich',
+    description: 'Leading the development of advanced features in the Community product',
   },
   {
-    year: '2021 - 2024',
-    title: 'Full Stack Engineer',
-    company: 'StartupX',
-    description: 'Built core product features from zero to one. Implemented CI/CD pipelines and established engineering best practices.',
+    year: 'Aug 2021 - Aug 2022',
+    title: 'Backend Engineer',
+    company: 'SDN One - Syria',
+    description: 'Leading the company team with scrum software development methodology.',
   },
   {
-    year: '2019 - 2021',
-    title: 'Frontend Engineer',
-    company: 'DevStudio',
-    description: 'Developed responsive web applications using React and TypeScript. Improved page load performance by 40%.',
+    year: 'Aug 2021 - 2022',
+    title: 'Mid-Level Full Stack Engineer (Part-time)',
+    company: 'Tessafold - Remote (Berlin)',
+    description: 'Launched Running App for three German companies during the marathon in 2021',
   },
   {
-    year: '2017 - 2019',
-    title: 'Junior Developer',
-    company: 'WebAgency',
-    description: 'Started career building client websites and internal tools. Gained foundational skills in JavaScript, HTML, and CSS.',
+    year: 'Sep 2022 - Aug 2021',
+    title: 'Junior Full Stack Engineer',
+    company: 'GLOBAL AL-MOTAKAMEL Co. - Syria',
+    description: 'Collaborated with international teams to support and develop two e-commerce products.',
   },
 ]
 
@@ -117,17 +105,17 @@ export const helpItems: HelpItem[] = [
   {
     title: 'Code Reviews & Architecture',
     description: 'Get expert feedback on your code, system design, and architecture decisions.',
-    image: '/images/help-code-review.jpg',
+    image: communicationImage,
   },
   {
     title: 'Mentorship & Coaching',
     description: 'Level up your engineering career with personalized 1-on-1 guidance.',
-    image: '/images/help-mentorship.jpg',
+    image: leadershipImage,
   },
   {
     title: 'Technical Consulting',
     description: "Need help choosing the right stack or scaling your product? Let's talk.",
-    image: '/images/help-consulting.jpg',
+    image: EQImage,
   },
 ]
 

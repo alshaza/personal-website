@@ -74,12 +74,6 @@ export function HowCanIHelp() {
             </HelpSlide>
           ))}
         </HelpSliderTrack>
-        <HelpSliderArrow onClick={goPrev} sx={{ left: 12 }}>
-          <ChevronLeftIcon />
-        </HelpSliderArrow>
-        <HelpSliderArrow onClick={goNext} sx={{ right: 12 }}>
-          <ChevronRightIcon />
-        </HelpSliderArrow>
       </HelpSliderViewport>
       <HelpDots>
         {helpItems.map((item, index) => (

@@ -35,21 +35,14 @@ export const HelpSlide = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const HelpSlideImage = styled(Box)(({ theme }) => ({
-  width: '100%',
-  borderRadius: 16,
+export const HelpSlideImage = styled(Box)({
   overflow: 'hidden',
-  aspectRatio: '16/9',
-  backgroundColor: theme.palette.grey[100],
+  width: '300px',
+  height: '300px',
   '& img': {
-    width: '100%',
-    height: '100%',
     objectFit: 'cover',
   },
-  [theme.breakpoints.up('md')]: {
-    flex: '0 0 50%',
-  },
-}))
+})
 
 export const HelpSlideContent = styled(Box)(({ theme }) => ({
   padding: '8px 0',
@@ -62,11 +55,11 @@ export const HelpSliderArrow = styled(IconButton)(({ theme }) => ({
   position: 'absolute',
   top: '50%',
   transform: 'translateY(-50%)',
-  backgroundColor: 'rgba(255,255,255,0.85)',
+  backgroundColor: 'rgba(var(--color-cream-rgb), 0.85)',
   backdropFilter: 'blur(4px)',
   zIndex: 2,
   '&:hover': {
-    backgroundColor: 'rgba(255,255,255,0.95)',
+    backgroundColor: 'rgba(var(--color-cream-rgb), 0.95)',
   },
   [theme.breakpoints.down('sm')]: {
     display: 'none',
