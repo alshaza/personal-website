@@ -34,7 +34,6 @@ export function ContactCTA() {
             size="large"
             startIcon={<CalendarMonthIcon />}
             href={calendarUrl}
-            target="_blank"
             rel="noopener noreferrer"
           >
             Book a Call
@@ -56,7 +55,7 @@ export function ContactCTA() {
           </CTALinkedInLink>
         </CTALinkedInBlock>
       </CTAContent>
-      <CTAFooter component="footer" variant="body2">
+      <CTAFooter variant="body2">
         Created by Rami © 2026
       </CTAFooter>
     </CTAContainer>

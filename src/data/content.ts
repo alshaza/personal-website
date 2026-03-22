@@ -2,7 +2,10 @@ import type { ViewerType } from '../context/viewer-context'
 import communicationImage from '../images/communication.svg'
 import EQImage from '../images/EQ.svg'
 import leadershipImage from '../images/leadership.svg'
-import heroImage from '../images/main-image.png'
+import codaverse from '../images/codaverse.png'
+import community from '../images/community.png'
+import tippspiel from '../images/tippspiel.png'
+
 export interface HeroContent {
   heading: string
   subheading: string
@@ -25,6 +28,8 @@ export interface TimelineEntry {
 export interface SliderImage {
   src: string
   alt: string
+  title: string
+  description: string
 }
 
 export const heroContent: Record<ViewerType, HeroContent> = {
@@ -91,12 +96,25 @@ export const timelineEntries: TimelineEntry[] = [
 ]
 
 export const sliderImages: SliderImage[] = [
-  { src: '/images/slide-1.jpg', alt: 'Project showcase 1' },
-  { src: '/images/slide-2.jpg', alt: 'Project showcase 2' },
-  { src: '/images/slide-3.jpg', alt: 'Project showcase 3' },
+  {
+    src: community,
+    alt: 'Community Project',
+    title: 'Community',
+    description: 'A social platform connecting millions of users with real-time interactions and content sharing.',
+  },
+  {
+    src: tippspiel,
+    alt: 'Tippspiel Project',
+    title: 'Tippspiel',
+    description: 'A prediction game for sports fans to compete with friends and communities during major tournaments.',
+  },
+  {
+    src: codaverse,
+    alt: 'Codaverse Project',
+    title: 'Codaverse',
+    description: 'A collaborative coding platform designed to help developers learn, share, and grow together.',
+  },
 ]
-
-export const highlightPhoto = heroImage
 
 export interface HelpItem {
   title: string

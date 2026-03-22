@@ -1,8 +1,7 @@
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Button, Typography, styled } from '@mui/material'
 
 export const SliderContainer = styled(Box)({
   marginTop: 'var(--section-spacing)',
-  overflow: 'hidden',
 })
 
 export const SliderSectionHeading = styled(Typography)(({ theme }) => ({
@@ -13,58 +12,100 @@ export const SliderSectionHeading = styled(Typography)(({ theme }) => ({
   },
 }))
 
-export const SliderLayout = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 24,
-  [theme.breakpoints.up('md')]: {
-    flexDirection: 'row',
-    gap: 32,
-    alignItems: 'stretch',
-  },
-}))
-
-export const SliderLeft = styled(Box)(({ theme }) => ({
-  flex: 1,
-  minWidth: 0,
-  [theme.breakpoints.up('md')]: {
-    flex: '1 1 60%',
-  },
-}))
-
 export const SliderEmblaViewport = styled(Box)({
   overflow: 'hidden',
-  borderRadius: 16,
 })
 
 export const SliderEmblaTrack = styled(Box)({
   display: 'flex',
 })
 
-export const SliderRight = styled(Box)(({ theme }) => ({
-  display: 'none',
-  [theme.breakpoints.up('md')]: {
-    display: 'block',
-    flex: '0 0 35%',
-    borderRadius: 16,
-    overflow: 'hidden',
-    '& img': {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      display: 'block',
-    },
-  },
-}))
-
 export const SliderSlide = styled(Box)({
   flex: '0 0 100%',
   minWidth: 0,
+})
+
+export const SliderCard = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 20,
+  [theme.breakpoints.up('md')]: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 40,
+  },
+}))
+
+export const SliderCardContent = styled(Box)(({ theme }) => ({
+  order: 1,
+  [theme.breakpoints.up('md')]: {
+    order: 0,
+    flex: '0 0 40%',
+  },
+}))
+
+export const SliderCardImage = styled(Box)(({ theme }) => ({
+  order: 0,
+  borderRadius: 16,
+  overflow: 'hidden',
   '& img': {
     width: '100%',
-    aspectRatio: '16/9',
+    aspectRatio: '16/10',
     objectFit: 'cover',
     display: 'block',
-    borderRadius: 16,
   },
+  [theme.breakpoints.up('md')]: {
+    order: 1,
+    flex: '1 1 60%',
+  },
+}))
+
+export const SliderCardTitle = styled(Typography)({
+  marginBottom: 8,
 })
+
+export const SliderCardDescription = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+}))
+
+export const SliderCTASlide = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  gap: 20,
+  minHeight: 280,
+  padding: '48px 16px',
+  [theme.breakpoints.up('md')]: {
+    minHeight: 360,
+    padding: '64px 32px',
+  },
+}))
+
+export const SliderCTAButton = styled(Button)({
+  marginTop: 8,
+  fontSize: '1rem',
+  paddingLeft: 32,
+  paddingRight: 32,
+  paddingTop: 12,
+  paddingBottom: 12,
+})
+
+export const SliderDots = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  gap: 8,
+  marginTop: 24,
+})
+
+export const SliderDot = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>(({ theme, active }) => ({
+  width: 10,
+  height: 10,
+  borderRadius: '50%',
+  cursor: 'pointer',
+  backgroundColor: active ? theme.palette.primary.main : theme.palette.action.disabled,
+  transition: 'background-color 0.2s ease',
+}))
