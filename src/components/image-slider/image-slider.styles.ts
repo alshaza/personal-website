@@ -68,20 +68,14 @@ export const SliderCardDescription = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }))
 
-export const SliderCTASlide = styled(Box)(({ theme }) => ({
+export const SliderCTASlide = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   textAlign: 'center',
   gap: 20,
-  minHeight: 280,
-  padding: '48px 16px',
-  [theme.breakpoints.up('md')]: {
-    minHeight: 360,
-    padding: '64px 32px',
-  },
-}))
+})
 
 export const SliderCTAButton = styled(Button)({
   marginTop: 8,
