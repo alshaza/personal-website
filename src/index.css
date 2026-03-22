@@ -8,6 +8,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 *,
@@ -28,7 +29,5 @@ body {
 }
 
 img {
-  display: block;
-  max-width: 100%;
   object-fit: cover;
 }
