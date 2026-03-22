@@ -8,7 +8,7 @@ import { MainContainer } from './home-page.styles'
 
 export function HomePage() {
   return (
-    <MainContainer component="main">
+    <MainContainer>
       <HeroSection />
       <Testimonials />
       <HowCanIHelp />

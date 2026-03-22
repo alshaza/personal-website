@@ -1,6 +1,6 @@
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { sliderImages, highlightPhoto } from '../../data/content'
+import { sliderImages } from '../../data/content'
 import {
   SliderContainer,
   SliderSectionHeading,
@@ -8,7 +8,6 @@ import {
   SliderLeft,
   SliderEmblaViewport,
   SliderEmblaTrack,
-  SliderRight,
   SliderSlide,
 } from './image-slider.styles'
 
@@ -34,9 +33,6 @@ export function ImageSlider() {
             </SliderEmblaTrack>
           </SliderEmblaViewport>
         </SliderLeft>
-        <SliderRight>
-          <img src={highlightPhoto} alt="Rami Alshaza" />
-        </SliderRight>
       </SliderLayout>
     </SliderContainer>
   )
