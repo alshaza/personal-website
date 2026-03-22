@@ -18,34 +18,13 @@ import {
   SliderCardDescription,
   SliderCTASlide,
   SliderCTAButton,
-  SliderDots,
-  SliderDot,
 } from './image-slider.styles'
 
 export function ImageSlider() {
   const { viewer } = useViewerContext()
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const totalSlides = sliderImages.length + 1
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false }),
   ])
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return
-    setSelectedIndex(emblaApi.selectedScrollSnap())
-  }, [emblaApi])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    onSelect()
-    emblaApi.on('select', onSelect)
-    return () => { emblaApi.off('select', onSelect) }
-  }, [emblaApi, onSelect])
-
-  const handleDotClick = useCallback((index: number) => {
-    emblaApi?.scrollTo(index)
-  }, [emblaApi])
 
   return (
     <SliderContainer as="section">
