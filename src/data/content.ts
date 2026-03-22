@@ -162,9 +162,9 @@ export interface CTAContent {
 
 export const ctaContent: Record<ViewerType, CTAContent> = {
   engineer: {
-    calendarUrl: 'https://calendly.com/rami-alshaza',
+    calendarUrl: 'https://calendar.app.google/my9YWe2TWbrTXEVo9',
   },
   recruiter: {
-    calendarUrl: 'https://calendly.com/rami-alshaza',
+    calendarUrl: 'https://calendar.app.google/my9YWe2TWbrTXEVo9',
   },
 }
