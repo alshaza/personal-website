@@ -1,35 +1,32 @@
-import { Box, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 
 export const HeroContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: 32,
-  padding: '48px 16px',
   [theme.breakpoints.up('md')]: {
     flexDirection: 'row',
     gap: 64,
-    padding: '80px 64px',
   },
 }))
 
 export const HeroImageWrapper = styled(Box)(({ theme }) => ({
   display: 'none',
   width: '100%',
-  maxWidth: 280,
-  aspectRatio: '1',
-  borderRadius: '50%',
+  maxWidth: 320,
   overflow: 'hidden',
   flexShrink: 0,
-  backgroundColor: theme.palette.grey[200],
+  borderRadius: 16,
   '& img': {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
+    display: 'block',
   },
   [theme.breakpoints.up('md')]: {
     display: 'block',
-    maxWidth: 380,
+    maxWidth: 420,
     animation: 'heroImageLeftIn 700ms ease-out both',
   },
   '@keyframes heroImageLeftIn': {
@@ -81,3 +78,7 @@ export const HeroTextWrapper = styled(Box)(({ theme }) => ({
     animation: 'none',
   },
 }))
+
+export const HeroSubheading = styled(Typography)({
+  marginBottom: 16,
+})

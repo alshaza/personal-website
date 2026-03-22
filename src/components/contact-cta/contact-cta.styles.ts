@@ -1,15 +1,9 @@
-import { Box, styled } from '@mui/material'
+import { Box, Button, Link, Typography, styled } from '@mui/material'
 
 export const CTAContainer = styled(Box)(({ theme }) => ({
-  padding: '0 16px',
+  marginTop: 'var(--section-spacing)',
   backgroundColor: 'transparent',
   color: theme.palette.text.primary,
-  [theme.breakpoints.up('sm')]: {
-    padding: '0 32px',
-  },
-  [theme.breakpoints.up('md')]: {
-    padding: '0 64px',
-  },
 }))
 
 export const CTAContent = styled(Box)(({ theme }) => ({
@@ -41,6 +35,20 @@ export const CTABookBlock = styled(Box)(({ theme }) => ({
   },
 }))
 
+export const CTADescription = styled(Typography)({
+  maxWidth: 520,
+  color: 'text.secondary',
+})
+
+export const CTAButton = styled(Button)({
+  marginTop: 8,
+  fontSize: '1rem',
+  paddingLeft: 32,
+  paddingRight: 32,
+  paddingTop: 12,
+  paddingBottom: 12,
+})
+
 export const CTALinkedInBlock = styled(Box)(({ theme }) => ({
   width: '100%',
   display: 'flex',
@@ -50,4 +58,23 @@ export const CTALinkedInBlock = styled(Box)(({ theme }) => ({
     justifyContent: 'flex-end',
     flex: '0 0 auto',
   },
+}))
+
+export const CTALinkedInLink = styled(Link)(({ theme }) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  color: theme.palette.primary.main,
+  textDecorationColor: theme.palette.primary.main,
+  '&:hover': {
+    color: theme.palette.primary.main,
+    textDecorationColor: theme.palette.primary.main,
+  },
+}))
+
+export const CTAFooter = styled(Typography)(({ theme }) => ({
+  marginTop: 40,
+  marginBottom: 24,
+  color: theme.palette.text.secondary,
+  textAlign: 'center',
 }))

@@ -2,6 +2,7 @@ import { Typography } from '@mui/material'
 import { timelineEntries } from '../../data/content'
 import {
   TimelineContainer,
+  TimelineSectionHeading,
   TimelineTrack,
   TimelineItem,
   TimelineCard,
@@ -10,9 +11,9 @@ import {
 export function Timeline() {
   return (
     <TimelineContainer as="section">
-      <Typography variant="h2" textAlign="center" sx={{ mb: { xs: 4, md: 6 } }}>
+      <TimelineSectionHeading variant="h2">
         Career Journey
-      </Typography>
+      </TimelineSectionHeading>
       <TimelineTrack>
         {timelineEntries.map((entry, index) => (
           <TimelineItem key={entry.year} side={index % 2 === 0 ? 'left' : 'right'}>

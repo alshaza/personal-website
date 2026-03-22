@@ -1,14 +1,20 @@
-import { Typography } from '@mui/material'
-import { useMemo } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 import { linkedinPosts } from '../../data/content'
-import { PostCard, PostsContainer, PostsGrid } from './latest-posts.styles'
+import {
+  PostsContainer,
+  PostsSectionHeading,
+  PostsEmblaViewport,
+  PostsEmblaTrack,
+  PostCard,
+} from './latest-posts.styles'
 
 export function LatestPosts() {
-  const posts = useMemo(() => linkedinPosts, [])
-  const firstPost = posts[0]
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false }),
+  ])
 
   const getEagerEmbedHtml = (embedHtml: string) => {
-    // Force eager iframe loading so all slides are fetched immediately.
     return embedHtml.includes('loading=')
       ? embedHtml.replace(/loading=(['"]).*?\1/i, 'loading="eager"')
       : embedHtml.replace('<iframe', '<iframe loading="eager"')
@@ -16,14 +22,19 @@ export function LatestPosts() {
 
   return (
     <PostsContainer as="section">
-      <Typography variant="h2" textAlign="center" sx={{ mb: { xs: 4, md: 6 } }}>
+      <PostsSectionHeading variant="h2">
         Latest Posts
-      </Typography>
-      <PostsGrid aria-live="polite">
-        {firstPost ? (
-          <PostCard dangerouslySetInnerHTML={{ __html: getEagerEmbedHtml(firstPost.embedHtml) }} />
-        ) : null}
-      </PostsGrid>
+      </PostsSectionHeading>
+      <PostsEmblaViewport ref={emblaRef}>
+        <PostsEmblaTrack>
+          {linkedinPosts.map((post, index) => (
+            <PostCard
+              key={index}
+              dangerouslySetInnerHTML={{ __html: getEagerEmbedHtml(post.embedHtml) }}
+            />
+          ))}
+        </PostsEmblaTrack>
+      </PostsEmblaViewport>
     </PostsContainer>
   )
 }

@@ -1,11 +1,14 @@
 import { Box, Button, Typography } from '@mui/material'
-import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 import { useViewerContext } from '../../context/viewer-context'
 import { testimonials } from '../../data/content'
 import {
   TestimonialsContainer,
+  SectionHeading,
   TestimonialsGrid,
   TestimonialCard,
+  QuoteIcon,
+  QuoteText,
+  TestimonialsButtonWrapper,
 } from './testimonials.styles'
 
 export function Testimonials() {
@@ -14,18 +17,16 @@ export function Testimonials() {
 
   return (
     <TestimonialsContainer as="section">
-      <Typography variant="h2" textAlign="center" sx={{ mb: { xs: 4, md: 6 } }}>
+      <SectionHeading variant="h2">
         What People Say
-      </Typography>
+      </SectionHeading>
       <TestimonialsGrid>
         {items.map((item) => (
           <TestimonialCard key={item.name}>
-            <FormatQuoteIcon
-              sx={{ fontSize: 40, color: 'primary.main', opacity: 0.6 }}
-            />
-            <Typography variant="body1" sx={{ flex: 1, fontStyle: 'italic' }}>
+            <QuoteIcon />
+            <QuoteText variant="body1">
               "{item.quote}"
-            </Typography>
+            </QuoteText>
             <Box>
               <Typography variant="h6">{item.name}</Typography>
               <Typography variant="body2" color="text.secondary">
@@ -35,11 +36,11 @@ export function Testimonials() {
           </TestimonialCard>
         ))}
       </TestimonialsGrid>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 4, md: 5 } }}>
+      <TestimonialsButtonWrapper>
         <Button variant="outlined" color="primary" href="#how-can-i-help">
           See how can I benfit you
         </Button>
-      </Box>
+      </TestimonialsButtonWrapper>
     </TestimonialsContainer>
   )
 }

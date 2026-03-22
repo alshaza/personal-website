@@ -1,12 +1,14 @@
-import { Box, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 
-export const TimelineContainer = styled(Box)(({ theme }) => ({
-  padding: '48px 16px',
-  [theme.breakpoints.up('sm')]: {
-    padding: '64px 32px',
-  },
+export const TimelineContainer = styled(Box)({
+  marginTop: 'var(--section-spacing)',
+})
+
+export const TimelineSectionHeading = styled(Typography)(({ theme }) => ({
+  textAlign: 'center',
+  marginBottom: 32,
   [theme.breakpoints.up('md')]: {
-    padding: '80px 64px',
+    marginBottom: 48,
   },
 }))
 

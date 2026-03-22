@@ -132,12 +132,16 @@ export const theme = createTheme({
           gap: 0,
           '& .MuiToggleButtonGroup-grouped': {
             border: 'none',
+            borderBottom: '2px solid transparent',
             '&:not(:first-of-type)': {
               borderRadius: 0,
               borderLeft: 'none',
             },
             '&:first-of-type': {
               borderRadius: 0,
+            },
+            '&.Mui-selected': {
+              borderBottom: `2px solid ${blue}`,
             },
           },
         },

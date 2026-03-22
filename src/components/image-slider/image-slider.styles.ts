@@ -1,64 +1,70 @@
-import { Box, IconButton, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 
-export const SliderContainer = styled(Box)(({ theme }) => ({
-  padding: '48px 16px',
+export const SliderContainer = styled(Box)({
+  marginTop: 'var(--section-spacing)',
   overflow: 'hidden',
-  [theme.breakpoints.up('sm')]: {
-    padding: '64px 32px',
-  },
+})
+
+export const SliderSectionHeading = styled(Typography)(({ theme }) => ({
+  textAlign: 'center',
+  marginBottom: 32,
   [theme.breakpoints.up('md')]: {
-    padding: '80px 64px',
+    marginBottom: 48,
   },
 }))
 
-export const SliderViewport = styled(Box)({
-  position: 'relative',
-  maxWidth: 900,
-  margin: '0 auto',
+export const SliderLayout = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 24,
+  [theme.breakpoints.up('md')]: {
+    flexDirection: 'row',
+    gap: 32,
+    alignItems: 'stretch',
+  },
+}))
+
+export const SliderLeft = styled(Box)(({ theme }) => ({
+  flex: 1,
+  minWidth: 0,
+  [theme.breakpoints.up('md')]: {
+    flex: '1 1 60%',
+  },
+}))
+
+export const SliderEmblaViewport = styled(Box)({
   overflow: 'hidden',
   borderRadius: 16,
 })
 
-export const SliderTrack = styled(Box)({
+export const SliderEmblaTrack = styled(Box)({
   display: 'flex',
-  transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+})
+
+export const SliderRight = styled(Box)(({ theme }) => ({
+  display: 'none',
+  [theme.breakpoints.up('md')]: {
+    display: 'block',
+    flex: '0 0 35%',
+    borderRadius: 16,
+    overflow: 'hidden',
+    '& img': {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      display: 'block',
+    },
+  },
+}))
+
+export const SliderSlide = styled(Box)({
+  flex: '0 0 100%',
+  minWidth: 0,
   '& img': {
     width: '100%',
-    flexShrink: 0,
     aspectRatio: '16/9',
     objectFit: 'cover',
+    display: 'block',
+    borderRadius: 16,
   },
 })
-
-export const SliderArrow = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  backgroundColor: 'rgba(var(--color-cream-rgb), 0.85)',
-  backdropFilter: 'blur(4px)',
-  zIndex: 2,
-  '&:hover': {
-    backgroundColor: 'rgba(var(--color-cream-rgb), 0.95)',
-  },
-  [theme.breakpoints.down('sm')]: {
-    display: 'none',
-  },
-}))
-
-export const SliderDots = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-  gap: 8,
-  marginTop: 16,
-})
-
-export const Dot = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'active',
-})<{ active: boolean }>(({ theme, active }) => ({
-  width: 10,
-  height: 10,
-  borderRadius: '50%',
-  backgroundColor: active ? theme.palette.primary.main : theme.palette.grey[300],
-  cursor: 'pointer',
-  transition: 'background-color 0.2s ease',
-}))

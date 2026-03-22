@@ -1,35 +1,33 @@
-import { Box, IconButton, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 
-export const HelpContainer = styled(Box)(({ theme }) => ({
-  padding: '48px 16px',
-  [theme.breakpoints.up('sm')]: {
-    padding: '64px 32px',
-  },
+export const HelpContainer = styled(Box)({
+  marginTop: 'var(--section-spacing)',
+})
+
+export const HelpSectionHeading = styled(Typography)(({ theme }) => ({
+  textAlign: 'center',
+  marginBottom: 32,
   [theme.breakpoints.up('md')]: {
-    padding: '80px 64px',
+    marginBottom: 48,
   },
 }))
 
-export const HelpSliderViewport = styled(Box)({
-  position: 'relative',
-  maxWidth: 1000,
-  margin: '0 auto',
+export const HelpEmblaViewport = styled(Box)({
   overflow: 'hidden',
 })
 
-export const HelpSliderTrack = styled(Box)({
+export const HelpEmblaTrack = styled(Box)({
   display: 'flex',
-  transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
 })
 
 export const HelpSlide = styled(Box)(({ theme }) => ({
   flex: '0 0 100%',
+  minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: "center",
-  alignItems: "center",
+  justifyContent: 'center',
+  alignItems: 'center',
   gap: 16,
-  padding: '0 8px',
   [theme.breakpoints.up('md')]: {
     flexDirection: 'row',
     gap: 32,
@@ -39,12 +37,12 @@ export const HelpSlide = styled(Box)(({ theme }) => ({
 
 export const HelpSlideImage = styled(Box)({
   overflow: 'hidden',
-  width: '300px',
-  height: '300px',
+  width: 300,
+  height: 300,
   '& img': {
     objectFit: 'cover',
-    width: '300px',
-    height: '300px',
+    width: 300,
+    height: 300,
   },
 })
 
@@ -55,35 +53,30 @@ export const HelpSlideContent = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const HelpSliderArrow = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  backgroundColor: 'rgba(var(--color-cream-rgb), 0.85)',
-  backdropFilter: 'blur(4px)',
-  zIndex: 2,
-  '&:hover': {
-    backgroundColor: 'rgba(var(--color-cream-rgb), 0.95)',
-  },
-  [theme.breakpoints.down('sm')]: {
-    display: 'none',
-  },
-}))
-
-export const HelpDots = styled(Box)({
+export const HelpPreviews = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
-  gap: 8,
-  marginTop: 16,
+  gap: 24,
+  marginTop: 32,
 })
 
-export const HelpDot = styled(Box, {
+export const HelpPreviewItem = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'active',
-})<{ active: boolean }>(({ theme, active }) => ({
-  width: 10,
-  height: 10,
-  borderRadius: '50%',
-  backgroundColor: active ? theme.palette.primary.main : theme.palette.grey[300],
+})<{ active?: boolean }>(({ theme, active }) => ({
+  width: 64,
+  height: 64,
+  padding: 8,
+  borderRadius: 12,
   cursor: 'pointer',
-  transition: 'background-color 0.2s ease',
+  border: `2px solid ${active ? theme.palette.primary.main : 'transparent'}`,
+  opacity: active ? 1 : 0.4,
+  transition: 'opacity 0.2s ease, border-color 0.2s ease',
+  '&:hover': {
+    opacity: 1,
+  },
+  '& img': {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+  },
 }))
