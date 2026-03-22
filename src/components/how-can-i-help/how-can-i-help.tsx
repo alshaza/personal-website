@@ -1,7 +1,5 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Typography } from '@mui/material'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { helpItems } from '../../data/content'
 import {
   HelpContainer,
@@ -10,7 +8,6 @@ import {
   HelpSlide,
   HelpSlideImage,
   HelpSlideContent,
-  HelpSliderArrow,
   HelpDots,
   HelpDot,
 } from './how-can-i-help.styles'
@@ -19,14 +16,6 @@ export function HowCanIHelp() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const totalSlides = helpItems.length
-
-  const goPrev = useCallback(() => {
-    setActiveIndex((prev) => (prev === 0 ? totalSlides - 1 : prev - 1))
-  }, [totalSlides])
-
-  const goNext = useCallback(() => {
-    setActiveIndex((prev) => (prev === totalSlides - 1 ? 0 : prev + 1))
-  }, [totalSlides])
 
   useEffect(() => {
     if (totalSlides <= 1 || isPaused) return
