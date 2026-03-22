@@ -64,7 +64,7 @@ export function ImageSlider() {
                 size="large"
                 startIcon={<CalendarMonthIcon />}
                 href={ctaContent[viewer].calendarUrl}
-                rel="noopener noreferrer"
+                {...{ target: '_blank', rel: 'noopener noreferrer' }}
               >
                 Book a Call
               </SliderCTAButton>

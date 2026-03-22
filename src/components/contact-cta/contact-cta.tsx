@@ -36,7 +36,7 @@ export function ContactCTA() {
               size="large"
               startIcon={<CalendarMonthIcon />}
               href={calendarUrl}
-              rel="noopener noreferrer"
+              {...{ target: '_blank', rel: 'noopener noreferrer' }}
             >
               Book a Call
             </CTAButton>
