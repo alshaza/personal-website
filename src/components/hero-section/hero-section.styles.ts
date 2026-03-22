@@ -4,7 +4,7 @@ export const HeroContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  margin: '64px 0',
+  padding: '64px 0',
   gap: 32,
   [theme.breakpoints.up('md')]: {
     flexDirection: 'row',
@@ -15,10 +15,10 @@ export const HeroContainer = styled(Box)(({ theme }) => ({
 export const HeroImageWrapper = styled(Box)(({ theme }) => ({
   display: 'none',
   width: '100%',
-  maxWidth: 320,
+  maxWidth: 420,
   overflow: 'hidden',
   flexShrink: 0,
-  borderRadius: 16,
+  flex: 2,
   '& img': {
     width: '100%',
     height: '100%',
@@ -27,8 +27,8 @@ export const HeroImageWrapper = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.up('md')]: {
     display: 'block',
-    maxWidth: 420,
-    animation: 'heroImageLeftIn 700ms ease-out both',
+    maxWidth: 500,
+    animation: 'heroImageLeftIn 1000ms ease-out both',
   },
   '@keyframes heroImageLeftIn': {
     from: {
@@ -47,8 +47,9 @@ export const HeroImageWrapper = styled(Box)(({ theme }) => ({
 
 export const HeroTextWrapper = styled(Box)(({ theme }) => ({
   textAlign: 'center',
-  animation: 'heroTextTopIn 650ms ease-out both',
+  animation: 'heroTextTopIn 950ms ease-out both',
   animationDelay: '120ms',
+  flex: 1,
   '@keyframes heroTextTopIn': {
     from: {
       opacity: 0,

@@ -5,9 +5,7 @@ export const HeaderContainer = styled(Stack)(({ theme }) => ({
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
-  paddingTop: 'calc(12px + env(safe-area-inset-top, 0px))',
   paddingRight: '16px',
-  paddingBottom: '12px',
   paddingLeft: '16px',
   gap: 8,
   position: 'sticky',
@@ -15,18 +13,8 @@ export const HeaderContainer = styled(Stack)(({ theme }) => ({
   zIndex: 1100,
   backdropFilter: 'blur(4px)',
   background: 'rgba(var(--color-cream-rgb), 0.9)',
-  [theme.breakpoints.up('sm')]: {
-    paddingTop: 'calc(16px + env(safe-area-inset-top, 0px))',
-    paddingRight: '32px',
-    paddingBottom: '16px',
-    paddingLeft: '32px',
-  },
-  [theme.breakpoints.up('md')]: {
-    paddingTop: 'calc(16px + env(safe-area-inset-top, 0px))',
-    paddingRight: '64px',
-    paddingBottom: '16px',
-    paddingLeft: '64px',
-  },
+  paddingTop: 'calc(16px + env(safe-area-inset-top, 0px))',
+  paddingBottom: '16px',
 }))
 
 export const HeaderLogo = styled('img')({
