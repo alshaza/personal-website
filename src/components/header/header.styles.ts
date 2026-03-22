@@ -1,6 +1,6 @@
 import { Box, Stack, ToggleButtonGroup, styled } from '@mui/material'
 
-export const HeaderContainer = styled(Stack)(({ theme }) => ({
+export const HeaderContainer = styled(Stack)({
   width: '100%',
   flexDirection: 'row',
   justifyContent: 'space-between',
@@ -15,7 +15,7 @@ export const HeaderContainer = styled(Stack)(({ theme }) => ({
   background: 'rgba(var(--color-cream-rgb), 0.9)',
   paddingTop: 'calc(16px + env(safe-area-inset-top, 0px))',
   paddingBottom: '16px',
-}))
+})
 
 export const HeaderLogo = styled('img')({
   height: '72px',
