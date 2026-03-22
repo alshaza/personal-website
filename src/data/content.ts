@@ -77,8 +77,8 @@ export const timelineEntries: TimelineEntry[] = [
   },
   {
     year: 'Aug 2021 - 2022',
-    title: 'Mid-Level Full Stack Engineer (Part-time)',
-    company: 'Tessafold - Remote (Berlin)',
+    title: 'Mid-Level Full Stack Engineer',
+    company: 'Tessafold - Remote (Berlin) - Part-time',
     description: 'Launched Running App for three German companies during the marathon in 2021',
   },
   {
