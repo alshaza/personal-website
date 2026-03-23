@@ -20,7 +20,7 @@ export function ContactCTA() {
   const { calendarUrl } = ctaContent[viewer]
 
   return (
-    <CTAContainer as="section">
+    <CTAContainer as="section" role={'contentinfo'}>
       <CTAContent>
         <FadeSection direction="left">
           <CTABookBlock>
