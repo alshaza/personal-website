@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Button, Typography, styled } from '@mui/material'
 
 export const HeroContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -90,4 +90,13 @@ export const HeroTextWrapper = styled(Box)(({ theme }) => ({
 
 export const HeroSubheading = styled(Typography)({
   marginBottom: 16,
+})
+
+export const CTAButton = styled(Button)({
+  marginTop: 8,
+  fontSize: '1rem',
+  paddingLeft: 32,
+  paddingRight: 32,
+  paddingTop: 12,
+  paddingBottom: 12,
 })
