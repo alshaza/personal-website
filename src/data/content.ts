@@ -88,7 +88,7 @@ export const timelineEntries: TimelineEntry[] = [
     description: 'Launched Running App for three German companies during the marathon in 2021',
   },
   {
-    year: 'Sep 2022 - Aug 2021',
+    year: 'Sep 2020 - Aug 2021',
     title: 'Junior Full Stack Engineer',
     company: 'GLOBAL AL-MOTAKAMEL Co. - Syria',
     description: 'Collaborated with international teams to support and develop two e-commerce products.',
