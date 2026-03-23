@@ -2,9 +2,9 @@ import type { ViewerType } from '../context/viewer-context'
 import communicationImage from '../images/communication.svg'
 import EQImage from '../images/EQ.svg'
 import leadershipImage from '../images/leadership.svg'
-import codaverse from '../images/codaverse.png'
-import community from '../images/community.png'
-import tippspiel from '../images/tippspiel.png'
+import codaverse from '../images/codaverse.webp'
+import community from '../images/community.webp'
+import tippspiel from '../images/tippspiel.webp'
 
 export interface HeroContent {
   heading: string
