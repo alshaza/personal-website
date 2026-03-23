@@ -7,7 +7,6 @@ import {
   HeaderToggleButtonGroup,
 } from './header.styles'
 import { useViewerContext, type ViewerType } from '../../context/viewer-context'
-import logo from '../../images/logo.svg'
 
 export function Header() {
   const { viewer, setViewer } = useViewerContext()
@@ -18,7 +17,7 @@ export function Header() {
 
   return (
     <HeaderContainer>
-      <HeaderLogo src={logo} alt="Rami Alshaza" />
+      <HeaderLogo src="/logo.svg" alt="Rami Alshaza" fetchPriority="high" />
       <HeaderRightSection>
         <HeaderToggleSection>
           <HeaderToggleButtonGroup
