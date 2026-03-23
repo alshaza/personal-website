@@ -1,13 +1,15 @@
-import { Stack } from '@mui/material'
 import { HomePage } from './pages/home-page'
 import { Header } from './components/header/header'
+import { ViewerProvider } from './context/viewer-context'
+import { AppContainer } from './App.styles'
 
 export function App() {
   return (
-    <Stack width="100%" height="100vh">
-     <Header />
-     <HomePage />
-    </Stack>
+    <ViewerProvider>
+      <AppContainer>
+        <Header />
+        <HomePage />
+      </AppContainer>
+    </ViewerProvider>
   )
 }
-
