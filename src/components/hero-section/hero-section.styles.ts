@@ -5,21 +5,19 @@ export const HeroContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: 'calc(100vh - 104px)',
-  padding: '32px 0',
+  minHeight: 'calc(100vh - 100px)',
   gap: 32,
   [theme.breakpoints.up('md')]: {
     flexDirection: 'row',
     gap: 64,
-    minHeight: 'calc(100vh - 132px)',
+    minHeight: 'calc(100vh - 100px)',
   },
 }))
 
 export const HeroImageWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: 280,
+  maxWidth: 320,
   overflow: 'hidden',
-  flexShrink: 0,
   animation: 'heroImageFadeIn 1000ms ease-out both',
   '& img': {
     width: '100%',
@@ -38,8 +36,7 @@ export const HeroImageWrapper = styled(Box)(({ theme }) => ({
     },
   },
   [theme.breakpoints.up('md')]: {
-    maxWidth: 500,
-    flex: 2,
+    maxWidth: 487,
     animation: 'heroImageLeftIn 1000ms ease-out both',
   },
   '@keyframes heroImageLeftIn': {
@@ -61,7 +58,6 @@ export const HeroTextWrapper = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   animation: 'heroTextTopIn 950ms ease-out both',
   animationDelay: '120ms',
-  flex: 1,
   '@keyframes heroTextTopIn': {
     from: {
       opacity: 0,
@@ -84,7 +80,6 @@ export const HeroTextWrapper = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.up('md')]: {
     textAlign: 'left',
-    flex: 1,
     animation: 'heroTextRightIn 700ms ease-out both',
     animationDelay: '420ms',
   },

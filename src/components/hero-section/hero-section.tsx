@@ -10,16 +10,16 @@ export function HeroSection() {
   return (
     <HeroContainer as="section">
       <HeroImageWrapper>
-        <img src="/main-image.png" alt="Rami Alshaza" fetchPriority="high" />
+        <img src="/main-image.webp" alt="Rami Alshaza" fetchPriority="high" />
       </HeroImageWrapper>
       <HeroTextWrapper>
         <Typography variant="h1" gutterBottom>
           {content.heading}
         </Typography>
-        <HeroSubheading variant="h3" {...{ component: 'h2' }} color="primary" gutterBottom>
+        <HeroSubheading variant="h3" {...{ component: 'h2' }} color="primary">
           {content.subheading}
         </HeroSubheading>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="h6" color="text.secondary">
           {content.body}
         </Typography>
       </HeroTextWrapper>
