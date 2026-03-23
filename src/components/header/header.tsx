@@ -1,12 +1,37 @@
-import { HeaderContainer, HeaderLogo } from "./header.styles";
-import logo from "../../images/logo.png";
-import { Typography } from "@mui/material";
+import { ToggleButton } from '@mui/material'
+import {
+  HeaderContainer,
+  HeaderLogo,
+  HeaderRightSection,
+  HeaderToggleSection,
+  HeaderToggleButtonGroup,
+} from './header.styles'
+import { useViewerContext, type ViewerType } from '../../context/viewer-context'
+import logo from '../../images/logo.svg'
 
 export function Header() {
+  const { viewer, setViewer } = useViewerContext()
+
+  const handleChange = (_: React.MouseEvent<HTMLElement>, value: ViewerType | null) => {
+    if (value) setViewer(value)
+  }
+
   return (
     <HeaderContainer>
-      <HeaderLogo src={logo} alt="logo" />
-      <Typography>Coming Soon</Typography>
+      <HeaderLogo src={logo} alt="Rami Alshaza" />
+      <HeaderRightSection>
+        <HeaderToggleSection>
+          <HeaderToggleButtonGroup
+            value={viewer}
+            exclusive
+            onChange={handleChange}
+            size="small"
+          >
+            <ToggleButton value="engineer">For Engineers</ToggleButton>
+            <ToggleButton value="recruiter">For Recruiters</ToggleButton>
+          </HeaderToggleButtonGroup>
+        </HeaderToggleSection>
+      </HeaderRightSection>
     </HeaderContainer>
-  );
+  )
 }
