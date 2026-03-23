@@ -27,7 +27,7 @@ export function Testimonials() {
               "{item.quote}"
             </QuoteText>
             <Box>
-              <Typography variant="h6">{item.name}</Typography>
+              <Typography variant="subtitle1" component="p" fontWeight={600}>{item.name}</Typography>
               <Typography variant="body2" color="text.secondary">
                 {item.role}
               </Typography>
