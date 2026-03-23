@@ -3,6 +3,7 @@ import { Typography } from '@mui/material'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { helpItems } from '../../data/content'
+import { useLazyInit } from '../../hooks/use-lazy-init'
 import {
   HelpContainer,
   HelpSectionHeading,
@@ -16,11 +17,13 @@ import {
 } from './how-can-i-help.styles'
 
 export function HowCanIHelp() {
+  const { ref: lazyRef, isNearViewport } = useLazyInit()
   const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false }),
-  ])
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, active: isNearViewport },
+    isNearViewport ? [Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false })] : [],
+  )
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return
@@ -40,7 +43,7 @@ export function HowCanIHelp() {
   }, [emblaApi])
 
   return (
-    <HelpContainer as="section" id="how-can-i-help">
+    <HelpContainer as="section" id="how-can-i-help" ref={lazyRef}>
       <HelpSectionHeading variant="h2">
         How Can I Help You
       </HelpSectionHeading>

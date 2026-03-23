@@ -9,7 +9,7 @@ import { MainContainer } from './home-page.styles'
 
 export function HomePage() {
   return (
-    <MainContainer>
+    <MainContainer role={'main'}>
       <HeroSection />
       <FadeSection>
         <HowCanIHelp />

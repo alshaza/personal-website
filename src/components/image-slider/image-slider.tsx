@@ -4,6 +4,7 @@ import Autoplay from 'embla-carousel-autoplay'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import { useViewerContext } from '../../context/viewer-context'
 import { sliderImages, ctaContent } from '../../data/content'
+import { useLazyInit } from '../../hooks/use-lazy-init'
 import {
   SliderContainer,
   SliderSectionHeading,
@@ -21,12 +22,14 @@ import {
 
 export function ImageSlider() {
   const { viewer } = useViewerContext()
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false }),
-  ])
+  const { ref: lazyRef, isNearViewport } = useLazyInit()
+  const [emblaRef] = useEmblaCarousel(
+    { loop: true, active: isNearViewport },
+    isNearViewport ? [Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false })] : [],
+  )
 
   return (
-    <SliderContainer as="section">
+    <SliderContainer as="section" ref={lazyRef}>
       <SliderSectionHeading variant="h2">
         Highlights
       </SliderSectionHeading>

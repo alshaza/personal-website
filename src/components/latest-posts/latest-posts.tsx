@@ -1,6 +1,7 @@
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { linkedinPosts } from '../../data/content'
+import { useLazyInit } from '../../hooks/use-lazy-init'
 import {
   PostsContainer,
   PostsSectionHeading,
@@ -10,9 +11,11 @@ import {
 } from './latest-posts.styles'
 
 export function LatestPosts() {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false }),
-  ])
+  const { ref: lazyRef, isNearViewport } = useLazyInit()
+  const [emblaRef] = useEmblaCarousel(
+    { loop: true, active: isNearViewport },
+    isNearViewport ? [Autoplay({ delay: 4000, stopOnMouseEnter: true, stopOnInteraction: false })] : [],
+  )
 
   const getEagerEmbedHtml = (embedHtml: string) => {
     return embedHtml.includes('loading=')
@@ -21,7 +24,7 @@ export function LatestPosts() {
   }
 
   return (
-    <PostsContainer as="section">
+    <PostsContainer as="section" ref={lazyRef}>
       <PostsSectionHeading variant="h2">
         Latest Posts
       </PostsSectionHeading>
