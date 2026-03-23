@@ -35,13 +35,13 @@ export interface SliderImage {
 export const heroContent: Record<ViewerType, HeroContent> = {
   engineer: {
     heading: "Hi, I'm Rami",
-    subheading: 'Helping You Improve Soft Skills',
-    body: "Mentored +50 Engineers, equipping you to stand out in your job or during your interviews.",
+    subheading: 'Improve Your Soft Skills',
+    body: "Mentored +50 Engineers, equipping you to stand out in your job or during your interviews using proven strategies.",
   },
   recruiter: {
     heading: "Hi, I'm Rami",
     subheading: 'Senior Full Stack Engineer',
-    body: 'Launched major projects reaching millions of customers. Main stack is PHP and ReactJs',
+    body: 'Launched major projects reaching millions of customers. Main stack is PHP and ReactJs.',
   },
 }
 
