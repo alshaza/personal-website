@@ -26,7 +26,7 @@ export function Timeline() {
               >
                 {entry.year}
               </Typography>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="subtitle1" component="p" fontWeight={600} gutterBottom>
                 {entry.title}
               </Typography>
               <Typography variant="body2" color="text.secondary" gutterBottom>
