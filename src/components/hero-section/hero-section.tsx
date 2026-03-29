@@ -28,7 +28,7 @@ export function HeroSection() {
             variant="contained"
             size="large"
             href={calendarUrl}
-            {...{ target: '_blank', rel: 'noopener noreferrer' }}
+            {...{ target: '_blank', rel: 'noopener noreferrer nofollow' }}
           >
             Book a Call
           </CTAButton>

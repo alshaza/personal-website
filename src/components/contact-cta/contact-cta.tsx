@@ -36,7 +36,7 @@ export function ContactCTA() {
               size="large"
               startIcon={<CalendarMonthIcon />}
               href={calendarUrl}
-              {...{ target: '_blank', rel: 'noopener noreferrer' }}
+              {...{ target: '_blank', rel: 'noopener noreferrer nofollow' }}
             >
               Book a Call
             </CTAButton>
@@ -48,7 +48,7 @@ export function ContactCTA() {
             <CTALinkedInLink
               href="https://www.linkedin.com/in/rami-alshaza"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
               aria-label="Rami Alshaza LinkedIn profile"
               underline="always"
             >
