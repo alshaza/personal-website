@@ -44,10 +44,11 @@ export const HeaderNavSection = styled(Box)({
 })
 
 export const HeaderNavLinks = styled('nav')(({ theme }) => ({
-  display: 'flex',
+  display: 'none',
   alignItems: 'center',
   gap: 6,
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
     gap: 8,
   },
 }))
