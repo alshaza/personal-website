@@ -1,35 +1,41 @@
-import { ToggleButton } from '@mui/material'
 import {
   HeaderContainer,
   HeaderLogo,
   HeaderRightSection,
-  HeaderToggleSection,
-  HeaderToggleButtonGroup,
+  HeaderNavSection,
+  HeaderNavLinks,
+  HeaderNavLink,
 } from './header.styles'
-import { useViewerContext, type ViewerType } from '../../context/viewer-context'
+import { navigationItems } from '../../data/content'
+import { trackEvent } from '../../lib/analytics'
+import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
+import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
+import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 
 export function Header() {
-  const { viewer, setViewer } = useViewerContext()
-
-  const handleChange = (_: React.MouseEvent<HTMLElement>, value: ViewerType | null) => {
-    if (value) setViewer(value)
-  }
-
   return (
     <HeaderContainer>
       <HeaderLogo src="/logo.svg" alt="Rami Alshaza" fetchPriority="high" />
       <HeaderRightSection>
-        <HeaderToggleSection>
-          <HeaderToggleButtonGroup
-            value={viewer}
-            exclusive
-            onChange={handleChange}
-            size="small"
-          >
-            <ToggleButton value="engineer">For Engineers</ToggleButton>
-            <ToggleButton value="recruiter">For Recruiters</ToggleButton>
-          </HeaderToggleButtonGroup>
-        </HeaderToggleSection>
+        <HeaderNavSection>
+          <HeaderNavLinks aria-label="Primary navigation">
+            {navigationItems.map((item) => (
+              <HeaderNavLink
+                key={item.path}
+                to={item.path}
+                onClick={() => {
+                  trackEvent(ANALYTICS_EVENTS.CUSTOM_BUTTON_CLICK, {
+                    [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.HEADER_NAVIGATION,
+                    [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HEADER,
+                    [ANALYTICS_PARAM_KEYS.TARGET_PAGE]: item.path,
+                  })
+                }}
+              >
+                {item.label}
+              </HeaderNavLink>
+            ))}
+          </HeaderNavLinks>
+        </HeaderNavSection>
       </HeaderRightSection>
     </HeaderContainer>
   )

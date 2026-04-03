@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material'
-import { useViewerContext } from '../../context/viewer-context'
 import { testimonials } from '../../data/content'
 import {
   TestimonialsContainer,
@@ -11,16 +10,13 @@ import {
 } from './testimonials.styles'
 
 export function Testimonials() {
-  const { viewer } = useViewerContext()
-  const items = testimonials[viewer]
-
   return (
     <TestimonialsContainer as="section">
       <SectionHeading variant="h2">
         What People Say
       </SectionHeading>
       <TestimonialsGrid>
-        {items.map((item) => (
+        {testimonials.map((item) => (
           <TestimonialCard key={item.name}>
             <QuoteIcon />
             <QuoteText variant="body1">

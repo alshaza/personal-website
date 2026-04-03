@@ -5,11 +5,13 @@ import { Timeline } from '../components/timeline/timeline'
 import { ImageSlider } from '../components/image-slider/image-slider'
 import { ContactCTA } from '../components/contact-cta/contact-cta'
 import { FadeSection } from '../components/fade-section'
+import { Seo } from '../components/seo/seo'
 import { MainContainer } from './home-page.styles'
 
 export function HomePage() {
   return (
     <MainContainer role={'main'}>
+      <Seo path="/" />
       <HeroSection />
       <FadeSection>
         <HowCanIHelp />

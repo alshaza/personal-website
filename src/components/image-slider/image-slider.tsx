@@ -2,9 +2,12 @@ import { Typography } from '@mui/material'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
-import { useViewerContext } from '../../context/viewer-context'
 import { sliderImages, ctaContent } from '../../data/content'
 import { useLazyInit } from '../../hooks/use-lazy-init'
+import { trackEvent } from '../../lib/analytics'
+import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
+import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
+import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 import {
   SliderContainer,
   SliderSectionHeading,
@@ -21,7 +24,6 @@ import {
 } from './image-slider.styles'
 
 export function ImageSlider() {
-  const { viewer } = useViewerContext()
   const { ref: lazyRef, isNearViewport } = useLazyInit()
   const [emblaRef] = useEmblaCarousel(
     { loop: true, active: isNearViewport },
@@ -66,7 +68,14 @@ export function ImageSlider() {
                 variant="contained"
                 size="large"
                 startIcon={<CalendarMonthIcon />}
-                href={ctaContent[viewer].calendarUrl}
+                href={ctaContent.calendarUrl}
+                onClick={() => {
+                  trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
+                    [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.LETS_TALK,
+                    [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.IMAGE_SLIDER,
+                    [ANALYTICS_PARAM_KEYS.TARGET_URL]: ctaContent.calendarUrl,
+                  })
+                }}
                 {...{ target: '_blank', rel: 'noopener noreferrer nofollow' }}
               >
                 Let's Talk!

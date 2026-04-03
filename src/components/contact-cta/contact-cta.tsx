@@ -1,8 +1,11 @@
 import { Typography } from '@mui/material'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import { useViewerContext } from '../../context/viewer-context'
 import { ctaContent } from '../../data/content'
+import { trackEvent } from '../../lib/analytics'
+import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
+import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
+import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 import { FadeSection } from '../fade-section'
 import {
   CTABookBlock,
@@ -15,9 +18,16 @@ import {
   CTALinkedInLink,
 } from './contact-cta.styles'
 
-export function ContactCTA() {
-  const { viewer } = useViewerContext()
-  const { calendarUrl } = ctaContent[viewer]
+interface ContactCTAProps {
+  title?: string
+  description?: string
+}
+
+export function ContactCTA({
+  title = "Let's Connect",
+  description = "Interested in working together? Book a time that works for you and let's have a conversation.",
+}: ContactCTAProps) {
+  const { calendarUrl, linkedInUrl } = ctaContent
 
   return (
     <CTAContainer as="section" role={'contentinfo'}>
@@ -25,17 +35,23 @@ export function ContactCTA() {
         <FadeSection direction="left">
           <CTABookBlock>
             <Typography variant="h2" color="inherit">
-              Let's Connect
+              {title}
             </Typography>
             <CTADescription variant="body1">
-              Interested in working together? Book a time that works for you and let's
-              have a conversation.
+              {description}
             </CTADescription>
             <CTAButton
               variant="contained"
               size="large"
               startIcon={<CalendarMonthIcon />}
               href={calendarUrl}
+              onClick={() => {
+                trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
+                  [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.BOOK_CALL,
+                  [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.CONTACT_CTA,
+                  [ANALYTICS_PARAM_KEYS.TARGET_URL]: calendarUrl,
+                })
+              }}
               {...{ target: '_blank', rel: 'noopener noreferrer nofollow' }}
             >
               Book a Call
@@ -46,10 +62,17 @@ export function ContactCTA() {
         <FadeSection direction="right">
           <CTALinkedInBlock>
             <CTALinkedInLink
-              href="https://www.linkedin.com/in/rami-alshaza"
+              href={linkedInUrl}
               target="_blank"
               rel="noopener noreferrer nofollow"
               aria-label="Rami Alshaza LinkedIn profile"
+              onClick={() => {
+                trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
+                  [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.LINKEDIN_PROFILE,
+                  [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.CONTACT_CTA,
+                  [ANALYTICS_PARAM_KEYS.TARGET_URL]: linkedInUrl,
+                })
+              }}
               underline="always"
             >
               <LinkedInIcon />

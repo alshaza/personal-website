@@ -4,6 +4,10 @@ import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { helpItems } from '../../data/content'
 import { useLazyInit } from '../../hooks/use-lazy-init'
+import { trackEvent } from '../../lib/analytics'
+import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
+import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
+import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 import {
   HelpContainer,
   HelpSectionHeading,
@@ -73,6 +77,11 @@ export function HowCanIHelp() {
             active={index === selectedIndex}
             onClick={() => {
               handlePreviewClick(index)
+              trackEvent(ANALYTICS_EVENTS.CUSTOM_BUTTON_CLICK, {
+                [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.HELP_PREVIEW_ITEM,
+                [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HOW_CAN_I_HELP,
+                [ANALYTICS_PARAM_KEYS.ITEM_TITLE]: item.title,
+              })
             }}
           >
             <img src={item.image} alt={item.title} />
