@@ -1,10 +1,22 @@
-import type { ViewerType } from '../context/viewer-context'
 import communicationImage from '../images/communication.svg'
 import EQImage from '../images/EQ.svg'
 import leadershipImage from '../images/leadership.svg'
 import codaverse from '../images/codaverse.webp'
 import community from '../images/community.webp'
 import tippspiel from '../images/tippspiel.webp'
+import type { AppPath } from './seo-content'
+
+export interface NavigationItem {
+  label: string
+  path: AppPath
+}
+
+export const navigationItems: NavigationItem[] = [
+  { label: 'Home', path: '/' },
+  { label: 'About Me', path: '/about-me' },
+  { label: 'Collaborate', path: '/collaborate' },
+  { label: 'Contact', path: '/contact' },
+]
 
 export interface HeroContent {
   heading: string
@@ -32,17 +44,45 @@ export interface SliderImage {
   description: string
 }
 
-export const heroContent: Record<ViewerType, HeroContent> = {
-  engineer: {
-    heading: "Hi, I'm Rami",
-    subheading: 'Improve Your Soft Skills',
-    body: "Mentored +50 Engineers, equipping you to stand out in your job or during your interviews using proven strategies.",
-  },
-  recruiter: {
-    heading: "Hi, I'm Rami",
-    subheading: 'Senior Full Stack Engineer',
-    body: 'Launched major projects reaching millions of customers. Main stack is PHP and ReactJs.',
-  },
+export const heroContent: HeroContent = {
+  heading: "Hi, I'm Rami",
+  subheading: 'Improve Your Soft Skills',
+  body: 'Mentored +50 Engineers, equipping you to stand out in your job or during your interviews using proven strategies.',
+}
+
+export interface AboutMeContent {
+  heading: string
+  intro: string
+  paragraphs: string[]
+}
+
+export const aboutMeContent: AboutMeContent = {
+  heading: 'About Me',
+  intro: 'Senior Full Stack Engineer with a passion for people-first engineering.',
+  paragraphs: [
+    'I build scalable web products and help teams deliver quality software with strong collaboration.',
+    'Alongside engineering, I mentor developers to improve communication, confidence, and interview readiness.',
+  ],
+}
+
+export interface CollaborateContent {
+  heading: string
+  description: string
+}
+
+export const collaborateContent: CollaborateContent = {
+  heading: 'Let us Collaborate',
+  description: 'From coaching engineers to shipping product features, I can support your team with practical and high-impact collaboration.',
+}
+
+export interface ContactPageContent {
+  heading: string
+  description: string
+}
+
+export const contactPageContent: ContactPageContent = {
+  heading: 'Contact',
+  description: 'Choose the channel that works best for you. You can book a call or reach out through LinkedIn.',
 }
 
 const sharedTestimonials: Testimonial[] = [
@@ -63,10 +103,7 @@ const sharedTestimonials: Testimonial[] = [
   },
 ]
 
-export const testimonials: Record<ViewerType, Testimonial[]> = {
-  engineer: sharedTestimonials,
-  recruiter: sharedTestimonials,
-}
+export const testimonials: Testimonial[] = sharedTestimonials
 
 export const timelineEntries: TimelineEntry[] = [
   {
@@ -158,13 +195,10 @@ export const linkedinPosts: LinkedInPost[] = [
 
 export interface CTAContent {
   calendarUrl: string
+  linkedInUrl: string
 }
 
-export const ctaContent: Record<ViewerType, CTAContent> = {
-  engineer: {
-    calendarUrl: 'https://calendar.app.google/my9YWe2TWbrTXEVo9',
-  },
-  recruiter: {
-    calendarUrl: 'https://calendar.app.google/my9YWe2TWbrTXEVo9',
-  },
+export const ctaContent: CTAContent = {
+  calendarUrl: 'https://calendar.app.google/my9YWe2TWbrTXEVo9',
+  linkedInUrl: 'https://www.linkedin.com/in/rami-alshaza',
 }

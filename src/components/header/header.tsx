@@ -1,35 +1,172 @@
-import { ToggleButton } from '@mui/material'
+import { useState } from 'react'
+import MenuIcon from '@mui/icons-material/Menu'
+import CloseIcon from '@mui/icons-material/Close'
+import {
+  Box,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import {
   HeaderContainer,
   HeaderLogo,
   HeaderRightSection,
-  HeaderToggleSection,
-  HeaderToggleButtonGroup,
+  HeaderNavSection,
+  HeaderNavLinks,
+  HeaderNavLink,
 } from './header.styles'
-import { useViewerContext, type ViewerType } from '../../context/viewer-context'
+import type { NavigationItem } from '../../data/content'
+import { navigationItems } from '../../data/content'
+import { trackEvent } from '../../lib/analytics'
+import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
+import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
+import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
+
+function trackHeaderNav(item: NavigationItem) {
+  trackEvent(ANALYTICS_EVENTS.CUSTOM_BUTTON_CLICK, {
+    [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.HEADER_NAVIGATION,
+    [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HEADER,
+    [ANALYTICS_PARAM_KEYS.TARGET_PAGE]: item.path,
+  })
+}
 
 export function Header() {
-  const { viewer, setViewer } = useViewerContext()
+  const theme = useTheme()
+  const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  const handleChange = (_: React.MouseEvent<HTMLElement>, value: ViewerType | null) => {
-    if (value) setViewer(value)
+  const closeMobileMenu = () => {
+    setMobileOpen(false)
   }
 
   return (
     <HeaderContainer>
       <HeaderLogo src="/logo.svg" alt="Rami Alshaza" fetchPriority="high" />
       <HeaderRightSection>
-        <HeaderToggleSection>
-          <HeaderToggleButtonGroup
-            value={viewer}
-            exclusive
-            onChange={handleChange}
-            size="small"
-          >
-            <ToggleButton value="engineer">For Engineers</ToggleButton>
-            <ToggleButton value="recruiter">For Recruiters</ToggleButton>
-          </HeaderToggleButtonGroup>
-        </HeaderToggleSection>
+        <HeaderNavSection>
+          <HeaderNavLinks aria-label="Primary navigation">
+            {navigationItems.map((item) => (
+              <HeaderNavLink
+                key={item.path}
+                to={item.path}
+                onClick={() => {
+                  trackHeaderNav(item)
+                }}
+              >
+                {item.label}
+              </HeaderNavLink>
+            ))}
+          </HeaderNavLinks>
+
+          {!isMdUp && (
+            <>
+              <IconButton
+                color="inherit"
+                aria-label="Open menu"
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-navigation-drawer"
+                edge="end"
+                onClick={() => {
+                  setMobileOpen(true)
+                }}
+                sx={{ ml: 0.5 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Drawer
+                id="mobile-navigation-drawer"
+                anchor="right"
+                open={mobileOpen}
+                onClose={closeMobileMenu}
+                ModalProps={{ keepMounted: true }}
+                slotProps={{
+                  backdrop: {
+                    invisible: true,
+                    sx: {
+                      backgroundColor: 'transparent',
+                    },
+                  },
+                }}
+                PaperProps={{
+                  sx: {
+                    width: 'min(280px, 78vw)',
+                    height: 'auto',
+                    maxHeight: 'min(480px, calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)))',
+                    alignSelf: 'flex-start',
+                    mt: 'calc(12px + env(safe-area-inset-top, 0px))',
+                    mr: 'calc(12px + env(safe-area-inset-right, 0px))',
+                    mb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
+                    ml: 'auto',
+                    borderRadius: 2,
+                    boxShadow: theme.shadows[12],
+                    backgroundColor: 'rgba(var(--color-cream-rgb), 0.98)',
+                    overflow: 'hidden',
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    minHeight: 48,
+                    pr: 2,
+                    pl: 2,
+                    pt: 1.5,
+                    pb: 0.5,
+                  }}
+                >
+                  <IconButton
+                    aria-label="Close menu"
+                    onClick={closeMobileMenu}
+                    size="medium"
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+                <List
+                  component="nav"
+                  aria-label="Primary navigation"
+                  sx={{
+                    px: 2,
+                    pb: 2,
+                    pt: 0,
+                  }}
+                >
+                  {navigationItems.map((item) => (
+                    <ListItem key={item.path} disablePadding sx={{ mb: 0.5 }}>
+                      <ListItemButton
+                        component={HeaderNavLink}
+                        to={item.path}
+                        onClick={() => {
+                          trackHeaderNav(item)
+                          closeMobileMenu()
+                        }}
+                        sx={{
+                          borderRadius: 2,
+                          '&.active': {
+                            backgroundColor: 'primary.main',
+                            color: 'primary.contrastText',
+                          },
+                        }}
+                      >
+                        <ListItemText
+                          primary={item.label}
+                          primaryTypographyProps={{ fontWeight: 600 }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
+              </Drawer>
+            </>
+          )}
+        </HeaderNavSection>
       </HeaderRightSection>
     </HeaderContainer>
   )
