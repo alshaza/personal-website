@@ -1,4 +1,4 @@
-import { Link as MuiLink, Stack, Typography } from '@mui/material'
+import { Box, Link as MuiLink, Stack, Typography } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
 import { ctaContent, heroContent } from '../../data/content'
 import { trackEvent } from '../../lib/analytics'
@@ -28,7 +28,11 @@ export function HeroSection() {
             textAlign: 'center',
           }}
         >
-          {heroContent.heading}
+          {heroContent.headingLines.map((line) => (
+            <Box component="span" display="block" key={line}>
+              {line}
+            </Box>
+          ))}
         </Typography>
         <HeroSubheading variant="h3" {...{ component: 'h2' }} color="primary">
           {heroContent.subheading}

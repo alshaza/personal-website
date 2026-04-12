@@ -19,7 +19,7 @@ export const navigationItems: NavigationItem[] = [
 ]
 
 export interface HeroContent {
-  heading: string
+  headingLines: readonly [string, string]
   subheading: string
   body: string
   ctaLabel: string
@@ -53,7 +53,7 @@ export interface SliderImage {
 }
 
 export const heroContent: HeroContent = {
-  heading: 'Technical skills get you hired. Soft skills get you promoted.',
+  headingLines: ['Technical skills get you hired.', 'Soft skills get you promoted.'],
   subheading: 'Career growth mentoring for software engineers',
   body: 'I help engineers strengthen communication, influence, and leadership visibility so they can earn trust, negotiate confidently, and grow compensation—without burning out.',
   ctaLabel: 'Book Free 1:1 Career Strategy Call',
