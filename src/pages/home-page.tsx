@@ -1,11 +1,11 @@
 import { HeroSection } from '../components/hero-section/hero-section'
 import { Testimonials } from '../components/testimonials/testimonials'
 import { HowCanIHelp } from '../components/how-can-i-help/how-can-i-help'
-import { Timeline } from '../components/timeline/timeline'
-import { ImageSlider } from '../components/image-slider/image-slider'
 import { ContactCTA } from '../components/contact-cta/contact-cta'
-import { FadeSection } from '../components/fade-section'
 import { Seo } from '../components/seo/seo'
+import { AudienceSegments } from '../components/audience-segments/audience-segments'
+import { ImpactStats } from '../components/impact-stats/impact-stats'
+import { bookingFunnelContent } from '../data/content'
 import { MainContainer } from './home-page.styles'
 
 export function HomePage() {
@@ -13,19 +13,14 @@ export function HomePage() {
     <MainContainer role={'main'}>
       <Seo path="/" />
       <HeroSection />
-      <FadeSection>
-        <HowCanIHelp />
-      </FadeSection>
-      <FadeSection>
-        <Testimonials />
-      </FadeSection>
-      <FadeSection>
-        <ImageSlider />
-      </FadeSection>
-      <FadeSection>
-        <Timeline />
-      </FadeSection>
-      <ContactCTA />
+      <ImpactStats />
+      <AudienceSegments />
+      <HowCanIHelp />
+      <Testimonials />
+      <ContactCTA
+        title={bookingFunnelContent.defaultFooterTitle}
+        description={bookingFunnelContent.defaultFooterDescription}
+      />
     </MainContainer>
   )
 }

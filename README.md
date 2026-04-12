@@ -1,69 +1,43 @@
-# React + TypeScript + Vite
+# Rami Alshaza — personal website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Public site: [alshaza.de](https://alshaza.de)
 
-Currently, two official plugins are available:
+## About Rami
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Rami Alshaza is an **engineer career growth mentor** who still works in a **senior full-stack** role. He helps software engineers strengthen **communication**, **emotional intelligence**, and **leadership visibility** so they can earn trust, negotiate with confidence, and grow compensation—without burning out. The coaching stays tied to how real teams ship work and how promotion decisions actually get made, not generic career advice.
 
-## Expanding the ESLint configuration
+## What this website covers
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The site is a single place to understand what Rami offers, explore a light self-serve path, and book time or connect.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Home** — Positioning (“technical skills get you hired; soft skills get you promoted”), audience segments by level, impact highlights, skills that support promotions, project highlights, testimonials, timeline, and paths to a **free 30-minute strategy call** or LinkedIn.
+- **About** — Short bio, story-driven sections, and how to get in touch.
+- **Find your path** — A short **three-question** check-in that branches on job search, promotion, or job change goals and returns practical next steps, with the same booking and LinkedIn options as elsewhere.
+- **Collaborate** — For **recruiters**, **fellow coaches or podcast hosts**, and **companies** interested in soft-skills training for engineering teams: ways to work together and a clear call to book a discovery conversation.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Content and copy live mainly in `src/data/content.ts`, `src/data/career-wizard.ts`, and `src/data/seo-content.ts`. Analytics events are wired for key interactions (see `src/lib/analytics*.ts`).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Stack and tooling
+
+- **React 19**, **TypeScript**, **Vite**
+- **MUI (Material UI)** for layout and components
+- **React Router** for client-side routes
+- **Embla Carousel** for select carousels
+- **Cloudflare** (`wrangler`) for deploy and local preview of the production build
+
+## Development
+
+```bash
+npm install
+npm run dev          # local dev server
+npm run lint         # ESLint
+npm run build        # sitemap + typecheck + production bundle
+npm run preview      # build then wrangler dev
+npm run deploy       # build then wrangler deploy
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Sitemap generation: `npm run generate:sitemap` (also runs as part of `build`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Repository started from the Vite React + TypeScript template; project-specific ESLint and TypeScript settings live in `eslint.config.js` and the `tsconfig` files at the repo root.

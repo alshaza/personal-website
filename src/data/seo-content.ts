@@ -1,4 +1,4 @@
-export type AppPath = '/' | '/about-me' | '/collaborate' | '/contact'
+export type AppPath = '/' | '/about-me' | '/collaborate' | '/find-your-path'
 
 export const siteUrl = 'https://alshaza.de'
 export const seoImageUrl = `${siteUrl}/main-image.webp`
@@ -13,31 +13,39 @@ export interface PageSeoMeta {
 
 export const pageSeoMeta: Record<AppPath, PageSeoMeta> = {
   '/': {
-    title: 'Rami Alshaza | Engineering Mentorship and Soft Skills',
-    description: 'Senior Full Stack Engineer mentoring engineers to improve communication, confidence, and interview readiness.',
-    keywords: 'engineering mentorship, soft skills for engineers, career coaching, senior full stack engineer',
+    title: 'Rami Alshaza | Engineer Career Growth Mentor',
+    description:
+      'Technical skills get you hired; soft skills get you promoted. Mentoring for software engineers on communication, leadership visibility, and promotion-aligned growth.',
+    keywords:
+      'engineer career coach, software engineer mentorship, promotion skills for developers, negotiation for engineers, leadership visibility engineering',
     canonicalPath: '/',
     ogType: 'website',
   },
   '/about-me': {
-    title: 'About Rami Alshaza | Senior Full Stack Engineer',
-    description: 'Learn about Rami Alshaza, a Senior Full Stack Engineer focused on scalable products, team collaboration, and developer growth.',
-    keywords: 'about rami alshaza, senior full stack engineer, software leadership, developer mentorship',
+    title: 'About Rami Alshaza | Engineer Career Growth Mentor',
+    description:
+      'Background in mentoring and product engineering, engineer stories, and how to book a free strategy call or reach out on LinkedIn.',
+    keywords:
+      'about rami alshaza, engineer career mentor, book career strategy call, contact software engineer coach, engineering leadership coaching',
     canonicalPath: '/about-me',
     ogType: 'profile',
   },
   '/collaborate': {
-    title: 'Collaborate with Rami | Engineering and Mentorship',
-    description: 'Explore how to collaborate with Rami on product engineering, mentoring developers, and improving team communication.',
-    keywords: 'engineering consultant, collaborate with software engineer, developer coaching, team enablement',
+    title: 'Collaborate with Rami | Recruiters, Coaches, and Training',
+    description:
+      'Partner with Rami for recruiter introductions, fellow coach or podcast collaborations, and corporate soft-skills training for engineering teams.',
+    keywords:
+      'recruiter network engineer, corporate soft skills training developers, podcast guest career coach, coaching collaboration',
     canonicalPath: '/collaborate',
     ogType: 'website',
   },
-  '/contact': {
-    title: 'Contact Rami Alshaza | Book a Call',
-    description: 'Contact Rami Alshaza to discuss mentorship, collaboration, or engineering support. Book a call or connect on LinkedIn.',
-    keywords: 'contact rami alshaza, book engineering call, software mentorship contact',
-    canonicalPath: '/contact',
+  '/find-your-path': {
+    title: 'Find Your Path | 3-Question Career Check-In',
+    description:
+      'Answer three short questions about your engineering career goals and get focused next steps plus a path to a free strategy call.',
+    keywords:
+      'engineer career help, job search software engineer, promotion advice developer, career check-in',
+    canonicalPath: '/find-your-path',
     ogType: 'website',
   },
 }
@@ -50,7 +58,7 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
     url: siteUrl,
     image: seoImageUrl,
     description: pageSeoMeta['/'].description,
-    serviceType: 'Engineering Mentorship and Soft Skills Coaching',
+    serviceType: 'Engineer career growth mentoring and soft skills coaching',
     areaServed: 'Worldwide',
     sameAs: ['https://www.linkedin.com/in/rami-alshaza'],
   },
@@ -60,15 +68,20 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
     name: 'Rami Alshaza',
     url: `${siteUrl}/about-me`,
     image: seoImageUrl,
-    jobTitle: 'Senior Full Stack Engineer',
+    jobTitle: 'Engineer Career Growth Mentor',
     description: pageSeoMeta['/about-me'].description,
-    knowsAbout: ['Full Stack Engineering', 'Software Architecture', 'Mentorship', 'Communication Skills'],
+    knowsAbout: [
+      'Software engineering',
+      'Career development for engineers',
+      'Communication and leadership skills',
+      'Mentoring',
+    ],
     sameAs: ['https://www.linkedin.com/in/rami-alshaza'],
   },
   '/collaborate': {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Engineering Collaboration with Rami Alshaza',
+    name: 'Professional collaboration with Rami Alshaza',
     provider: {
       '@type': 'Person',
       name: 'Rami Alshaza',
@@ -76,18 +89,18 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
     },
     url: `${siteUrl}/collaborate`,
     description: pageSeoMeta['/collaborate'].description,
-    serviceType: 'Engineering Consulting and Mentorship',
+    serviceType: 'Recruiter partnerships, media collaboration, and corporate training',
   },
-  '/contact': {
+  '/find-your-path': {
     '@context': 'https://schema.org',
-    '@type': 'ContactPage',
-    name: 'Contact Rami Alshaza',
-    url: `${siteUrl}/contact`,
-    description: pageSeoMeta['/contact'].description,
-    mainEntity: {
-      '@type': 'Person',
+    '@type': 'WebPage',
+    name: 'Find your path, career check-in',
+    url: `${siteUrl}/find-your-path`,
+    description: pageSeoMeta['/find-your-path'].description,
+    isPartOf: {
+      '@type': 'WebSite',
       name: 'Rami Alshaza',
-      sameAs: ['https://www.linkedin.com/in/rami-alshaza'],
+      url: siteUrl,
     },
   },
 }

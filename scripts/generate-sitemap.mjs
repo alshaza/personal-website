@@ -9,7 +9,7 @@ const routes = [
   { url: '/', changefreq: 'weekly', priority: 1.0 },
   { url: '/about-me', changefreq: 'monthly', priority: 0.9 },
   { url: '/collaborate', changefreq: 'monthly', priority: 0.9 },
-  { url: '/contact', changefreq: 'monthly', priority: 0.9 },
+  { url: '/find-your-path', changefreq: 'monthly', priority: 0.95 },
 ]
 
 async function generateSitemap() {

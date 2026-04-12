@@ -1,4 +1,4 @@
-import { Box, Button, Typography, styled } from '@mui/material'
+import { Box, Typography, styled } from '@mui/material'
 
 export const SliderContainer = styled(Box)({
   marginTop: 'var(--section-spacing)',
@@ -78,29 +78,31 @@ export const SliderCTASlide = styled(Box)({
   width: '100%',
 })
 
-export const SliderCTAButton = styled(Button)({
-  marginTop: 8,
-  fontSize: '1rem',
-  paddingLeft: 32,
-  paddingRight: 32,
-  paddingTop: 12,
-  paddingBottom: 12,
-})
-
-export const SliderDots = styled(Box)({
+export const SliderPreviews = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
-  gap: 8,
-  marginTop: 24,
+  gap: 24,
+  marginTop: 32,
 })
 
-export const SliderDot = styled(Box, {
+export const SliderPreviewItem = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'active',
 })<{ active?: boolean }>(({ theme, active }) => ({
-  width: 10,
-  height: 10,
-  borderRadius: '50%',
+  width: 64,
+  height: 64,
+  padding: 8,
+  borderRadius: 12,
   cursor: 'pointer',
-  backgroundColor: active ? theme.palette.primary.main : theme.palette.action.disabled,
-  transition: 'background-color 0.2s ease',
+  border: `2px solid ${active ? theme.palette.primary.main : 'transparent'}`,
+  boxShadow: active ? 'var(--shadow-blue)' : 'none',
+  opacity: active ? 1 : 0.4,
+  transition: 'opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
+  '&:hover': {
+    opacity: 1,
+  },
+  '& img': {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+  },
 }))

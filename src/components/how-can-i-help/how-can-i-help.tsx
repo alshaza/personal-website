@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react'
 import { Typography } from '@mui/material'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
-import { helpItems } from '../../data/content'
+import { helpItems, howCanIHelpSectionContent } from '../../data/content'
 import { useLazyInit } from '../../hooks/use-lazy-init'
 import { trackEvent } from '../../lib/analytics'
 import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
 import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
-import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
+import { ANALYTICS_CONTENT_TYPES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 import {
   HelpContainer,
   HelpSectionHeading,
@@ -46,11 +46,20 @@ export function HowCanIHelp() {
     emblaApi.scrollTo(index)
   }, [emblaApi])
 
+  const { heading, intro } = howCanIHelpSectionContent
+
   return (
     <HelpContainer as="section" id="how-can-i-help" ref={lazyRef}>
       <HelpSectionHeading variant="h2">
-        How Can I Help You
+        {heading}
       </HelpSectionHeading>
+      <Typography
+        variant="body1"
+        color="text.secondary"
+        sx={{ textAlign: 'center', maxWidth: 720, mx: 'auto', mb: 3, px: 1 }}
+      >
+        {intro}
+      </Typography>
       <HelpEmblaViewport ref={emblaRef}>
         <HelpEmblaTrack>
           {helpItems.map((item) => (
@@ -78,9 +87,16 @@ export function HowCanIHelp() {
             onClick={() => {
               handlePreviewClick(index)
               trackEvent(ANALYTICS_EVENTS.CUSTOM_BUTTON_CLICK, {
-                [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.HELP_PREVIEW_ITEM,
+                [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: `help_carousel_preview_${index}`,
+                [ANALYTICS_PARAM_KEYS.BUTTON_LABEL]: item.title,
                 [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HOW_CAN_I_HELP,
                 [ANALYTICS_PARAM_KEYS.ITEM_TITLE]: item.title,
+              })
+              trackEvent(ANALYTICS_EVENTS.SELECT_CONTENT, {
+                [ANALYTICS_PARAM_KEYS.CONTENT_TYPE]: ANALYTICS_CONTENT_TYPES.HELP_PREVIEW,
+                [ANALYTICS_PARAM_KEYS.ITEM_ID]: `help_preview_${index}`,
+                [ANALYTICS_PARAM_KEYS.ITEM_TITLE]: item.title,
+                [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HOW_CAN_I_HELP,
               })
             }}
           >
