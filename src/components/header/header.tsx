@@ -16,10 +16,10 @@ import {
   HeaderContainer,
   HeaderLogo,
   HeaderLogoLink,
-  HeaderRightSection,
   HeaderNavSection,
   HeaderNavLinks,
   HeaderNavLink,
+  HeaderRightSection,
 } from './header.styles'
 import type { NavigationItem } from '../../data/content'
 import { navigationItems } from '../../data/content'

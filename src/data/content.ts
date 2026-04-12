@@ -53,9 +53,9 @@ export interface SliderImage {
 }
 
 export const heroContent: HeroContent = {
-  headingLines: ['Technical skills get you hired.', 'Soft skills get you promoted.'],
+  headingLines: ['Technical skills get you hired', 'Soft skills get you promoted'],
   subheading: 'Career growth mentoring for software engineers',
-  body: 'I help engineers strengthen communication, influence, and leadership visibility so they can earn trust, negotiate confidently, and grow compensation—without burning out.',
+  body: 'I help engineers strengthen communication, influence, and leadership visibility so they can earn trust, negotiate confidently, and grow compensation.',
   ctaLabel: 'Book Free 1:1 Career Strategy Call',
   ctaMicroCopy: '30 minutes · No commitment · Walk away with a clear next-step plan',
 }

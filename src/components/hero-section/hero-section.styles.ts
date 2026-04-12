@@ -1,4 +1,4 @@
-import { Box, Button, Typography, styled } from '@mui/material'
+import { Box, Button, Link, Stack, Typography, styled } from '@mui/material'
 
 export const HeroContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -100,3 +100,65 @@ export const CTAButton = styled(Button)({
   paddingTop: 12,
   paddingBottom: 12,
 })
+
+export const HeroHeading = styled(Typography)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(0.75),
+  fontSize: '1.65rem',
+  lineHeight: 1.22,
+  maxWidth: 640,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  textAlign: 'center',
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '1.85rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    gap: theme.spacing(1),
+    fontSize: '2.15rem',
+    marginLeft: 0,
+    marginRight: 0,
+    textAlign: 'left',
+  },
+  [theme.breakpoints.up('lg')]: {
+    fontSize: '2.35rem',
+  },
+}))
+
+export const HeroHeadingLine = styled('span')({
+  display: 'block',
+  // Block spans stretch to the column width by default, so long clauses wrap
+  // mid-sentence; keep each heading line as a single row.
+  whiteSpace: 'nowrap',
+})
+
+export const HeroCTAStack = styled(Stack)(({ theme }) => ({
+  alignItems: 'center',
+  [theme.breakpoints.up('md')]: {
+    alignItems: 'flex-start',
+  },
+}))
+
+export const HeroCtaMicroCopy = styled(Typography)(({ theme }) => ({
+  maxWidth: 'min(100%, 420px)',
+  textAlign: 'center',
+  [theme.breakpoints.up('sm')]: {
+    maxWidth: 'none',
+    whiteSpace: 'nowrap',
+  },
+  [theme.breakpoints.up('md')]: {
+    textAlign: 'left',
+  },
+}))
+
+export const HeroCtaMicroCopySegment = styled('span', {
+  shouldForwardProp: (prop) => prop !== 'phrase',
+})<{ phrase: boolean }>(({ phrase }) => ({
+  whiteSpace: phrase ? 'nowrap' : 'normal',
+}))
+
+export const HeroSecondaryLink = styled(Link)(({ theme }) => ({
+  marginTop: theme.spacing(0.5),
+  fontWeight: 600,
+})) as typeof Link
