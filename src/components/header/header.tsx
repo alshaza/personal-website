@@ -15,6 +15,7 @@ import {
 import {
   HeaderContainer,
   HeaderLogo,
+  HeaderLogoLink,
   HeaderRightSection,
   HeaderNavSection,
   HeaderNavLinks,
@@ -25,13 +26,21 @@ import { navigationItems } from '../../data/content'
 import { trackEvent } from '../../lib/analytics'
 import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
 import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
-import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
+import { ANALYTICS_CONTENT_TYPES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 
 function trackHeaderNav(item: NavigationItem) {
+  const itemId = `nav_${item.path === '/' ? 'home' : item.path.replace(/^\//, '').replace(/-/g, '_')}`
   trackEvent(ANALYTICS_EVENTS.CUSTOM_BUTTON_CLICK, {
-    [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.HEADER_NAVIGATION,
+    [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: itemId,
+    [ANALYTICS_PARAM_KEYS.BUTTON_LABEL]: item.label,
     [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HEADER,
     [ANALYTICS_PARAM_KEYS.TARGET_PAGE]: item.path,
+  })
+  trackEvent(ANALYTICS_EVENTS.SELECT_CONTENT, {
+    [ANALYTICS_PARAM_KEYS.CONTENT_TYPE]: ANALYTICS_CONTENT_TYPES.NAV_LINK,
+    [ANALYTICS_PARAM_KEYS.ITEM_ID]: itemId,
+    [ANALYTICS_PARAM_KEYS.TARGET_PAGE]: item.path,
+    [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HEADER,
   })
 }
 
@@ -44,9 +53,19 @@ export function Header() {
     setMobileOpen(false)
   }
 
+  const homeNavItem = navigationItems.find((item) => item.path === '/')
+
   return (
     <HeaderContainer>
-      <HeaderLogo src="/logo.svg" alt="Rami Alshaza" fetchPriority="high" />
+      <HeaderLogoLink
+        to="/"
+        aria-label="Home"
+        onClick={() => {
+          if (homeNavItem) trackHeaderNav(homeNavItem)
+        }}
+      >
+        <HeaderLogo src="/logo.svg" alt="Rami Alshaza" fetchPriority="high" />
+      </HeaderLogoLink>
       <HeaderRightSection>
         <HeaderNavSection>
           <HeaderNavLinks aria-label="Primary navigation">
@@ -74,7 +93,7 @@ export function Header() {
                 onClick={() => {
                   setMobileOpen(true)
                 }}
-                sx={{ ml: 0.5 }}
+                sx={{ marginRight: 0 }}
               >
                 <MenuIcon />
               </IconButton>
@@ -91,21 +110,21 @@ export function Header() {
                       backgroundColor: 'transparent',
                     },
                   },
-                }}
-                PaperProps={{
-                  sx: {
-                    width: 'min(280px, 78vw)',
-                    height: 'auto',
-                    maxHeight: 'min(480px, calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)))',
-                    alignSelf: 'flex-start',
-                    mt: 'calc(12px + env(safe-area-inset-top, 0px))',
-                    mr: 'calc(12px + env(safe-area-inset-right, 0px))',
-                    mb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
-                    ml: 'auto',
-                    borderRadius: 2,
-                    boxShadow: theme.shadows[12],
-                    backgroundColor: 'rgba(var(--color-cream-rgb), 0.98)',
-                    overflow: 'hidden',
+                  paper: {
+                    sx: {
+                      width: 'min(280px, 78vw)',
+                      height: 'auto',
+                      maxHeight: 'min(480px, calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)))',
+                      alignSelf: 'flex-start',
+                      mt: 'calc(12px + env(safe-area-inset-top, 0px))',
+                      mr: 'calc(12px + env(safe-area-inset-right, 0px))',
+                      mb: 'calc(12px + env(safe-area-inset-bottom, 0px))',
+                      ml: 'auto',
+                      borderRadius: 2,
+                      boxShadow: theme.shadows[12],
+                      backgroundColor: 'rgba(var(--color-cream-rgb), 0.98)',
+                      overflow: 'hidden',
+                    },
                   },
                 }}
               >
@@ -157,7 +176,7 @@ export function Header() {
                       >
                         <ListItemText
                           primary={item.label}
-                          primaryTypographyProps={{ fontWeight: 600 }}
+                          sx={{ fontWeight: 600 }}
                         />
                       </ListItemButton>
                     </ListItem>

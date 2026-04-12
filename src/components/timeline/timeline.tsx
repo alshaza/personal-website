@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { timelineEntries } from '../../data/content'
+import { timelineEntries, timelineSectionContent } from '../../data/content'
 import {
   TimelineContainer,
   TimelineSectionHeading,
@@ -12,7 +12,7 @@ export function Timeline() {
   return (
     <TimelineContainer as="section">
       <TimelineSectionHeading variant="h2">
-        Career Journey
+        {timelineSectionContent.heading}
       </TimelineSectionHeading>
       <TimelineTrack>
         {timelineEntries.map((entry, index) => (

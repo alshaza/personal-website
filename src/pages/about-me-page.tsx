@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material'
 import { ContactCTA } from '../components/contact-cta/contact-cta'
-import { FadeSection } from '../components/fade-section'
 import { Seo } from '../components/seo/seo'
+import { ImageSlider } from '../components/image-slider/image-slider'
+import { ValuePropositionStrip } from '../components/value-proposition-strip/value-proposition-strip'
 import { Testimonials } from '../components/testimonials/testimonials'
 import { Timeline } from '../components/timeline/timeline'
 import { aboutMeContent } from '../data/content'
@@ -25,16 +26,13 @@ export function AboutMePage() {
         ))}
       </Box>
 
-      <FadeSection>
-        <Timeline />
-      </FadeSection>
-      <FadeSection>
-        <Testimonials />
-      </FadeSection>
-      <ContactCTA
-        title="Want to Work Together?"
-        description="If your team needs senior engineering support or coaching for developers, book a call and we can explore the best way to collaborate."
-      />
+      <ValuePropositionStrip />
+      <ImageSlider />
+      <Timeline />
+      <Testimonials />
+      <Box id="contact" sx={{ mt: { xs: 5, md: 6 } }}>
+        <ContactCTA />
+      </Box>
     </MainContainer>
   )
 }

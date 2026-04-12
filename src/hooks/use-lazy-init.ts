@@ -1,13 +1,16 @@
 import { useRef, useState, useEffect } from 'react'
 
-export function useLazyInit(rootMargin = '200px') {
+export function useLazyInit(
+  rootMargin = '200px',
+  threshold: number | number[] = 0,
+) {
   const ref = useRef<HTMLDivElement>(null)
   const [isNearViewport, setIsNearViewport] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) {
-        return;
+      return
     }
 
     const observer = new IntersectionObserver(
@@ -17,7 +20,7 @@ export function useLazyInit(rootMargin = '200px') {
           observer.unobserve(el)
         }
       },
-      { rootMargin },
+      { rootMargin, threshold },
     )
 
     observer.observe(el)
@@ -25,7 +28,7 @@ export function useLazyInit(rootMargin = '200px') {
     return () => {
       observer.disconnect()
     }
-  }, [rootMargin])
+  }, [rootMargin, threshold])
 
   return { ref, isNearViewport }
 }

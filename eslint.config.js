@@ -32,4 +32,10 @@ export default tseslint.config([
       "no-console": "off",
     },
   },
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      'no-unused-vars': 'off',
+    },
+  },
 ])

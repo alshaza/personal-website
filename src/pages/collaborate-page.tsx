@@ -1,10 +1,8 @@
 import { Box, Typography } from '@mui/material'
+import { CollaborateOpportunities } from '../components/collaborate-opportunities/collaborate-opportunities'
 import { ContactCTA } from '../components/contact-cta/contact-cta'
-import { FadeSection } from '../components/fade-section'
 import { Seo } from '../components/seo/seo'
-import { HowCanIHelp } from '../components/how-can-i-help/how-can-i-help'
-import { ImageSlider } from '../components/image-slider/image-slider'
-import { collaborateContent } from '../data/content'
+import { collaborateContent, collaboratePageFooterCta } from '../data/content'
 import { MainContainer } from './home-page.styles'
 
 export function CollaboratePage() {
@@ -15,20 +13,15 @@ export function CollaboratePage() {
         <Typography variant="h1" gutterBottom>
           {collaborateContent.heading}
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 720 }}>
           {collaborateContent.description}
         </Typography>
       </Box>
 
-      <FadeSection>
-        <HowCanIHelp />
-      </FadeSection>
-      <FadeSection>
-        <ImageSlider />
-      </FadeSection>
+      <CollaborateOpportunities />
       <ContactCTA
-        title="Start a Collaboration"
-        description="Book a call and share your goals. We can define a practical collaboration plan for your product and team."
+        title={collaboratePageFooterCta.title}
+        description={collaboratePageFooterCta.description}
       />
     </MainContainer>
   )

@@ -7,8 +7,17 @@ export const HelpContainer = styled(Box)({
 export const HelpSectionHeading = styled(Typography)(({ theme }) => ({
   textAlign: 'center',
   marginBottom: 32,
+  fontSize: '2rem',
+  lineHeight: 1.25,
+  fontWeight: 700,
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '2.5rem',
+    lineHeight: 1.22,
+  },
   [theme.breakpoints.up('md')]: {
     marginBottom: 48,
+    fontSize: '3rem',
+    lineHeight: 1.2,
   },
 }))
 

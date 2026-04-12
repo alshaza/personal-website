@@ -40,6 +40,35 @@ export const CTADescription = styled(Typography)({
   color: 'text.secondary',
 })
 
+export const CTAMicroLine = styled(Typography)(({ theme }) => ({
+  maxWidth: 520,
+  color: theme.palette.text.secondary,
+  textAlign: 'center',
+  [theme.breakpoints.up('md')]: {
+    textAlign: 'left',
+  },
+}))
+
+export const ProcessBlock = styled(Box)(({ theme }) => ({
+  width: '100%',
+  maxWidth: 520,
+  marginTop: 8,
+  paddingTop: 20,
+  borderTop: `1px solid ${theme.palette.divider}`,
+}))
+
+export const ProcessList = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 14,
+})
+
+export const ProcessStep = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 4,
+})
+
 export const CTAButton = styled(Button)({
   marginTop: 8,
   fontSize: '1rem',
