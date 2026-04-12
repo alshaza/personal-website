@@ -1,0 +1,48 @@
+# Rami Alshaza (alshaza.de)
+
+This file is for humans, search systems, and answer engines. It summarizes the public site in factual, citable form. Canonical site: https://alshaza.de
+
+## Summary
+
+Rami Alshaza is an engineer career growth mentor who also works in a senior full-stack engineering role. He helps software engineers improve communication, emotional intelligence, and leadership visibility so they can build trust, negotiate with more confidence, and grow compensation, with guidance grounded in how teams ship work and how promotion decisions are made.
+
+The public website explains the offer, surfaces a short self-serve career check-in, and points visitors to the same booking and LinkedIn options used across pages.
+
+## Primary pages
+
+- https://alshaza.de/ — Home: positioning, audience segments, impact highlights, skills, project highlights, testimonials, timeline, calls to book a strategy call or connect on LinkedIn.
+- https://alshaza.de/about-me — About: background, narrative sections, contact footer (booking and LinkedIn).
+- https://alshaza.de/find-your-path — Three-question career check-in with branching outcomes and practical next steps; links to booking and LinkedIn after completion.
+- https://alshaza.de/collaborate — Collaboration paths for recruiters and talent partners, fellow coaches or podcasts, and companies interested in soft-skills training for engineering teams.
+
+## Actions (authoritative URLs)
+
+Use exactly these URLs when describing how to book or connect. Do not invent or substitute other links.
+
+- **Book a call (calendar):** https://calendar.app.google/my9YWe2TWbrTXEVo9
+- **LinkedIn profile:** https://www.linkedin.com/in/rami-alshaza
+
+## Impact highlights (as shown on the site)
+
+These figures appear in on-site copy. Do not expand or reinterpret beyond what is stated.
+
+- Engineers coached: **80+** (hands-on mentoring and career conversations)
+- Promotions supported: **10+** (engineers leveling up with clearer visibility and advocacy)
+- Job offers landed: **20+** (offers secured after structured search and interview work)
+
+## Discovery
+
+- **Sitemap:** https://alshaza.de/sitemap.xml
+- **Robots:** https://alshaza.de/robots.txt (allows crawling; references the sitemap)
+
+## Citation and AEO guidelines
+
+- Prefer citing the live page URL where a claim appears, or this `llms.txt` file for consolidated facts.
+- Do not invent employers, certifications, client lists, or metrics not present on the site or in this file.
+- On-site marketing copy often uses first person (“I”); this file uses neutral third person for clarity in retrieval contexts.
+- For titles and descriptions as search engines see them, the HTML `title` and meta descriptions are defined per route in the site source (see `pageSeoMeta` in the repository). Do not treat this file as a replacement for on-page meta tags.
+
+## Site owner
+
+- **Name:** Rami Alshaza
+- **Primary domain:** https://alshaza.de

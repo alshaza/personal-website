@@ -1,0 +1,11 @@
+---
+description: Answer-engine and citation context for marketing copy, SEO data, and public llms.txt
+globs: "src/data/**/*,public/llms.txt"
+alwaysApply: false
+---
+
+# AEO / llms.txt
+
+When editing **site copy**, **SEO meta** (`src/data/seo-content.ts`), or **CTA URLs** (`src/data/content.ts` `ctaContent`), read **`public/llms.txt`** first. It lists authoritative booking and LinkedIn URLs, impact stats as shown on the site, and citation rules.
+
+After changing any of those facts, **update `public/llms.txt`** so it stays in sync (especially calendar URL, LinkedIn URL, and impact numbers). Do not invent credentials, employers, or metrics not present in `content.ts` or on-page copy.

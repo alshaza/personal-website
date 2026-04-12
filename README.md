@@ -17,6 +17,10 @@ The site is a single place to understand what Rami offers, explore a light self-
 
 Content and copy live mainly in `src/data/content.ts`, `src/data/career-wizard.ts`, and `src/data/seo-content.ts`. Analytics events are wired for key interactions (see `src/lib/analytics*.ts`).
 
+## For AI / answer engines
+
+A concise, factual summary for crawlers and answer engines (canonical URLs, booking and LinkedIn links, impact figures, citation rules) lives at **https://alshaza.de/llms.txt**. In development it is served as `/llms.txt` from [`public/llms.txt`](public/llms.txt).
+
 ## Stack and tooling
 
 - **React 19**, **TypeScript**, **Vite**
