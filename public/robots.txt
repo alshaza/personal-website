@@ -1,5 +1,17 @@
 User-agent: *
 Allow: /
 
-Host: https://alshaza.de
 Sitemap: https://alshaza.de/sitemap.xml
+
+# AI / LLM context file
+LLMS: https://alshaza.de/llms.txt
+
+# Block common low-value SEO scrapers (optional)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
