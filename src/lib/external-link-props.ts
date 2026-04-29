@@ -1,4 +1,4 @@
-export const EXTERNAL_NEW_TAB_REL = 'noopener noreferrer nofollow'
+export const EXTERNAL_NEW_TAB_REL = 'noopener noreferrer external'
 
 export const externalNewTabLinkProps = {
   target: '_blank',
