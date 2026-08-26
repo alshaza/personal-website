@@ -2,9 +2,24 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "personal-website",
   "compatibility_date": "2025-09-27",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "observability": {
-    "enabled": true
+    "enabled": false,
+    "head_sampling_rate": 1,
+    "redact_query_string": false,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
   }
   // The @astrojs/cloudflare adapter wires the worker entry + static assets at build time.
   // D1 database binding (blog + contact form) is added in Phase 2:
