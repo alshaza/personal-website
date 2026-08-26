@@ -1,0 +1,57 @@
+---
+import { type AppPath, pageSeoMeta, pageStructuredData, seoImageUrl, siteUrl } from '../data/seo-content'
+
+interface Props {
+  /** Look up meta + JSON-LD from seo-content by route. */
+  path?: AppPath
+  /** Per-page overrides (used by dynamic blog post pages). */
+  title?: string
+  description?: string
+  keywords?: string
+  canonicalPath?: string
+  ogType?: string
+  image?: string
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>
+}
+
+const { path, ...overrides } = Astro.props
+
+const base = path ? pageSeoMeta[path] : undefined
+
+const title = overrides.title ?? base?.title ?? 'Rami Alshaza'
+const description = overrides.description ?? base?.description ?? ''
+const keywords = overrides.keywords ?? base?.keywords
+const ogType = overrides.ogType ?? base?.ogType ?? 'website'
+const image = overrides.image ?? seoImageUrl
+const canonicalPath = overrides.canonicalPath ?? base?.canonicalPath ?? path ?? '/'
+const canonicalUrl = new URL(canonicalPath, siteUrl).href
+
+const structuredData =
+  overrides.structuredData ?? (path ? pageStructuredData[path] : undefined)
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{keywords && <meta name="keywords" content={keywords} />}
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={image} />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+{
+  structuredData && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  )
+}

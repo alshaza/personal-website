@@ -1,4 +1,4 @@
-export type AppPath = '/' | '/about-me' | '/collaborate' | '/find-your-path'
+export type AppPath = '/' | '/contact' | '/blog'
 
 export const siteUrl = 'https://alshaza.de'
 export const seoImageUrl = `${siteUrl}/main-image.webp`
@@ -21,31 +21,22 @@ export const pageSeoMeta: Record<AppPath, PageSeoMeta> = {
     canonicalPath: '/',
     ogType: 'website',
   },
-  '/about-me': {
-    title: 'About Rami Alshaza | Engineer Career Growth Mentor',
+  '/contact': {
+    title: 'Contact & Collaborate with Rami | Book a Free Strategy Call',
     description:
-      'Background in mentoring and product engineering, engineer stories, and how to book a free strategy call or reach out on LinkedIn.',
+      'Book a free strategy call, reach out on LinkedIn, or partner with Rami for recruiter introductions, coach and podcast collaborations, and corporate soft-skills training for engineering teams.',
     keywords:
-      'about rami alshaza, engineer career mentor, book career strategy call, contact software engineer coach, engineering leadership coaching',
-    canonicalPath: '/about-me',
-    ogType: 'profile',
-  },
-  '/collaborate': {
-    title: 'Collaborate with Rami | Recruiters, Coaches, and Training',
-    description:
-      'Partner with Rami for recruiter introductions, fellow coach or podcast collaborations, and corporate soft-skills training for engineering teams.',
-    keywords:
-      'recruiter network engineer, corporate soft skills training developers, podcast guest career coach, coaching collaboration',
-    canonicalPath: '/collaborate',
+      'contact engineer career coach, book career strategy call, recruiter network engineer, corporate soft skills training developers, podcast guest career coach, coaching collaboration',
+    canonicalPath: '/contact',
     ogType: 'website',
   },
-  '/find-your-path': {
-    title: 'Find Your Path | 3-Question Career Check-In',
+  '/blog': {
+    title: 'Blog | Rami Alshaza',
     description:
-      'Answer three short questions about your engineering career goals and get focused next steps plus a path to a free strategy call.',
+      'Articles on engineering career growth, communication, leadership visibility, and getting promoted as a software engineer.',
     keywords:
-      'engineer career help, job search software engineer, promotion advice developer, career check-in',
-    canonicalPath: '/find-your-path',
+      'engineer career blog, software engineer growth, promotion advice developers, leadership visibility engineering',
+    canonicalPath: '/blog',
     ogType: 'website',
   },
 }
@@ -60,16 +51,6 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
     description: pageSeoMeta['/'].description,
     serviceType: 'Engineer career growth mentoring and soft skills coaching',
     areaServed: 'Worldwide',
-    sameAs: ['https://www.linkedin.com/in/rami-alshaza'],
-  },
-  '/about-me': {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Rami Alshaza',
-    url: `${siteUrl}/about-me`,
-    image: seoImageUrl,
-    jobTitle: 'Engineer Career Growth Mentor',
-    description: pageSeoMeta['/about-me'].description,
     knowsAbout: [
       'Software engineering',
       'Career development for engineers',
@@ -78,7 +59,7 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
     ],
     sameAs: ['https://www.linkedin.com/in/rami-alshaza'],
   },
-  '/collaborate': {
+  '/contact': {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: 'Professional collaboration with Rami Alshaza',
@@ -87,18 +68,18 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
       name: 'Rami Alshaza',
       url: siteUrl,
     },
-    url: `${siteUrl}/collaborate`,
-    description: pageSeoMeta['/collaborate'].description,
+    url: `${siteUrl}/contact`,
+    description: pageSeoMeta['/contact'].description,
     serviceType: 'Recruiter partnerships, media collaboration, and corporate training',
   },
-  '/find-your-path': {
+  '/blog': {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'Find your path, career check-in',
-    url: `${siteUrl}/find-your-path`,
-    description: pageSeoMeta['/find-your-path'].description,
-    isPartOf: {
-      '@type': 'WebSite',
+    '@type': 'Blog',
+    name: 'Rami Alshaza Blog',
+    url: `${siteUrl}/blog`,
+    description: pageSeoMeta['/blog'].description,
+    author: {
+      '@type': 'Person',
       name: 'Rami Alshaza',
       url: siteUrl,
     },

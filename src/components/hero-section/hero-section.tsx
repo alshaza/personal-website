@@ -1,11 +1,10 @@
 import { Fragment } from 'react'
 import { Typography } from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
 import { ctaContent, heroContent } from '../../data/content'
 import { trackEvent } from '../../lib/analytics'
 import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
 import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
-import { ANALYTICS_BUTTON_VALUES, ANALYTICS_CONTENT_TYPES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
+import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 import { externalNewTabLinkProps } from '../../lib/external-link-props'
 import {
   CTAButton,
@@ -16,7 +15,6 @@ import {
   HeroHeading,
   HeroHeadingLine,
   HeroImageWrapper,
-  HeroSecondaryLink,
   HeroSubheading,
   HeroTextWrapper,
 } from './hero-section.styles'
@@ -70,21 +68,6 @@ export function HeroSection() {
               </Fragment>
             ))}
           </HeroCtaMicroCopy>
-          <HeroSecondaryLink
-            component={RouterLink}
-            to="/find-your-path"
-            variant="body2"
-            onClick={() => {
-              trackEvent(ANALYTICS_EVENTS.SELECT_CONTENT, {
-                [ANALYTICS_PARAM_KEYS.CONTENT_TYPE]: ANALYTICS_CONTENT_TYPES.HERO_SECONDARY_LINK,
-                [ANALYTICS_PARAM_KEYS.ITEM_ID]: 'hero_find_your_path',
-                [ANALYTICS_PARAM_KEYS.TARGET_PAGE]: '/find-your-path',
-                [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HERO,
-              })
-            }}
-          >
-            Not sure where to start? Take the 3-question check-in.
-          </HeroSecondaryLink>
         </HeroCTAStack>
       </HeroTextWrapper>
     </HeroContainer>

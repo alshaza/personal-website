@@ -2,13 +2,13 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "personal-website",
   "compatibility_date": "2025-09-27",
+  "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
-  },
-  "assets": {
-    "not_found_handling": "single-page-application"
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  }
+  // The @astrojs/cloudflare adapter wires the worker entry + static assets at build time.
+  // D1 database binding (blog + contact form) is added in Phase 2:
+  // "d1_databases": [
+  //   { "binding": "DB", "database_name": "alshaza", "database_id": "…", "migrations_dir": "migrations" }
+  // ]
 }

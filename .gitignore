@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Astro
+.astro/
+
+# git worktrees (nested .git dirs get picked up as submodules by `git add -A`)
+.claude/worktrees/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

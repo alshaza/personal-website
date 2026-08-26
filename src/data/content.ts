@@ -1,9 +1,10 @@
-import communicationImage from '../images/communication.svg'
-import EQImage from '../images/EQ.svg'
-import leadershipImage from '../images/leadership.svg'
-import codaverse from '../images/codaverse.webp'
-import community from '../images/community.webp'
-import tippspiel from '../images/tippspiel.webp'
+// Images live in public/images and are referenced by URL (Astro serves public/ at the root).
+const communicationImage = '/images/communication.svg'
+const EQImage = '/images/EQ.svg'
+const leadershipImage = '/images/leadership.svg'
+const codaverse = '/images/codaverse.webp'
+const community = '/images/community.webp'
+const tippspiel = '/images/tippspiel.webp'
 import type { AppPath } from './seo-content'
 
 export interface NavigationItem {
@@ -13,9 +14,8 @@ export interface NavigationItem {
 
 export const navigationItems: NavigationItem[] = [
   { label: 'Home', path: '/' },
-  { label: 'About', path: '/about-me' },
-  { label: 'Find your path', path: '/find-your-path' },
-  { label: 'Collaborate', path: '/collaborate' },
+  { label: 'Blog', path: '/blog' },
+  { label: 'Contact', path: '/contact' },
 ]
 
 export interface HeroContent {
