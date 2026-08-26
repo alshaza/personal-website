@@ -27,7 +27,7 @@
     {
       "binding": "DB",
       "database_name": "alshaza",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "791238c4-02f6-480c-931b-60c25643995f",
       "migrations_dir": "migrations"
     }
   ]
