@@ -118,3 +118,24 @@ export async function isSessionValid(db: D1Database, tokenHash: string): Promise
 export async function deleteSession(db: D1Database, tokenHash: string): Promise<void> {
   await db.prepare(`DELETE FROM sessions WHERE id = ?`).bind(tokenHash).run()
 }
+
+// --- Contact submissions ---
+
+export interface ContactSubmissionInput {
+  name: string
+  email: string
+  message: string
+  ip: string | null
+  user_agent: string | null
+  turnstile_ok: boolean
+}
+
+export async function insertContactSubmission(db: D1Database, input: ContactSubmissionInput): Promise<void> {
+  await db
+    .prepare(
+      `INSERT INTO contact_submissions (name, email, message, ip, user_agent, turnstile_ok)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(input.name, input.email, input.message, input.ip, input.user_agent, input.turnstile_ok ? 1 : 0)
+    .run()
+}

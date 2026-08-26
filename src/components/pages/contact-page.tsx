@@ -4,6 +4,7 @@ import { Header } from '../header/header'
 import { AppContainer, MainContainer } from '../layout.styles'
 import { CollaborateOpportunities } from '../collaborate-opportunities/collaborate-opportunities'
 import { ContactCTA } from '../contact-cta/contact-cta'
+import { ContactForm } from '../contact-form/contact-form'
 import { collaborateContent, collaboratePageFooterCta } from '../../data/content'
 
 export function ContactPage() {
@@ -23,7 +24,12 @@ export function ContactPage() {
 
           <CollaborateOpportunities />
 
-          {/* Phase 5: contact form (name/email/message + Turnstile) → POST /api/contact → D1 */}
+          <Box component="section" sx={{ mt: 6 }}>
+            <Typography variant="h2" sx={{ fontSize: '1.75rem', mb: 2 }}>
+              Send a message
+            </Typography>
+            <ContactForm />
+          </Box>
 
           <ContactCTA
             title={collaboratePageFooterCta.title}
