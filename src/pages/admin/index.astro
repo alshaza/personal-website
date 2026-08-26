@@ -1,0 +1,86 @@
+---
+export const prerender = false
+
+import AdminLayout from '../../layouts/AdminLayout.astro'
+import { deletePost, listAllPosts, updatePost, getPostById } from '../../lib/db'
+
+const { DB } = Astro.locals.runtime.env
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+  const intent = String(form.get('intent') ?? '')
+  const id = Number(form.get('id'))
+
+  if (intent === 'delete' && id) {
+    await deletePost(DB, id)
+  } else if (intent === 'toggle-status' && id) {
+    const post = await getPostById(DB, id)
+    if (post) {
+      await updatePost(DB, id, {
+        slug: post.slug,
+        title: post.title,
+        description: post.description,
+        body_md: post.body_md,
+        body_html: post.body_html,
+        status: post.status === 'published' ? 'draft' : 'published',
+      })
+    }
+  }
+
+  return Astro.redirect('/admin')
+}
+
+const posts = await listAllPosts(DB)
+---
+
+<AdminLayout title="Posts">
+  <h1>Posts</h1>
+  {posts.length === 0 ? (
+    <p>No posts yet. <a href="/admin/new">Create the first one</a>.</p>
+  ) : (
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {posts.map((post) => (
+          <tr>
+            <td>
+              <a href={`/admin/${post.id}/edit`}>{post.title}</a>
+            </td>
+            <td>
+              <span class={`badge ${post.status}`}>{post.status}</span>
+            </td>
+            <td>{new Date(post.updated_at).toLocaleDateString()}</td>
+            <td style="text-align:right; white-space:nowrap;">
+              <form method="POST" style="display:inline">
+                <input type="hidden" name="id" value={post.id} />
+                <input type="hidden" name="intent" value="toggle-status" />
+                <button type="submit" class="secondary">
+                  {post.status === 'published' ? 'Unpublish' : 'Publish'}
+                </button>
+              </form>
+              {' '}
+              <form
+                method="POST"
+                style="display:inline"
+                onsubmit="return confirm('Delete this post permanently?')"
+              >
+                <input type="hidden" name="id" value={post.id} />
+                <input type="hidden" name="intent" value="delete" />
+                <button type="submit" class="danger">
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+</AdminLayout>

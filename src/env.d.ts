@@ -9,4 +9,5 @@ declare namespace App {
 
 interface Env {
   DB: D1Database
+  ADMIN_PASSWORD_HASH: string
 }

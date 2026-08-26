@@ -1,0 +1,73 @@
+---
+export const prerender = false
+
+import AdminLayout from '../../../layouts/AdminLayout.astro'
+import { getPostById, isSlugTaken, updatePost } from '../../../lib/db'
+import { renderMarkdown } from '../../../lib/markdown'
+import { slugify } from '../../../lib/slugify'
+
+const { DB } = Astro.locals.runtime.env
+const id = Number(Astro.params.id)
+const existing = await getPostById(DB, id)
+
+if (!existing) {
+  return Astro.redirect('/admin')
+}
+
+let error: string | null = null
+let values = {
+  title: existing.title,
+  slug: existing.slug,
+  description: existing.description,
+  body_md: existing.body_md,
+  status: existing.status,
+}
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData()
+  const title = String(form.get('title') ?? '').trim()
+  const slugInput = String(form.get('slug') ?? '').trim()
+  const description = String(form.get('description') ?? '').trim()
+  const body_md = String(form.get('body_md') ?? '')
+  const status = form.get('status') === 'published' ? 'published' : 'draft'
+  const slug = slugify(slugInput || title)
+
+  values = { title, slug, description, body_md, status }
+
+  if (!title || !slug || !description || !body_md) {
+    error = 'All fields are required.'
+  } else if (await isSlugTaken(DB, slug, id)) {
+    error = `Slug "${slug}" is already in use.`
+  } else {
+    const body_html = renderMarkdown(body_md)
+    await updatePost(DB, id, { slug, title, description, body_md, body_html, status })
+    return Astro.redirect('/admin')
+  }
+}
+---
+
+<AdminLayout title={`Edit: ${existing.title}`}>
+  <h1>Edit post</h1>
+  {error && <p class="error">{error}</p>}
+  <form method="POST">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" value={values.title} required />
+
+    <label for="slug">Slug</label>
+    <input type="text" id="slug" name="slug" value={values.slug} required />
+
+    <label for="description">Description (for SEO + blog index)</label>
+    <input type="text" id="description" name="description" value={values.description} required />
+
+    <label for="body_md">Body (Markdown)</label>
+    <textarea id="body_md" name="body_md" required>{values.body_md}</textarea>
+
+    <label for="status">Status</label>
+    <select id="status" name="status">
+      <option value="draft" selected={values.status === 'draft'}>Draft</option>
+      <option value="published" selected={values.status === 'published'}>Published</option>
+    </select>
+
+    <button type="submit">Save changes</button>
+  </form>
+</AdminLayout>

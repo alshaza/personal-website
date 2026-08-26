@@ -1,0 +1,42 @@
+---
+export const prerender = false
+
+import AdminLayout from '../../layouts/AdminLayout.astro'
+import { SESSION_COOKIE, SESSION_TTL_SECONDS, generateSessionToken, hashSessionToken, verifyPassword } from '../../lib/auth'
+import { createSession } from '../../lib/db'
+
+let error: string | null = null
+
+if (Astro.request.method === 'POST') {
+  const { DB, ADMIN_PASSWORD_HASH } = Astro.locals.runtime.env
+  const form = await Astro.request.formData()
+  const password = String(form.get('password') ?? '')
+
+  const ok = password.length > 0 && (await verifyPassword(password, ADMIN_PASSWORD_HASH))
+
+  if (ok) {
+    const token = generateSessionToken()
+    await createSession(DB, await hashSessionToken(token), SESSION_TTL_SECONDS)
+    Astro.cookies.set(SESSION_COOKIE, token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: SESSION_TTL_SECONDS,
+    })
+    return Astro.redirect('/admin')
+  }
+
+  error = 'Incorrect password.'
+}
+---
+
+<AdminLayout title="Log in" showLogout={false}>
+  <h1>Admin login</h1>
+  {error && <p class="error">{error}</p>}
+  <form method="POST">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required autofocus />
+    <button type="submit">Log in</button>
+  </form>
+</AdminLayout>
