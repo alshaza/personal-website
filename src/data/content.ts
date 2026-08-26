@@ -178,15 +178,15 @@ export interface BookingFunnelContent {
 export const bookingFunnelContent: BookingFunnelContent = {
   primaryCtaLabel: 'Book Free 1:1 Career Strategy Call',
   ctaMicroCopy: '30 minutes · No commitment · Get your next-step plan',
-  processHeading: 'What happens after you click',
+  processHeading: 'How booking works',
   processSteps: [
     {
-      title: 'Open the scheduler',
-      description: 'You will land on my calendar booking page in a new tab.',
+      title: 'Pick a time below',
+      description: 'Browse my real-time availability right on this page.',
     },
     {
-      title: 'Choose a time',
-      description: 'Pick a slot that fits your week. You will see confirmation details there.',
+      title: 'Confirm your slot',
+      description: 'Add your email and any details. You will get a calendar invite instantly.',
     },
     {
       title: 'Show up with context',
@@ -361,11 +361,13 @@ export const linkedinPosts: LinkedInPost[] = [
 
 export interface CTAContent {
   calendarUrl: string
+  calendarEmbedUrl: string
   linkedInUrl: string
 }
 
 export const ctaContent: CTAContent = {
   calendarUrl: 'https://calendar.app.google/my9YWe2TWbrTXEVo9',
+  calendarEmbedUrl: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3EySu9GcKq7maXrMJ9L8XyagAJt2egu1KUHxrqBmYtzsHqnxBjON5X9lcQRc1cHPgWKvXNeg24?gv=true',
   linkedInUrl: 'https://www.linkedin.com/in/rami-alshaza',
 }
 
