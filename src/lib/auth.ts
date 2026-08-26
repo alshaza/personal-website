@@ -1,7 +1,8 @@
 export const SESSION_COOKIE = 'session'
 export const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7 // 7 days
 
-const PBKDF2_ITERATIONS = 210_000
+// Cloudflare Workers' PBKDF2 implementation caps iterations at 100,000.
+const PBKDF2_ITERATIONS = 100_000
 
 function toHex(buffer: ArrayBuffer): string {
   return [...new Uint8Array(buffer)].map((b) => b.toString(16).padStart(2, '0')).join('')

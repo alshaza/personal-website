@@ -1,6 +1,7 @@
 // Standalone script (plain JS, no TS import) so it runs with plain `node`.
 // Must stay in sync with the PBKDF2 params in src/lib/auth.ts.
-const PBKDF2_ITERATIONS = 210_000
+// Must match src/lib/auth.ts — Cloudflare Workers' PBKDF2 caps iterations at 100,000.
+const PBKDF2_ITERATIONS = 100_000
 
 function toHex(buffer) {
   return [...new Uint8Array(buffer)].map((b) => b.toString(16).padStart(2, '0')).join('')
