@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://alshaza.de/sitemap-index.xml
+Sitemap: https://alshaza.de/sitemap-blog.xml
 
 # AI / LLM context file
 LLMS: https://alshaza.de/llms.txt

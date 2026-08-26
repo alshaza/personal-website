@@ -1,5 +1,12 @@
 /// <reference types="astro/client" />
+/// <reference types="@cloudflare/workers-types" />
 
-// Cloudflare runtime bindings (D1, secrets, Turnstile) are added to
-// App.Locals in Phase 2 once the D1 binding exists. For Release A there
-// are no server bindings yet.
+type Runtime = import('@astrojs/cloudflare').Runtime<Env>
+
+declare namespace App {
+  interface Locals extends Runtime {}
+}
+
+interface Env {
+  DB: D1Database
+}

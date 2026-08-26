@@ -9,7 +9,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
-    "deploy": "astro build && wrangler deploy"
+    "deploy": "astro build && wrangler deploy ./dist/_worker.js/index.js --assets=./dist",
+    "db:migrate:local": "wrangler d1 migrations apply alshaza --local",
+    "db:migrate:remote": "wrangler d1 migrations apply alshaza --remote"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.13",

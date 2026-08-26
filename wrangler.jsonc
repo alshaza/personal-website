@@ -19,10 +19,16 @@
       "persist": true,
       "head_sampling_rate": 1
     }
-  }
+  },
   // The @astrojs/cloudflare adapter wires the worker entry + static assets at build time.
-  // D1 database binding (blog + contact form) is added in Phase 2:
-  // "d1_databases": [
-  //   { "binding": "DB", "database_name": "alshaza", "database_id": "…", "migrations_dir": "migrations" }
-  // ]
+  // Run `wrangler d1 create alshaza` and paste the returned database_id below, then
+  // `wrangler d1 migrations apply alshaza --local` (dev) / `--remote` (production).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "alshaza",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ]
 }

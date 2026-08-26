@@ -1,0 +1,14 @@
+---
+export const prerender = false
+
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { BlogIndexPage } from '../../components/pages/blog-index-page'
+import { listPublishedPosts } from '../../lib/db'
+
+const { DB } = Astro.locals.runtime.env
+const posts = await listPublishedPosts(DB)
+---
+
+<BaseLayout path="/blog">
+  <BlogIndexPage posts={posts} client:load />
+</BaseLayout>
