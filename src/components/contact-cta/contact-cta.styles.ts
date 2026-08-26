@@ -1,4 +1,4 @@
-import { Box, Button, Link, Typography, styled } from '@mui/material'
+import { Box, Link, Typography, styled } from '@mui/material'
 
 export const CTAContainer = styled(Box)(({ theme }) => ({
   marginTop: 'var(--section-spacing)',
@@ -69,14 +69,27 @@ export const ProcessStep = styled(Box)({
   gap: 4,
 })
 
-export const CTAButton = styled(Button)({
+export const CTACalendarEmbed = styled(Box)(({ theme }) => ({
+  width: '100%',
   marginTop: 8,
-  fontSize: '1rem',
-  paddingLeft: 32,
-  paddingRight: 32,
-  paddingTop: 12,
-  paddingBottom: 12,
-})
+  borderRadius: 12,
+  overflow: 'hidden',
+  border: `1px solid ${theme.palette.divider}`,
+  '& iframe': {
+    display: 'block',
+    width: '100%',
+    height: 600,
+    border: 0,
+  },
+}))
+
+export const CTAEmbedFallback = styled(Link)(({ theme }) => ({
+  alignSelf: 'center',
+  color: theme.palette.text.secondary,
+  [theme.breakpoints.up('md')]: {
+    alignSelf: 'flex-start',
+  },
+}))
 
 export const CTALinkedInBlock = styled(Box)(({ theme }) => ({
   width: '100%',

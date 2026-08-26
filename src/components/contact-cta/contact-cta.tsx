@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import { Typography } from '@mui/material'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { bookingFunnelContent, ctaContent } from '../../data/content'
 import { trackEvent } from '../../lib/analytics'
@@ -11,10 +10,11 @@ import { externalNewTabLinkProps } from '../../lib/external-link-props'
 import { FadeSection } from '../fade-section'
 import {
   CTABookBlock,
-  CTAButton,
+  CTACalendarEmbed,
   CTAContainer,
   CTAContent,
   CTADescription,
+  CTAEmbedFallback,
   CTAMicroLine,
   ProcessBlock,
   ProcessList,
@@ -48,7 +48,7 @@ export function ContactCTA({
   description = bookingFunnelContent.defaultFooterDescription,
   disableFade = false,
 }: ContactCTAProps) {
-  const { calendarUrl, linkedInUrl } = ctaContent
+  const { calendarUrl, calendarEmbedUrl, linkedInUrl } = ctaContent
   const {
     primaryCtaLabel,
     ctaMicroCopy,
@@ -67,11 +67,16 @@ export function ContactCTA({
             <CTADescription variant="body1">
               {description}
             </CTADescription>
-            <CTAButton
-              variant="contained"
-              size="large"
-              startIcon={<CalendarMonthIcon />}
+            <CTAMicroLine variant="body2">
+              {ctaMicroCopy}
+            </CTAMicroLine>
+            <CTACalendarEmbed>
+              <iframe src={calendarEmbedUrl} title={primaryCtaLabel} />
+            </CTACalendarEmbed>
+            <CTAEmbedFallback
               href={calendarUrl}
+              variant="body2"
+              underline="always"
               onClick={() => {
                 trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
                   [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.BOOK_CALL,
@@ -81,11 +86,8 @@ export function ContactCTA({
               }}
               {...externalNewTabLinkProps}
             >
-              {primaryCtaLabel}
-            </CTAButton>
-            <CTAMicroLine variant="body2">
-              {ctaMicroCopy}
-            </CTAMicroLine>
+              Trouble booking above? Open the scheduler in a new tab
+            </CTAEmbedFallback>
             <ProcessBlock>
               <Typography variant="subtitle1" component="p" sx={{ mb: 1.5, fontWeight: 600 }}>
                 {processHeading}
