@@ -44,10 +44,12 @@ function trackHeaderNav(item: NavigationItem) {
   })
 }
 
-export function Header() {
+export function Header({ currentPath }: { currentPath?: string }) {
   const theme = useTheme()
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const isActive = (path: string) => path === currentPath
 
   const closeMobileMenu = () => {
     setMobileOpen(false)
@@ -58,7 +60,7 @@ export function Header() {
   return (
     <HeaderContainer>
       <HeaderLogoLink
-        to="/"
+        href="/"
         aria-label="Home"
         onClick={() => {
           if (homeNavItem) trackHeaderNav(homeNavItem)
@@ -72,7 +74,8 @@ export function Header() {
             {navigationItems.map((item) => (
               <HeaderNavLink
                 key={item.path}
-                to={item.path}
+                href={item.path}
+                className={isActive(item.path) ? 'active' : undefined}
                 onClick={() => {
                   trackHeaderNav(item)
                 }}
@@ -161,7 +164,8 @@ export function Header() {
                     <ListItem key={item.path} disablePadding sx={{ mb: 0.5 }}>
                       <ListItemButton
                         component={HeaderNavLink}
-                        to={item.path}
+                        href={item.path}
+                        className={isActive(item.path) ? 'active' : undefined}
                         onClick={() => {
                           trackHeaderNav(item)
                           closeMobileMenu()

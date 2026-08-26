@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { siteUrl } from '../data/seo-content'
+---
+
+<BaseLayout
+  title="Page not found | Rami Alshaza"
+  description="The page you were looking for could not be found."
+  canonicalPath="/404"
+>
+  <main
+    style="max-width:1024px;margin:0 auto;padding:96px 16px;min-height:60vh;font-family:Inter,Arial,sans-serif;"
+  >
+    <h1 style="font-size:2.5rem;margin:0 0 12px;">Page not found</h1>
+    <p style="color:#5a5a6e;font-size:1.125rem;margin:0 0 24px;">
+      The page you were looking for doesn't exist or has moved.
+    </p>
+    <a href={siteUrl} style="color:#4A90D9;font-weight:600;text-decoration:none;">
+      &larr; Back to home
+    </a>
+  </main>
+</BaseLayout>

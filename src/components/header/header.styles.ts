@@ -1,5 +1,4 @@
 import { Box, Stack, styled } from '@mui/material'
-import { Link, NavLink } from 'react-router-dom'
 
 export const HeaderContainer = styled(Stack)({
   width: '100%',
@@ -18,7 +17,7 @@ export const HeaderContainer = styled(Stack)({
   paddingBottom: '8px',
 })
 
-export const HeaderLogoLink = styled(Link)(({ theme }) => ({
+export const HeaderLogoLink = styled('a')(({ theme }) => ({
   display: 'inline-flex',
   lineHeight: 0,
   flexShrink: 0,
@@ -66,7 +65,7 @@ export const HeaderNavLinks = styled('nav')(({ theme }) => ({
   },
 }))
 
-export const HeaderNavLink = styled(NavLink)(({ theme }) => ({
+export const HeaderNavLink = styled('a')(({ theme }) => ({
   textDecoration: 'none',
   borderRadius: 8,
   color: theme.palette.text.primary,
