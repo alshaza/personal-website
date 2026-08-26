@@ -2,6 +2,7 @@
 export const prerender = false
 
 import AdminLayout from '../../../layouts/AdminLayout.astro'
+import MarkdownEditorField from '../../../components/admin/MarkdownEditorField.astro'
 import { getPostById, isSlugTaken, updatePost } from '../../../lib/db'
 import { renderMarkdown } from '../../../lib/markdown'
 import { slugify } from '../../../lib/slugify'
@@ -59,8 +60,8 @@ if (Astro.request.method === 'POST') {
     <label for="description">Description (for SEO + blog index)</label>
     <input type="text" id="description" name="description" value={values.description} required />
 
-    <label for="body_md">Body (Markdown)</label>
-    <textarea id="body_md" name="body_md" required>{values.body_md}</textarea>
+    <label for="body_md">Body</label>
+    <MarkdownEditorField name="body_md" initialValue={values.body_md} />
 
     <label for="status">Status</label>
     <select id="status" name="status">
