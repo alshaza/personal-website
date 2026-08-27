@@ -239,6 +239,15 @@ const { title, showLogout = true } = Astro.props
         margin-bottom: 20px;
         border: 1px solid rgba(192, 57, 43, 0.2);
       }
+      .error pre {
+        margin: 8px 0 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family: 'SFMono-Regular', Consolas, monospace;
+        font-size: 0.8rem;
+        max-height: 400px;
+        overflow: auto;
+      }
 
       .badge {
         display: inline-flex;

@@ -6,38 +6,50 @@ import { deletePost, listAllPosts, updatePost, getPostById } from '../../lib/db'
 
 const { DB } = Astro.locals.runtime.env
 
-if (Astro.request.method === 'POST') {
-  const form = await Astro.request.formData()
-  const intent = String(form.get('intent') ?? '')
-  const id = Number(form.get('id'))
+let pageError: string | null = null
+let posts: Awaited<ReturnType<typeof listAllPosts>> = []
 
-  if (intent === 'delete' && id) {
-    await deletePost(DB, id)
-  } else if (intent === 'toggle-status' && id) {
-    const post = await getPostById(DB, id)
-    if (post) {
-      await updatePost(DB, id, {
-        slug: post.slug,
-        title: post.title,
-        subtitle: post.subtitle,
-        description: post.description,
-        body_md: post.body_md,
-        body_html: post.body_html,
-        status: post.status === 'published' ? 'draft' : 'published',
-        category_id: post.category_id,
-      })
+try {
+  if (Astro.request.method === 'POST') {
+    const form = await Astro.request.formData()
+    const intent = String(form.get('intent') ?? '')
+    const id = Number(form.get('id'))
+
+    if (intent === 'delete' && id) {
+      await deletePost(DB, id)
+    } else if (intent === 'toggle-status' && id) {
+      const post = await getPostById(DB, id)
+      if (post) {
+        await updatePost(DB, id, {
+          slug: post.slug,
+          title: post.title,
+          subtitle: post.subtitle,
+          description: post.description,
+          body_md: post.body_md,
+          body_html: post.body_html,
+          status: post.status === 'published' ? 'draft' : 'published',
+          category_id: post.category_id,
+        })
+      }
     }
+
+    return Astro.redirect('/admin')
   }
 
-  return Astro.redirect('/admin')
+  posts = await listAllPosts(DB)
+} catch (err) {
+  pageError = err instanceof Error ? (err.stack ?? err.message) : String(err)
 }
-
-const posts = await listAllPosts(DB)
 ---
 
 <AdminLayout title="Posts">
   <h1>Posts</h1>
-  {posts.length === 0 ? (
+  {pageError ? (
+    <div class="card error">
+      <strong>Something went wrong:</strong>
+      <pre>{pageError}</pre>
+    </div>
+  ) : posts.length === 0 ? (
     <div class="card empty-state">
       No posts yet. <a href="/admin/new">Create the first one</a>.
     </div>

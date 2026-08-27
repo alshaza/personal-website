@@ -6,22 +6,34 @@ import { deleteContactSubmission, listContactSubmissions } from '../../lib/db'
 
 const { DB } = Astro.locals.runtime.env
 
-if (Astro.request.method === 'POST') {
-  const form = await Astro.request.formData()
-  const id = Number(form.get('id'))
-  if (id) {
-    await deleteContactSubmission(DB, id)
-  }
-  return Astro.redirect('/admin/messages')
-}
-
-const submissions = await listContactSubmissions(DB)
+let pageError: string | null = null
+let submissions: Awaited<ReturnType<typeof listContactSubmissions>> = []
 const replySubject = encodeURIComponent('Re: your message to alshaza.de')
+
+try {
+  if (Astro.request.method === 'POST') {
+    const form = await Astro.request.formData()
+    const id = Number(form.get('id'))
+    if (id) {
+      await deleteContactSubmission(DB, id)
+    }
+    return Astro.redirect('/admin/messages')
+  }
+
+  submissions = await listContactSubmissions(DB)
+} catch (err) {
+  pageError = err instanceof Error ? (err.stack ?? err.message) : String(err)
+}
 ---
 
 <AdminLayout title="Messages">
   <h1>Contact form messages</h1>
-  {submissions.length === 0 ? (
+  {pageError ? (
+    <div class="card error">
+      <strong>Something went wrong:</strong>
+      <pre>{pageError}</pre>
+    </div>
+  ) : submissions.length === 0 ? (
     <div class="card empty-state">No messages yet.</div>
   ) : (
     <div class="card" style="padding:0; overflow:hidden;">

@@ -9,34 +9,47 @@ import { renderMarkdown, excerptFromMarkdown } from '../../lib/markdown'
 const { DB } = Astro.locals.runtime.env
 
 let error: string | null = null
+let pageError: string | null = null
 let values = { title: '', body_md: '', status: 'draft', category: '' }
+let categories: Awaited<ReturnType<typeof listCategories>> = []
 
-if (Astro.request.method === 'POST') {
-  const form = await Astro.request.formData()
-  const title = String(form.get('title') ?? '').trim()
-  const body_md = String(form.get('body_md') ?? '')
-  const status = form.get('status') === 'published' ? 'published' : 'draft'
-  const category = String(form.get('category') ?? '').trim()
+try {
+  if (Astro.request.method === 'POST') {
+    const form = await Astro.request.formData()
+    const title = String(form.get('title') ?? '').trim()
+    const body_md = String(form.get('body_md') ?? '')
+    const status = form.get('status') === 'published' ? 'published' : 'draft'
+    const category = String(form.get('category') ?? '').trim()
 
-  values = { title, body_md, status, category }
+    values = { title, body_md, status, category }
 
-  if (!title || !body_md || !category) {
-    error = 'Title, body, and category are required.'
-  } else {
-    const slug = await generateUniqueSlug(DB, title)
-    const description = excerptFromMarkdown(body_md)
-    const body_html = renderMarkdown(body_md)
-    const category_id = (await findOrCreateCategory(DB, category)) as number
-    const id = await createPost(DB, { slug, title, subtitle: '', description, body_md, body_html, status, category_id })
-    return Astro.redirect(`/admin/${id}/edit`)
+    if (!title || !body_md || !category) {
+      error = 'Title, body, and category are required.'
+    } else {
+      const slug = await generateUniqueSlug(DB, title)
+      const description = excerptFromMarkdown(body_md)
+      const body_html = renderMarkdown(body_md)
+      const category_id = (await findOrCreateCategory(DB, category)) as number
+      const id = await createPost(DB, { slug, title, subtitle: '', description, body_md, body_html, status, category_id })
+      return Astro.redirect(`/admin/${id}/edit`)
+    }
   }
-}
 
-const categories = await listCategories(DB)
+  categories = await listCategories(DB)
+} catch (err) {
+  pageError = err instanceof Error ? (err.stack ?? err.message) : String(err)
+}
 ---
 
 <AdminLayout title="New post">
   <h1>New post</h1>
+  {pageError ? (
+    <div class="card error">
+      <strong>Something went wrong:</strong>
+      <pre>{pageError}</pre>
+    </div>
+  ) : (
+  <>
   {error && <p class="error">{error}</p>}
   <div class="card">
     <form method="POST" class="stacked-form">
@@ -71,4 +84,6 @@ const categories = await listCategories(DB)
       <button type="submit" class="submit">Create post</button>
     </form>
   </div>
+  </>
+  )}
 </AdminLayout>
