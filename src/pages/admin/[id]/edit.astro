@@ -3,9 +3,8 @@ export const prerender = false
 
 import AdminLayout from '../../../layouts/AdminLayout.astro'
 import MarkdownEditorField from '../../../components/admin/MarkdownEditorField.astro'
-import { getPostById, isSlugTaken, updatePost } from '../../../lib/db'
+import { getPostById, updatePost } from '../../../lib/db'
 import { renderMarkdown } from '../../../lib/markdown'
-import { slugify } from '../../../lib/slugify'
 
 const { DB } = Astro.locals.runtime.env
 const id = Number(Astro.params.id)
@@ -18,7 +17,7 @@ if (!existing) {
 let error: string | null = null
 let values = {
   title: existing.title,
-  slug: existing.slug,
+  subtitle: existing.subtitle,
   description: existing.description,
   body_md: existing.body_md,
   status: existing.status,
@@ -27,21 +26,18 @@ let values = {
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const title = String(form.get('title') ?? '').trim()
-  const slugInput = String(form.get('slug') ?? '').trim()
+  const subtitle = String(form.get('subtitle') ?? '').trim()
   const description = String(form.get('description') ?? '').trim()
   const body_md = String(form.get('body_md') ?? '')
   const status = form.get('status') === 'published' ? 'published' : 'draft'
-  const slug = slugify(slugInput || title)
 
-  values = { title, slug, description, body_md, status }
+  values = { title, subtitle, description, body_md, status }
 
-  if (!title || !slug || !description || !body_md) {
+  if (!title || !subtitle || !description || !body_md) {
     error = 'All fields are required.'
-  } else if (await isSlugTaken(DB, slug, id)) {
-    error = `Slug "${slug}" is already in use.`
   } else {
     const body_html = renderMarkdown(body_md)
-    await updatePost(DB, id, { slug, title, description, body_md, body_html, status })
+    await updatePost(DB, id, { slug: existing.slug, title, subtitle, description, body_md, body_html, status })
     return Astro.redirect('/admin')
   }
 }
@@ -50,25 +46,47 @@ if (Astro.request.method === 'POST') {
 <AdminLayout title={`Edit: ${existing.title}`}>
   <h1>Edit post</h1>
   {error && <p class="error">{error}</p>}
-  <form method="POST">
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title" value={values.title} required />
+  <div class="card">
+    <form method="POST" class="stacked-form">
+      <div class="field">
+        <label>URL</label>
+        <div class="readonly-value">
+          <span>/blog/{existing.slug}</span>
+          <a href={`/blog/${existing.slug}`} target="_blank" rel="noopener">↗</a>
+        </div>
+        <span class="hint">Set once from the title and subtitle when the post was created; it doesn't change on edit.</span>
+      </div>
 
-    <label for="slug">Slug</label>
-    <input type="text" id="slug" name="slug" value={values.slug} required />
+      <div class="field">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value={values.title} required />
+      </div>
 
-    <label for="description">Description (for SEO + blog index)</label>
-    <input type="text" id="description" name="description" value={values.description} required />
+      <div class="field">
+        <label for="subtitle">Subtitle</label>
+        <input type="text" id="subtitle" name="subtitle" value={values.subtitle} required />
+      </div>
 
-    <label for="body_md">Body</label>
-    <MarkdownEditorField name="body_md" initialValue={values.body_md} />
+      <div class="field">
+        <label for="description">Description</label>
+        <span class="hint">Used for SEO and the blog index.</span>
+        <input type="text" id="description" name="description" value={values.description} required />
+      </div>
 
-    <label for="status">Status</label>
-    <select id="status" name="status">
-      <option value="draft" selected={values.status === 'draft'}>Draft</option>
-      <option value="published" selected={values.status === 'published'}>Published</option>
-    </select>
+      <div class="field">
+        <label for="body_md">Body</label>
+        <MarkdownEditorField name="body_md" initialValue={values.body_md} />
+      </div>
 
-    <button type="submit">Save changes</button>
-  </form>
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="draft" selected={values.status === 'draft'}>Draft</option>
+          <option value="published" selected={values.status === 'published'}>Published</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit">Save changes</button>
+    </form>
+  </div>
 </AdminLayout>

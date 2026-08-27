@@ -3,33 +3,30 @@ export const prerender = false
 
 import AdminLayout from '../../layouts/AdminLayout.astro'
 import MarkdownEditorField from '../../components/admin/MarkdownEditorField.astro'
-import { createPost, isSlugTaken } from '../../lib/db'
+import { createPost, generateUniqueSlug } from '../../lib/db'
 import { renderMarkdown } from '../../lib/markdown'
-import { slugify } from '../../lib/slugify'
 
 const { DB } = Astro.locals.runtime.env
 
 let error: string | null = null
-let values = { title: '', slug: '', description: '', body_md: '', status: 'draft' }
+let values = { title: '', subtitle: '', description: '', body_md: '', status: 'draft' }
 
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const title = String(form.get('title') ?? '').trim()
-  const slugInput = String(form.get('slug') ?? '').trim()
+  const subtitle = String(form.get('subtitle') ?? '').trim()
   const description = String(form.get('description') ?? '').trim()
   const body_md = String(form.get('body_md') ?? '')
   const status = form.get('status') === 'published' ? 'published' : 'draft'
-  const slug = slugify(slugInput || title)
 
-  values = { title, slug, description, body_md, status }
+  values = { title, subtitle, description, body_md, status }
 
-  if (!title || !slug || !description || !body_md) {
+  if (!title || !subtitle || !description || !body_md) {
     error = 'All fields are required.'
-  } else if (await isSlugTaken(DB, slug)) {
-    error = `Slug "${slug}" is already in use.`
   } else {
+    const slug = await generateUniqueSlug(DB, `${title} ${subtitle}`)
     const body_html = renderMarkdown(body_md)
-    const id = await createPost(DB, { slug, title, description, body_md, body_html, status })
+    const id = await createPost(DB, { slug, title, subtitle, description, body_md, body_html, status })
     return Astro.redirect(`/admin/${id}/edit`)
   }
 }
@@ -38,25 +35,39 @@ if (Astro.request.method === 'POST') {
 <AdminLayout title="New post">
   <h1>New post</h1>
   {error && <p class="error">{error}</p>}
-  <form method="POST">
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title" value={values.title} required />
+  <div class="card">
+    <form method="POST" class="stacked-form">
+      <div class="field">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value={values.title} required />
+      </div>
 
-    <label for="slug">Slug (leave blank to auto-generate from title)</label>
-    <input type="text" id="slug" name="slug" value={values.slug} placeholder="my-post-title" />
+      <div class="field">
+        <label for="subtitle">Subtitle</label>
+        <span class="hint">Used together with the title to generate the post's URL.</span>
+        <input type="text" id="subtitle" name="subtitle" value={values.subtitle} required />
+      </div>
 
-    <label for="description">Description (for SEO + blog index)</label>
-    <input type="text" id="description" name="description" value={values.description} required />
+      <div class="field">
+        <label for="description">Description</label>
+        <span class="hint">Used for SEO and the blog index.</span>
+        <input type="text" id="description" name="description" value={values.description} required />
+      </div>
 
-    <label for="body_md">Body</label>
-    <MarkdownEditorField name="body_md" initialValue={values.body_md} />
+      <div class="field">
+        <label for="body_md">Body</label>
+        <MarkdownEditorField name="body_md" initialValue={values.body_md} />
+      </div>
 
-    <label for="status">Status</label>
-    <select id="status" name="status">
-      <option value="draft" selected={values.status === 'draft'}>Draft</option>
-      <option value="published" selected={values.status === 'published'}>Published</option>
-    </select>
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="draft" selected={values.status === 'draft'}>Draft</option>
+          <option value="published" selected={values.status === 'published'}>Published</option>
+        </select>
+      </div>
 
-    <button type="submit">Create post</button>
-  </form>
+      <button type="submit" class="submit">Create post</button>
+    </form>
+  </div>
 </AdminLayout>

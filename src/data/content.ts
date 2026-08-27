@@ -419,6 +419,7 @@ export interface FooterLink {
 
 export const footerNavLinks: FooterLink[] = [
   { id: 'home', label: 'Home', href: '/' },
+  { id: 'about', label: 'About', href: '/about-me' },
   { id: 'blog', label: 'Blogs', href: '/blog' },
   { id: 'contact', label: 'Contact', href: '/contact' },
   { id: 'reviews', label: 'Reviews', href: '/#reviews' },

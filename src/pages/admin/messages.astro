@@ -16,46 +16,49 @@ if (Astro.request.method === 'POST') {
 }
 
 const submissions = await listContactSubmissions(DB)
+const replySubject = encodeURIComponent('Re: your message to alshaza.de')
 ---
 
 <AdminLayout title="Messages">
   <h1>Contact form messages</h1>
   {submissions.length === 0 ? (
-    <p>No messages yet.</p>
+    <div class="card empty-state">No messages yet.</div>
   ) : (
-    <table>
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>Message</th>
-          <th>Received</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {submissions.map((s) => (
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table>
+        <thead>
           <tr>
-            <td>
-              {s.name}
-              <br />
-              <a href={`mailto:${s.email}`}>{s.email}</a>
-            </td>
-            <td style="white-space:pre-wrap; max-width:400px;">{s.message}</td>
-            <td>{new Date(s.created_at).toLocaleString()}</td>
-            <td>
-              <form
-                method="POST"
-                onsubmit="return confirm('Delete this message?')"
-              >
-                <input type="hidden" name="id" value={s.id} />
-                <button type="submit" class="danger">
-                  Delete
-                </button>
-              </form>
-            </td>
+            <th>From</th>
+            <th>Message</th>
+            <th>Received</th>
+            <th></th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {submissions.map((s) => (
+            <tr>
+              <td>
+                {s.name}
+                <br />
+                <a href={`mailto:${s.email}`}>{s.email}</a>
+              </td>
+              <td style="white-space:pre-wrap; max-width:400px;">{s.message}</td>
+              <td>{new Date(s.created_at).toLocaleString()}</td>
+              <td class="actions">
+                <a class="button secondary" href={`mailto:${s.email}?subject=${replySubject}`}>
+                  Reply
+                </a>
+                <form method="POST" onsubmit="return confirm('Delete this message?')">
+                  <input type="hidden" name="id" value={s.id} />
+                  <button type="submit" class="danger">
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )}
 </AdminLayout>

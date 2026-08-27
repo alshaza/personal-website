@@ -19,6 +19,7 @@ if (Astro.request.method === 'POST') {
       await updatePost(DB, id, {
         slug: post.slug,
         title: post.title,
+        subtitle: post.subtitle,
         description: post.description,
         body_md: post.body_md,
         body_html: post.body_html,
@@ -36,51 +37,57 @@ const posts = await listAllPosts(DB)
 <AdminLayout title="Posts">
   <h1>Posts</h1>
   {posts.length === 0 ? (
-    <p>No posts yet. <a href="/admin/new">Create the first one</a>.</p>
+    <div class="card empty-state">
+      No posts yet. <a href="/admin/new">Create the first one</a>.
+    </div>
   ) : (
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Status</th>
-          <th>Updated</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {posts.map((post) => (
+    <div class="card" style="padding:0; overflow:hidden;">
+      <table>
+        <thead>
           <tr>
-            <td>
-              <a href={`/admin/${post.id}/edit`}>{post.title}</a>
-            </td>
-            <td>
-              <span class={`badge ${post.status}`}>{post.status}</span>
-            </td>
-            <td>{new Date(post.updated_at).toLocaleDateString()}</td>
-            <td style="text-align:right; white-space:nowrap;">
-              <form method="POST" style="display:inline">
-                <input type="hidden" name="id" value={post.id} />
-                <input type="hidden" name="intent" value="toggle-status" />
-                <button type="submit" class="secondary">
-                  {post.status === 'published' ? 'Unpublish' : 'Publish'}
-                </button>
-              </form>
-              {' '}
-              <form
-                method="POST"
-                style="display:inline"
-                onsubmit="return confirm('Delete this post permanently?')"
-              >
-                <input type="hidden" name="id" value={post.id} />
-                <input type="hidden" name="intent" value="delete" />
-                <button type="submit" class="danger">
-                  Delete
-                </button>
-              </form>
-            </td>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Views</th>
+            <th>Reactions</th>
+            <th>Updated</th>
+            <th></th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {posts.map((post) => (
+            <tr>
+              <td>
+                <a href={`/admin/${post.id}/edit`}>{post.title}</a>
+              </td>
+              <td>
+                <span class={`badge ${post.status}`}>{post.status}</span>
+              </td>
+              <td class="numeric">{post.views}</td>
+              <td class="numeric">🔥 {post.fire_count} · 💧 {post.water_count}</td>
+              <td>{new Date(post.updated_at).toLocaleDateString()}</td>
+              <td class="actions">
+                <a class="button secondary" href={`/blog/${post.slug}`} target="_blank" rel="noopener">
+                  View
+                </a>
+                <form method="POST">
+                  <input type="hidden" name="id" value={post.id} />
+                  <input type="hidden" name="intent" value="toggle-status" />
+                  <button type="submit" class={post.status === 'published' ? 'secondary' : 'success'}>
+                    {post.status === 'published' ? 'Unpublish' : 'Publish'}
+                  </button>
+                </form>
+                <form method="POST" onsubmit="return confirm('Delete this post permanently?')">
+                  <input type="hidden" name="id" value={post.id} />
+                  <input type="hidden" name="intent" value="delete" />
+                  <button type="submit" class="danger">
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )}
 </AdminLayout>

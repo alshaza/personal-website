@@ -9,6 +9,7 @@ declare namespace App {
 
 interface Env {
   DB: D1Database
+  IMAGES: R2Bucket
   ADMIN_PASSWORD_HASH: string
   TURNSTILE_SECRET: string
   EMAIL: SendEmail

@@ -32,6 +32,15 @@
       "migrations_dir": "migrations"
     }
   ],
+  // Blog post images. One-time setup before the first deploy:
+  // `wrangler r2 bucket create alshaza-blog-images`. Served back to visitors via
+  // /api/blog-images/[key] — no public bucket access / custom domain needed.
+  "r2_buckets": [
+    {
+      "binding": "IMAGES",
+      "bucket_name": "alshaza-blog-images"
+    }
+  ],
   // Free on any plan: sends only to this pre-verified Email Routing destination
   // address, so no paid Email Sending domain onboarding is required.
   "send_email": [

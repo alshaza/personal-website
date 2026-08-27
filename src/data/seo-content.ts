@@ -1,6 +1,6 @@
-import { contactFaqContent } from './content'
+import { aboutMeContent, contactFaqContent, timelineEntries } from './content'
 
-export type AppPath = '/' | '/contact' | '/blog'
+export type AppPath = '/' | '/contact' | '/blog' | '/about-me'
 
 export const siteUrl = 'https://alshaza.de'
 export const seoImageUrl = `${siteUrl}/main-image.webp`
@@ -40,6 +40,14 @@ export const pageSeoMeta: Record<AppPath, PageSeoMeta> = {
       'engineer career blog, software engineer growth, promotion advice developers, leadership visibility engineering',
     canonicalPath: '/blog',
     ogType: 'website',
+  },
+  '/about-me': {
+    title: 'About Rami Alshaza | Senior Engineer & Career Growth Mentor',
+    description: `${aboutMeContent.intro} Background, current role, and the story behind the coaching.`,
+    keywords:
+      'about Rami Alshaza, engineer career coach background, senior software engineer mentor, software engineering career journey',
+    canonicalPath: '/about-me',
+    ogType: 'profile',
   },
 }
 
@@ -99,5 +107,25 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown> | Array
       name: 'Rami Alshaza',
       url: siteUrl,
     },
+  },
+  '/about-me': {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Rami Alshaza',
+    url: `${siteUrl}/about-me`,
+    image: seoImageUrl,
+    description: pageSeoMeta['/about-me'].description,
+    jobTitle: timelineEntries[0]?.title,
+    worksFor: timelineEntries[0] && {
+      '@type': 'Organization',
+      name: timelineEntries[0].company.split(' - ')[0],
+    },
+    knowsAbout: [
+      'Software engineering',
+      'Career development for engineers',
+      'Communication and leadership skills',
+      'Mentoring',
+    ],
+    sameAs: ['https://www.linkedin.com/in/rami-alshaza'],
   },
 }

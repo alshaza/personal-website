@@ -41,3 +41,23 @@ export const BlogPostBody = styled(Box)(({ theme }) => ({
     lineHeight: 1.7,
   },
 }))
+
+export const BlogPostMeta = styled(Box)({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  gap: 16,
+  marginBottom: 24,
+})
+
+export const BlogPostActions = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 16,
+  maxWidth: 720,
+  marginTop: 32,
+  paddingTop: 24,
+  borderTop: `1px solid ${theme.palette.divider}`,
+}))

@@ -36,6 +36,22 @@ const { name, initialValue = '' } = Astro.props
       initialValue: textarea.value,
     })
 
+    editor.addHook('addImageBlobHook', async (blob: Blob, callback: (url: string, altText?: string) => void) => {
+      try {
+        const formData = new FormData()
+        formData.append('image', blob)
+        const response = await fetch('/api/admin/upload-image', { method: 'POST', body: formData })
+        const result = (await response.json()) as { success: boolean; url?: string; error?: string }
+        if (result.success && result.url) {
+          callback(result.url, 'image')
+        } else {
+          window.alert(result.error ?? 'Image upload failed.')
+        }
+      } catch {
+        window.alert('Image upload failed. Please check your connection and try again.')
+      }
+    })
+
     field.closest('form')?.addEventListener('submit', () => {
       textarea.value = editor.getMarkdown()
     })

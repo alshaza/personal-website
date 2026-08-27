@@ -1,19 +1,8 @@
 ---
-export const prerender = false
-
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { ContactPage } from '../components/pages/contact-page'
-import { countContactSubmissions } from '../lib/db'
-
-const { DB } = Astro.locals.runtime.env
-let submissionCount = 0
-try {
-  submissionCount = await countContactSubmissions(DB)
-} catch (err) {
-  console.error('countContactSubmissions failed:', err)
-}
 ---
 
 <BaseLayout path="/contact">
-  <ContactPage submissionCount={submissionCount} client:load />
+  <ContactPage client:load />
 </BaseLayout>

@@ -12,9 +12,9 @@ export default defineConfig({
     platformProxy: { enabled: true },
   }),
   // Old routes consolidated into Home + Contact (preserve any inbound links / SEO equity).
+  // /about-me is a real page again (see src/pages/about-me.astro), not redirected.
   redirects: {
     '/collaborate': '/contact',
-    '/about-me': '/contact',
     '/find-your-path': '/',
     // Tools/humans default-check this conventional path; the sitemap integration outputs sitemap-index.xml instead.
     '/sitemap.xml': '/sitemap-index.xml',

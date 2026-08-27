@@ -3,7 +3,8 @@ export const prerender = false
 
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { BlogPostPage } from '../../components/pages/blog-post-page'
-import { getPublishedPostBySlug } from '../../lib/db'
+import { getPublishedPostBySlug, recordViewAndGetEngagement, type PostEngagement } from '../../lib/db'
+import { getOrSetVisitorId } from '../../lib/visitor'
 import { seoImageUrl, siteUrl } from '../../data/seo-content'
 
 const { slug } = Astro.params
@@ -17,6 +18,16 @@ try {
 
 if (!post) {
   Astro.response.status = 404
+}
+
+let engagement: PostEngagement = { views: 0, fire: 0, water: 0, userReaction: null }
+if (post) {
+  try {
+    const visitorId = getOrSetVisitorId(Astro.cookies)
+    engagement = await recordViewAndGetEngagement(DB, post.id, visitorId)
+  } catch (err) {
+    console.error('recordViewAndGetEngagement failed:', err)
+  }
 }
 
 const structuredData = post && {
@@ -45,7 +56,7 @@ const structuredData = post && {
     image={post.og_image_url ?? post.cover_image_url ?? seoImageUrl}
     structuredData={structuredData ?? undefined}
   >
-    <BlogPostPage post={post} client:load />
+    <BlogPostPage post={post} engagement={engagement} client:load />
   </BaseLayout>
 ) : (
   <BaseLayout

@@ -10,7 +10,7 @@ import { CalendarSection } from '../calendar-section/calendar-section'
 import { FaqSection } from '../faq-section/faq-section'
 import { collaborateContent } from '../../data/content'
 
-export function ContactPage({ submissionCount = 0 }: { submissionCount?: number }) {
+export function ContactPage() {
   return (
     <Providers>
       <AppContainer>
@@ -48,12 +48,6 @@ export function ContactPage({ submissionCount = 0 }: { submissionCount?: number 
                   Have something on your mind? Write to me and state your problem, I will get back to you in
                   less than 24 hours.
                 </Typography>
-                {submissionCount > 0 && (
-                  <Typography variant="body2" color="text.secondary" sx={{ mt: 2, fontWeight: 600 }}>
-                    {submissionCount} {submissionCount === 1 ? 'person has' : 'people have'} already sent a
-                    message.
-                  </Typography>
-                )}
               </Box>
               <Box sx={{ flex: '1 1 480px', maxWidth: 640, width: '100%' }}>
                 <ContactForm />

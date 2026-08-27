@@ -1,6 +1,5 @@
 import { defineMiddleware } from 'astro/middleware'
-import { SESSION_COOKIE, hashSessionToken } from './lib/auth'
-import { isSessionValid } from './lib/db'
+import { isAdminAuthenticated } from './lib/auth'
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url
@@ -8,9 +7,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (!isAdminRoute) return next()
 
-  const token = context.cookies.get(SESSION_COOKIE)?.value
   const { DB } = context.locals.runtime.env
-  const valid = token ? await isSessionValid(DB, await hashSessionToken(token)) : false
+  const valid = await isAdminAuthenticated(context.cookies, DB)
 
   if (!valid) {
     return context.redirect('/admin/login')

@@ -1,3 +1,6 @@
+import type { AstroCookies } from 'astro'
+import { isSessionValid } from './db'
+
 export const SESSION_COOKIE = 'session'
 export const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7 // 7 days
 
@@ -62,4 +65,10 @@ export function generateSessionToken(): string {
 export async function hashSessionToken(token: string): Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token))
   return toHex(digest)
+}
+
+export async function isAdminAuthenticated(cookies: AstroCookies, db: D1Database): Promise<boolean> {
+  const token = cookies.get(SESSION_COOKIE)?.value
+  if (!token) return false
+  return isSessionValid(db, await hashSessionToken(token))
 }

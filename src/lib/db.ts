@@ -1,7 +1,10 @@
+import { slugify } from './slugify'
+
 export interface Post {
   id: number
   slug: string
   title: string
+  subtitle: string
   description: string
   body_md: string
   body_html: string
@@ -11,6 +14,12 @@ export interface Post {
   published_at: string | null
   created_at: string
   updated_at: string
+}
+
+export interface PostWithEngagement extends Post {
+  views: number
+  fire_count: number
+  water_count: number
 }
 
 export type PostSummary = Pick<
@@ -40,8 +49,17 @@ export async function getPublishedPostBySlug(db: D1Database, slug: string): Prom
 
 // --- Admin (backoffice) ---
 
-export async function listAllPosts(db: D1Database): Promise<Post[]> {
-  const { results } = await db.prepare(`SELECT * FROM posts ORDER BY updated_at DESC`).all<Post>()
+export async function listAllPosts(db: D1Database): Promise<PostWithEngagement[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT p.*,
+        (SELECT COUNT(*) FROM post_views v WHERE v.post_id = p.id) AS views,
+        (SELECT COUNT(*) FROM post_reactions r WHERE r.post_id = p.id AND r.reaction = 'fire') AS fire_count,
+        (SELECT COUNT(*) FROM post_reactions r WHERE r.post_id = p.id AND r.reaction = 'water') AS water_count
+       FROM posts p
+       ORDER BY p.updated_at DESC`,
+    )
+    .all<PostWithEngagement>()
   return results
 }
 
@@ -58,9 +76,21 @@ export async function isSlugTaken(db: D1Database, slug: string, excludeId?: numb
   return row !== null
 }
 
+export async function generateUniqueSlug(db: D1Database, base: string, excludeId?: number): Promise<string> {
+  const baseSlug = slugify(base) || 'post'
+  let candidate = baseSlug
+  let suffix = 2
+  while (await isSlugTaken(db, candidate, excludeId)) {
+    candidate = `${baseSlug}-${suffix}`
+    suffix++
+  }
+  return candidate
+}
+
 export interface PostInput {
   slug: string
   title: string
+  subtitle: string
   description: string
   body_md: string
   body_html: string
@@ -72,10 +102,21 @@ export async function createPost(db: D1Database, input: PostInput): Promise<numb
   const publishedAt = input.status === 'published' ? now : null
   const result = await db
     .prepare(
-      `INSERT INTO posts (slug, title, description, body_md, body_html, status, published_at, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO posts (slug, title, subtitle, description, body_md, body_html, status, published_at, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
-    .bind(input.slug, input.title, input.description, input.body_md, input.body_html, input.status, publishedAt, now, now)
+    .bind(
+      input.slug,
+      input.title,
+      input.subtitle,
+      input.description,
+      input.body_md,
+      input.body_html,
+      input.status,
+      publishedAt,
+      now,
+      now,
+    )
     .run()
   return result.meta.last_row_id
 }
@@ -88,15 +129,93 @@ export async function updatePost(db: D1Database, id: number, input: PostInput): 
   await db
     .prepare(
       `UPDATE posts
-       SET slug = ?, title = ?, description = ?, body_md = ?, body_html = ?, status = ?, published_at = ?, updated_at = ?
+       SET slug = ?, title = ?, subtitle = ?, description = ?, body_md = ?, body_html = ?, status = ?, published_at = ?, updated_at = ?
        WHERE id = ?`,
     )
-    .bind(input.slug, input.title, input.description, input.body_md, input.body_html, input.status, publishedAt, now, id)
+    .bind(
+      input.slug,
+      input.title,
+      input.subtitle,
+      input.description,
+      input.body_md,
+      input.body_html,
+      input.status,
+      publishedAt,
+      now,
+      id,
+    )
     .run()
 }
 
 export async function deletePost(db: D1Database, id: number): Promise<void> {
-  await db.prepare(`DELETE FROM posts WHERE id = ?`).bind(id).run()
+  await db.batch([
+    db.prepare(`DELETE FROM post_reactions WHERE post_id = ?`).bind(id),
+    db.prepare(`DELETE FROM post_views WHERE post_id = ?`).bind(id),
+    db.prepare(`DELETE FROM posts WHERE id = ?`).bind(id),
+  ])
+}
+
+// --- Post engagement (views + reactions) ---
+
+export interface PostEngagement {
+  views: number
+  fire: number
+  water: number
+  userReaction: 'fire' | 'water' | null
+}
+
+function countFromResult(result: D1Result<{ count: number }>): number {
+  return result.results[0]?.count ?? 0
+}
+
+export async function recordViewAndGetEngagement(
+  db: D1Database,
+  postId: number,
+  visitorId: string,
+): Promise<PostEngagement> {
+  const [, viewsResult, fireResult, waterResult, reactionResult] = await db.batch<
+    { count: number } | { reaction: 'fire' | 'water' }
+  >([
+    db.prepare(`INSERT OR IGNORE INTO post_views (post_id, visitor_id) VALUES (?, ?)`).bind(postId, visitorId),
+    db.prepare(`SELECT COUNT(*) as count FROM post_views WHERE post_id = ?`).bind(postId),
+    db.prepare(`SELECT COUNT(*) as count FROM post_reactions WHERE post_id = ? AND reaction = 'fire'`).bind(postId),
+    db.prepare(`SELECT COUNT(*) as count FROM post_reactions WHERE post_id = ? AND reaction = 'water'`).bind(postId),
+    db.prepare(`SELECT reaction FROM post_reactions WHERE post_id = ? AND visitor_id = ?`).bind(postId, visitorId),
+  ])
+
+  return {
+    views: countFromResult(viewsResult as D1Result<{ count: number }>),
+    fire: countFromResult(fireResult as D1Result<{ count: number }>),
+    water: countFromResult(waterResult as D1Result<{ count: number }>),
+    userReaction: (reactionResult.results[0] as { reaction: 'fire' | 'water' } | undefined)?.reaction ?? null,
+  }
+}
+
+export async function setPostReaction(
+  db: D1Database,
+  postId: number,
+  visitorId: string,
+  reaction: 'fire' | 'water',
+): Promise<void> {
+  await db
+    .prepare(
+      `INSERT INTO post_reactions (post_id, visitor_id, reaction) VALUES (?, ?, ?)
+       ON CONFLICT (post_id, visitor_id) DO UPDATE SET reaction = excluded.reaction, created_at = CURRENT_TIMESTAMP`,
+    )
+    .bind(postId, visitorId, reaction)
+    .run()
+}
+
+export async function clearPostReaction(db: D1Database, postId: number, visitorId: string): Promise<void> {
+  await db.prepare(`DELETE FROM post_reactions WHERE post_id = ? AND visitor_id = ?`).bind(postId, visitorId).run()
+}
+
+export async function getPostReactionCounts(db: D1Database, postId: number): Promise<{ fire: number; water: number }> {
+  const [fireResult, waterResult] = await db.batch<{ count: number }>([
+    db.prepare(`SELECT COUNT(*) as count FROM post_reactions WHERE post_id = ? AND reaction = 'fire'`).bind(postId),
+    db.prepare(`SELECT COUNT(*) as count FROM post_reactions WHERE post_id = ? AND reaction = 'water'`).bind(postId),
+  ])
+  return { fire: countFromResult(fireResult), water: countFromResult(waterResult) }
 }
 
 // --- Sessions ---
@@ -146,11 +265,6 @@ export interface ContactSubmission {
   email: string
   message: string
   created_at: string
-}
-
-export async function countContactSubmissions(db: D1Database): Promise<number> {
-  const row = await db.prepare(`SELECT COUNT(*) as count FROM contact_submissions`).first<{ count: number }>()
-  return row?.count ?? 0
 }
 
 export async function listContactSubmissions(db: D1Database): Promise<ContactSubmission[]> {
