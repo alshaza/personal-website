@@ -11,7 +11,7 @@ declare global {
 }
 
 const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
-const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined
+const TURNSTILE_SITE_KEY = (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined)?.trim()
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -40,7 +40,9 @@ export function ContactForm() {
         method: 'POST',
         body: new FormData(event.currentTarget),
       })
-      const result = (await response.json()) as { success: boolean; error?: string }
+      const result = response.headers.get('content-type')?.includes('application/json')
+        ? ((await response.json()) as { success: boolean; error?: string })
+        : { success: false, error: 'Something went wrong. Please try again.' }
 
       if (result.success) {
         setStatus('success')
