@@ -30,7 +30,7 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
             <BlogPostList>
               {posts.map((post) => (
                 <li key={post.slug}>
-                  <BlogPostCard href={`/blog/${post.slug}`}>
+                  <BlogPostCard href={`/blog/${post.category_slug}/${post.slug}`}>
                     <Typography variant="h2" sx={{ fontSize: '1.5rem', mb: 1 }}>
                       {post.title}
                     </Typography>

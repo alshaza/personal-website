@@ -3,32 +3,36 @@ export const prerender = false
 
 import AdminLayout from '../../layouts/AdminLayout.astro'
 import MarkdownEditorField from '../../components/admin/MarkdownEditorField.astro'
-import { createPost, generateUniqueSlug } from '../../lib/db'
+import { createPost, findOrCreateCategory, generateUniqueSlug, listCategories } from '../../lib/db'
 import { renderMarkdown, excerptFromMarkdown } from '../../lib/markdown'
 
 const { DB } = Astro.locals.runtime.env
 
 let error: string | null = null
-let values = { title: '', body_md: '', status: 'draft' }
+let values = { title: '', body_md: '', status: 'draft', category: '' }
 
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const title = String(form.get('title') ?? '').trim()
   const body_md = String(form.get('body_md') ?? '')
   const status = form.get('status') === 'published' ? 'published' : 'draft'
+  const category = String(form.get('category') ?? '').trim()
 
-  values = { title, body_md, status }
+  values = { title, body_md, status, category }
 
-  if (!title || !body_md) {
-    error = 'Title and body are required.'
+  if (!title || !body_md || !category) {
+    error = 'Title, body, and category are required.'
   } else {
     const slug = await generateUniqueSlug(DB, title)
     const description = excerptFromMarkdown(body_md)
     const body_html = renderMarkdown(body_md)
-    const id = await createPost(DB, { slug, title, subtitle: '', description, body_md, body_html, status })
+    const category_id = (await findOrCreateCategory(DB, category)) as number
+    const id = await createPost(DB, { slug, title, subtitle: '', description, body_md, body_html, status, category_id })
     return Astro.redirect(`/admin/${id}/edit`)
   }
 }
+
+const categories = await listCategories(DB)
 ---
 
 <AdminLayout title="New post">
@@ -45,6 +49,15 @@ if (Astro.request.method === 'POST') {
         <label for="body_md">Body</label>
         <span class="hint">The post's URL and SEO description are generated automatically from the title and body.</span>
         <MarkdownEditorField name="body_md" initialValue={values.body_md} />
+      </div>
+
+      <div class="field">
+        <label for="category">Category</label>
+        <span class="hint">Pick an existing category or type a new one to create it.</span>
+        <input type="text" id="category" name="category" value={values.category} list="category-list" required />
+        <datalist id="category-list">
+          {categories.map((c) => <option value={c.name} />)}
+        </datalist>
       </div>
 
       <div class="field">

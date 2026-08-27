@@ -1,0 +1,79 @@
+---
+export const prerender = false
+
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { BlogPostPage } from '../../../components/pages/blog-post-page'
+import { getPublishedPostBySlug, recordViewAndGetEngagement, type PostEngagement } from '../../../lib/db'
+import { getOrSetVisitorId } from '../../../lib/visitor'
+import { seoImageUrl, siteUrl } from '../../../data/seo-content'
+
+const { category, slug } = Astro.params
+const { DB } = Astro.locals.runtime.env
+let post = null
+try {
+  post = slug ? await getPublishedPostBySlug(DB, slug) : null
+} catch (err) {
+  console.error('getPublishedPostBySlug failed:', err)
+}
+
+if (!post) {
+  Astro.response.status = 404
+} else if (category !== post.category_slug) {
+  return Astro.redirect(`/blog/${post.category_slug}/${post.slug}`, 301)
+}
+
+let engagement: PostEngagement = { views: 0, fire: 0, water: 0, userReaction: null }
+if (post) {
+  try {
+    const visitorId = getOrSetVisitorId(Astro.cookies)
+    engagement = await recordViewAndGetEngagement(DB, post.id, visitorId)
+  } catch (err) {
+    console.error('recordViewAndGetEngagement failed:', err)
+  }
+}
+
+const structuredData = post && {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.description,
+  url: `${siteUrl}/blog/${post.category_slug}/${post.slug}`,
+  image: post.og_image_url ?? post.cover_image_url ?? seoImageUrl,
+  datePublished: post.published_at,
+  dateModified: post.updated_at,
+  author: {
+    '@type': 'Person',
+    name: 'Rami Alshaza',
+    url: siteUrl,
+  },
+}
+---
+
+{post ? (
+  <BaseLayout
+    title={`${post.title} | Rami Alshaza Blog`}
+    description={post.description}
+    canonicalPath={`/blog/${post.category_slug}/${post.slug}`}
+    ogType="website"
+    image={post.og_image_url ?? post.cover_image_url ?? seoImageUrl}
+    structuredData={structuredData ?? undefined}
+  >
+    <BlogPostPage post={post} categorySlug={post.category_slug} engagement={engagement} client:load />
+  </BaseLayout>
+) : (
+  <BaseLayout
+    title="Post not found | Rami Alshaza"
+    description="The post you were looking for could not be found."
+    canonicalPath={`/blog/${category}/${slug}`}
+  >
+    <main style="max-width:1024px;margin:0 auto;padding:96px 16px;min-height:60vh;font-family:Inter,Arial,sans-serif;">
+      <h1 style="font-size:2.5rem;margin:0 0 12px;">Post not found</h1>
+      <p style="color:#5a5a6e;font-size:1.125rem;margin:0 0 24px;">
+        The post you were looking for doesn't exist or is unpublished.
+      </p>
+      <a href="/blog" style="color:#4A90D9;font-weight:600;text-decoration:none;">
+        &larr; Back to blog
+      </a>
+    </main>
+  </BaseLayout>
+)}

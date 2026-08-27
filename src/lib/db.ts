@@ -11,6 +11,7 @@ export interface Post {
   status: 'draft' | 'published'
   cover_image_url: string | null
   og_image_url: string | null
+  category_id: number
   published_at: string | null
   created_at: string
   updated_at: string
@@ -20,30 +21,50 @@ export interface PostWithEngagement extends Post {
   views: number
   fire_count: number
   water_count: number
+  category_name: string | null
+  category_slug: string | null
 }
+
+export interface Category {
+  id: number
+  name: string
+  slug: string
+  created_at: string
+}
+
+// Every post is required to have a category (enforced by the admin form), so
+// public-facing queries use an INNER JOIN and expose category_slug as non-null.
 
 export type PostSummary = Pick<
   Post,
   'slug' | 'title' | 'description' | 'cover_image_url' | 'published_at'
->
+> & { category_slug: string }
 
 export async function listPublishedPosts(db: D1Database): Promise<PostSummary[]> {
   const { results } = await db
     .prepare(
-      `SELECT slug, title, description, cover_image_url, published_at
-       FROM posts
-       WHERE status = 'published'
-       ORDER BY published_at DESC`,
+      `SELECT p.slug, p.title, p.description, p.cover_image_url, p.published_at, c.slug AS category_slug
+       FROM posts p
+       JOIN categories c ON c.id = p.category_id
+       WHERE p.status = 'published'
+       ORDER BY p.published_at DESC`,
     )
     .all<PostSummary>()
   return results
 }
 
-export async function getPublishedPostBySlug(db: D1Database, slug: string): Promise<Post | null> {
+export async function getPublishedPostBySlug(
+  db: D1Database,
+  slug: string,
+): Promise<(Post & { category_slug: string }) | null> {
   const post = await db
-    .prepare(`SELECT * FROM posts WHERE slug = ? AND status = 'published'`)
+    .prepare(
+      `SELECT p.*, c.slug AS category_slug FROM posts p
+       JOIN categories c ON c.id = p.category_id
+       WHERE p.slug = ? AND p.status = 'published'`,
+    )
     .bind(slug)
-    .first<Post>()
+    .first<Post & { category_slug: string }>()
   return post ?? null
 }
 
@@ -52,19 +73,29 @@ export async function getPublishedPostBySlug(db: D1Database, slug: string): Prom
 export async function listAllPosts(db: D1Database): Promise<PostWithEngagement[]> {
   const { results } = await db
     .prepare(
-      `SELECT p.*,
+      `SELECT p.*, c.name AS category_name, c.slug AS category_slug,
         (SELECT COUNT(*) FROM post_views v WHERE v.post_id = p.id) AS views,
         (SELECT COUNT(*) FROM post_reactions r WHERE r.post_id = p.id AND r.reaction = 'fire') AS fire_count,
         (SELECT COUNT(*) FROM post_reactions r WHERE r.post_id = p.id AND r.reaction = 'water') AS water_count
        FROM posts p
+       LEFT JOIN categories c ON c.id = p.category_id
        ORDER BY p.updated_at DESC`,
     )
     .all<PostWithEngagement>()
   return results
 }
 
-export async function getPostById(db: D1Database, id: number): Promise<Post | null> {
-  const post = await db.prepare(`SELECT * FROM posts WHERE id = ?`).bind(id).first<Post>()
+export async function getPostById(
+  db: D1Database,
+  id: number,
+): Promise<(Post & { category_name: string | null; category_slug: string | null }) | null> {
+  const post = await db
+    .prepare(
+      `SELECT p.*, c.name AS category_name, c.slug AS category_slug
+       FROM posts p LEFT JOIN categories c ON c.id = p.category_id WHERE p.id = ?`,
+    )
+    .bind(id)
+    .first<Post & { category_name: string | null; category_slug: string | null }>()
   return post ?? null
 }
 
@@ -95,6 +126,7 @@ export interface PostInput {
   body_md: string
   body_html: string
   status: 'draft' | 'published'
+  category_id: number
 }
 
 export async function createPost(db: D1Database, input: PostInput): Promise<number> {
@@ -102,8 +134,8 @@ export async function createPost(db: D1Database, input: PostInput): Promise<numb
   const publishedAt = input.status === 'published' ? now : null
   const result = await db
     .prepare(
-      `INSERT INTO posts (slug, title, subtitle, description, body_md, body_html, status, published_at, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO posts (slug, title, subtitle, description, body_md, body_html, status, category_id, published_at, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       input.slug,
@@ -113,6 +145,7 @@ export async function createPost(db: D1Database, input: PostInput): Promise<numb
       input.body_md,
       input.body_html,
       input.status,
+      input.category_id,
       publishedAt,
       now,
       now,
@@ -129,7 +162,7 @@ export async function updatePost(db: D1Database, id: number, input: PostInput): 
   await db
     .prepare(
       `UPDATE posts
-       SET slug = ?, title = ?, subtitle = ?, description = ?, body_md = ?, body_html = ?, status = ?, published_at = ?, updated_at = ?
+       SET slug = ?, title = ?, subtitle = ?, description = ?, body_md = ?, body_html = ?, status = ?, category_id = ?, published_at = ?, updated_at = ?
        WHERE id = ?`,
     )
     .bind(
@@ -140,11 +173,55 @@ export async function updatePost(db: D1Database, id: number, input: PostInput): 
       input.body_md,
       input.body_html,
       input.status,
+      input.category_id,
       publishedAt,
       now,
       id,
     )
     .run()
+}
+
+// --- Categories ---
+
+export async function listCategories(db: D1Database): Promise<Category[]> {
+  const { results } = await db.prepare(`SELECT * FROM categories ORDER BY name ASC`).all<Category>()
+  return results
+}
+
+async function isCategorySlugTaken(db: D1Database, slug: string): Promise<boolean> {
+  const row = await db.prepare(`SELECT id FROM categories WHERE slug = ?`).bind(slug).first<{ id: number }>()
+  return row !== null
+}
+
+async function generateUniqueCategorySlug(db: D1Database, base: string): Promise<string> {
+  const baseSlug = slugify(base) || 'category'
+  let candidate = baseSlug
+  let suffix = 2
+  while (await isCategorySlugTaken(db, candidate)) {
+    candidate = `${baseSlug}-${suffix}`
+    suffix++
+  }
+  return candidate
+}
+
+export async function getCategoryByName(db: D1Database, name: string): Promise<Category | null> {
+  const row = await db.prepare(`SELECT * FROM categories WHERE name = ? COLLATE NOCASE`).bind(name).first<Category>()
+  return row ?? null
+}
+
+export async function createCategory(db: D1Database, name: string): Promise<number> {
+  const slug = await generateUniqueCategorySlug(db, name)
+  const result = await db.prepare(`INSERT INTO categories (name, slug) VALUES (?, ?)`).bind(name, slug).run()
+  return result.meta.last_row_id
+}
+
+/** Looks up a category by name (case-insensitive), creating it if it doesn't exist yet. */
+export async function findOrCreateCategory(db: D1Database, name: string): Promise<number | null> {
+  const trimmed = name.trim()
+  if (!trimmed) return null
+  const existing = await getCategoryByName(db, trimmed)
+  if (existing) return existing.id
+  return createCategory(db, trimmed)
 }
 
 export async function deletePost(db: D1Database, id: number): Promise<void> {
