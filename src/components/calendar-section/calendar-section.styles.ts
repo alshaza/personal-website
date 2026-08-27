@@ -23,7 +23,7 @@ export const CalendarFrame = styled(Box)(({ theme }) => ({
     height: 700,
     border: 0,
     [theme.breakpoints.down('sm')]: {
-      height: 1400,
+      height: 1225,
     },
   },
 }))

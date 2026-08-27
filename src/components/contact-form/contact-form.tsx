@@ -87,15 +87,21 @@ export function ContactForm() {
       {status === 'success' && (
         <Alert severity="success">
           Thanks for reaching out — I'll get back to you soon. Want to talk sooner?{' '}
-          <Link href="#calendar-booking">Book a free call</Link>.
+          <Link href="#calendar-booking" color="inherit">
+            Book a free call
+          </Link>
+          .
         </Alert>
       )}
 
       {status !== 'success' && isCoolingDown && (
         <Alert severity="info">
           You already sent a message recently. You can send another in about {cooldownMinutes} minute
-          {cooldownMinutes === 1 ? '' : 's'}, or <Link href="#calendar-booking">book a free call</Link> in the
-          meantime.
+          {cooldownMinutes === 1 ? '' : 's'}, or{' '}
+          <Link href="#calendar-booking" color="inherit">
+            book a free call
+          </Link>{' '}
+          in the meantime.
         </Alert>
       )}
 
