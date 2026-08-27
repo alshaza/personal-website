@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "personal-website",
+  "main": "./dist/_worker.js/index.js",
   "compatibility_date": "2025-09-27",
   "compatibility_flags": [
     "nodejs_compat"
@@ -38,5 +39,11 @@
       "name": "EMAIL",
       "destination_address": "rami.shahade@gmail.com"
     }
-  ]
+  ],
+  // Without this, env.ASSETS is undefined in production and the adapter's
+  // static-asset/404 fallback (handler.js) throws on any unmatched route.
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist"
+  }
 }
