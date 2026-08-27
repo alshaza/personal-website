@@ -3,7 +3,7 @@ import { aboutMeContent, contactFaqContent, timelineEntries } from './content'
 export type AppPath = '/' | '/contact' | '/blog' | '/about-me'
 
 export const siteUrl = 'https://alshaza.de'
-export const seoImageUrl = `${siteUrl}/main-image.webp`
+export const seoImageUrl = `${siteUrl}/images/hero-image-1200.jpg`
 
 export interface PageSeoMeta {
   title: string
