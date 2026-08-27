@@ -3,7 +3,7 @@ export const prerender = false
 
 import AdminLayout from '../../../layouts/AdminLayout.astro'
 import MarkdownEditorField from '../../../components/admin/MarkdownEditorField.astro'
-import { getPostById, updatePost } from '../../../lib/db'
+import { findOrCreateCategory, getPostById, listCategories, updatePost } from '../../../lib/db'
 import { renderMarkdown } from '../../../lib/markdown'
 
 const { DB } = Astro.locals.runtime.env
@@ -21,6 +21,7 @@ let values = {
   description: existing.description,
   body_md: existing.body_md,
   status: existing.status,
+  category: existing.category_name ?? '',
 }
 
 if (Astro.request.method === 'POST') {
@@ -30,17 +31,30 @@ if (Astro.request.method === 'POST') {
   const description = String(form.get('description') ?? '').trim()
   const body_md = String(form.get('body_md') ?? '')
   const status = form.get('status') === 'published' ? 'published' : 'draft'
+  const category = String(form.get('category') ?? '').trim()
 
-  values = { title, subtitle, description, body_md, status }
+  values = { title, subtitle, description, body_md, status, category }
 
-  if (!title || !subtitle || !description || !body_md) {
+  if (!title || !subtitle || !description || !body_md || !category) {
     error = 'All fields are required.'
   } else {
     const body_html = renderMarkdown(body_md)
-    await updatePost(DB, id, { slug: existing.slug, title, subtitle, description, body_md, body_html, status })
+    const category_id = (await findOrCreateCategory(DB, category)) as number
+    await updatePost(DB, id, {
+      slug: existing.slug,
+      title,
+      subtitle,
+      description,
+      body_md,
+      body_html,
+      status,
+      category_id,
+    })
     return Astro.redirect('/admin')
   }
 }
+
+const categories = await listCategories(DB)
 ---
 
 <AdminLayout title={`Edit: ${existing.title}`}>
@@ -51,10 +65,13 @@ if (Astro.request.method === 'POST') {
       <div class="field">
         <label>URL</label>
         <div class="readonly-value">
-          <span>/blog/{existing.slug}</span>
-          <a href={`/blog/${existing.slug}`} target="_blank" rel="noopener">↗</a>
+          <span>/blog/{existing.category_slug}/{existing.slug}</span>
+          <a href={`/blog/${existing.category_slug}/${existing.slug}`} target="_blank" rel="noopener">↗</a>
         </div>
-        <span class="hint">Set once from the title and subtitle when the post was created; it doesn't change on edit.</span>
+        <span class="hint">
+          The slug is set once from the title and subtitle and doesn't change on edit; the category segment updates
+          automatically if you change the category below.
+        </span>
       </div>
 
       <div class="field">
@@ -76,6 +93,15 @@ if (Astro.request.method === 'POST') {
       <div class="field">
         <label for="body_md">Body</label>
         <MarkdownEditorField name="body_md" initialValue={values.body_md} />
+      </div>
+
+      <div class="field">
+        <label for="category">Category</label>
+        <span class="hint">Pick an existing category or type a new one to create it.</span>
+        <input type="text" id="category" name="category" value={values.category} list="category-list" required />
+        <datalist id="category-list">
+          {categories.map((c) => <option value={c.name} />)}
+        </datalist>
       </div>
 
       <div class="field">

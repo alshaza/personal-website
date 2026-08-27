@@ -18,16 +18,17 @@ type Reaction = 'fire' | 'water' | null
 
 interface BlogPostPageProps {
   post: Post
+  categorySlug: string
   engagement: PostEngagement
 }
 
-export function BlogPostPage({ post, engagement }: BlogPostPageProps) {
+export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPageProps) {
   const [reaction, setReaction] = useState<Reaction>(engagement.userReaction)
   const [fire, setFire] = useState(engagement.fire)
   const [water, setWater] = useState(engagement.water)
   const [copied, setCopied] = useState(false)
 
-  const postUrl = `${siteUrl}/blog/${post.slug}`
+  const postUrl = `${siteUrl}/blog/${categorySlug}/${post.slug}`
 
   const handleReactionChange = (_event: MouseEvent<HTMLElement>, next: Reaction) => {
     const previous = reaction

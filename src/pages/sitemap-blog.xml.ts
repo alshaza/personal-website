@@ -11,7 +11,7 @@ export const GET: APIRoute = async ({ locals }) => {
   const urls = posts
     .map(
       (post) => `  <url>
-    <loc>${siteUrl}/blog/${post.slug}</loc>
+    <loc>${siteUrl}/blog/${post.category_slug}/${post.slug}</loc>
     ${post.published_at ? `<lastmod>${post.published_at}</lastmod>` : ''}
   </url>`,
     )
