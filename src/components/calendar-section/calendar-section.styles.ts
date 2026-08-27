@@ -10,6 +10,14 @@ export const CalendarSectionContainer = styled(Box)({
   flexDirection: 'column',
   alignItems: 'center',
   padding: '64px 24px',
+})
+
+export const CalendarBackground = styled(Box)({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '48px 24px',
   backgroundColor: '#ffffff',
   maskImage: CALENDAR_FADE_MASK,
   maskComposite: 'intersect',

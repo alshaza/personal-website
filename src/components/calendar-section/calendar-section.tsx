@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import { bookingFunnelContent, ctaContent } from '../../data/content'
-import { CalendarSectionContainer, CalendarFrame } from './calendar-section.styles'
+import { CalendarSectionContainer, CalendarBackground, CalendarFrame } from './calendar-section.styles'
 
 export function CalendarSection() {
   const { calendarEmbedUrl } = ctaContent
@@ -11,9 +11,11 @@ export function CalendarSection() {
       <Typography variant="h2" sx={{ fontSize: '1.5rem', textAlign: 'center', mb: 2 }}>
         Book a free call
       </Typography>
-      <CalendarFrame>
-        <iframe src={calendarEmbedUrl} title={primaryCtaLabel} />
-      </CalendarFrame>
+      <CalendarBackground>
+        <CalendarFrame>
+          <iframe src={calendarEmbedUrl} title={primaryCtaLabel} />
+        </CalendarFrame>
+      </CalendarBackground>
     </CalendarSectionContainer>
   )
 }
