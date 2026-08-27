@@ -19,7 +19,12 @@ export default defineConfig({
     // Tools/humans default-check this conventional path; the sitemap integration outputs sitemap-index.xml instead.
     '/sitemap.xml': '/sitemap-index.xml',
   },
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/admin/'),
+    }),
+  ],
   vite: {
     ssr: {
       // MUI + Emotion must be bundled (not externalized) for SSR to work.
