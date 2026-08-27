@@ -139,3 +139,22 @@ export async function insertContactSubmission(db: D1Database, input: ContactSubm
     .bind(input.name, input.email, input.message, input.ip, input.user_agent, input.turnstile_ok ? 1 : 0)
     .run()
 }
+
+export interface ContactSubmission {
+  id: number
+  name: string
+  email: string
+  message: string
+  created_at: string
+}
+
+export async function listContactSubmissions(db: D1Database): Promise<ContactSubmission[]> {
+  const { results } = await db
+    .prepare(`SELECT id, name, email, message, created_at FROM contact_submissions ORDER BY created_at DESC`)
+    .all<ContactSubmission>()
+  return results
+}
+
+export async function deleteContactSubmission(db: D1Database, id: number): Promise<void> {
+  await db.prepare(`DELETE FROM contact_submissions WHERE id = ?`).bind(id).run()
+}

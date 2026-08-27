@@ -10,8 +10,26 @@ function clean(input: string, maxLength: number): string {
   return sanitizeHtml(input, { allowedTags: [], allowedAttributes: {} }).trim().slice(0, maxLength)
 }
 
+async function notifyByEmail(
+  email: SendEmail,
+  submission: { name: string; email: string; message: string },
+): Promise<void> {
+  try {
+    await email.send({
+      from: 'Contact form <contact-form@alshaza.de>',
+      to: 'rami.shahade@gmail.com',
+      replyTo: submission.email,
+      subject: `New contact form submission from ${submission.name}`,
+      text: `From: ${submission.name} <${submission.email}>\n\n${submission.message}`,
+      html: `<p><strong>From:</strong> ${submission.name} &lt;${submission.email}&gt;</p><p>${submission.message.replace(/\n/g, '<br>')}</p>`,
+    })
+  } catch (err) {
+    console.error('notifyByEmail failed:', err)
+  }
+}
+
 export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
-  const { DB, TURNSTILE_SECRET } = locals.runtime.env
+  const { DB, TURNSTILE_SECRET, EMAIL } = locals.runtime.env
   const form = await request.formData()
 
   // Honeypot: real visitors never fill this hidden field.
@@ -73,6 +91,8 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
     user_agent: request.headers.get('user-agent'),
     turnstile_ok: true,
   })
+
+  locals.runtime.ctx.waitUntil(notifyByEmail(EMAIL, { name, email, message }))
 
   return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json' } })
 }

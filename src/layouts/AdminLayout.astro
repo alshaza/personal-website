@@ -119,6 +119,7 @@ const { title, showLogout = true } = Astro.props
       <nav>
         <a href="/admin">Posts</a>
         {showLogout && <a href="/admin/new">New post</a>}
+        {showLogout && <a href="/admin/messages">Messages</a>}
       </nav>
       {
         showLogout && (

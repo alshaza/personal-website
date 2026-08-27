@@ -30,5 +30,13 @@
       "database_id": "791238c4-02f6-480c-931b-60c25643995f",
       "migrations_dir": "migrations"
     }
+  ],
+  // Free on any plan: sends only to this pre-verified Email Routing destination
+  // address, so no paid Email Sending domain onboarding is required.
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "rami.shahade@gmail.com"
+    }
   ]
 }
