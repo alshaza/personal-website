@@ -4,31 +4,30 @@ export const prerender = false
 import AdminLayout from '../../layouts/AdminLayout.astro'
 import MarkdownEditorField from '../../components/admin/MarkdownEditorField.astro'
 import { createPost, findOrCreateCategory, generateUniqueSlug, listCategories } from '../../lib/db'
-import { renderMarkdown } from '../../lib/markdown'
+import { renderMarkdown, excerptFromMarkdown } from '../../lib/markdown'
 
 const { DB } = Astro.locals.runtime.env
 
 let error: string | null = null
-let values = { title: '', subtitle: '', description: '', body_md: '', status: 'draft', category: '' }
+let values = { title: '', body_md: '', status: 'draft', category: '' }
 
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const title = String(form.get('title') ?? '').trim()
-  const subtitle = String(form.get('subtitle') ?? '').trim()
-  const description = String(form.get('description') ?? '').trim()
   const body_md = String(form.get('body_md') ?? '')
   const status = form.get('status') === 'published' ? 'published' : 'draft'
   const category = String(form.get('category') ?? '').trim()
 
-  values = { title, subtitle, description, body_md, status, category }
+  values = { title, body_md, status, category }
 
-  if (!title || !subtitle || !description || !body_md || !category) {
-    error = 'All fields are required.'
+  if (!title || !body_md || !category) {
+    error = 'Title, body, and category are required.'
   } else {
-    const slug = await generateUniqueSlug(DB, `${title} ${subtitle}`)
+    const slug = await generateUniqueSlug(DB, title)
+    const description = excerptFromMarkdown(body_md)
     const body_html = renderMarkdown(body_md)
     const category_id = (await findOrCreateCategory(DB, category)) as number
-    const id = await createPost(DB, { slug, title, subtitle, description, body_md, body_html, status, category_id })
+    const id = await createPost(DB, { slug, title, subtitle: '', description, body_md, body_html, status, category_id })
     return Astro.redirect(`/admin/${id}/edit`)
   }
 }
@@ -47,19 +46,8 @@ const categories = await listCategories(DB)
       </div>
 
       <div class="field">
-        <label for="subtitle">Subtitle</label>
-        <span class="hint">Used together with the title to generate the post's URL.</span>
-        <input type="text" id="subtitle" name="subtitle" value={values.subtitle} required />
-      </div>
-
-      <div class="field">
-        <label for="description">Description</label>
-        <span class="hint">Used for SEO and the blog index.</span>
-        <input type="text" id="description" name="description" value={values.description} required />
-      </div>
-
-      <div class="field">
         <label for="body_md">Body</label>
+        <span class="hint">The post's URL and SEO description are generated automatically from the title and body.</span>
         <MarkdownEditorField name="body_md" initialValue={values.body_md} />
       </div>
 

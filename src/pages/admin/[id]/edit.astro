@@ -4,7 +4,7 @@ export const prerender = false
 import AdminLayout from '../../../layouts/AdminLayout.astro'
 import MarkdownEditorField from '../../../components/admin/MarkdownEditorField.astro'
 import { findOrCreateCategory, getPostById, listCategories, updatePost } from '../../../lib/db'
-import { renderMarkdown } from '../../../lib/markdown'
+import { renderMarkdown, excerptFromMarkdown } from '../../../lib/markdown'
 
 const { DB } = Astro.locals.runtime.env
 const id = Number(Astro.params.id)
@@ -17,8 +17,6 @@ if (!existing) {
 let error: string | null = null
 let values = {
   title: existing.title,
-  subtitle: existing.subtitle,
-  description: existing.description,
   body_md: existing.body_md,
   status: existing.status,
   category: existing.category_name ?? '',
@@ -27,23 +25,22 @@ let values = {
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const title = String(form.get('title') ?? '').trim()
-  const subtitle = String(form.get('subtitle') ?? '').trim()
-  const description = String(form.get('description') ?? '').trim()
   const body_md = String(form.get('body_md') ?? '')
   const status = form.get('status') === 'published' ? 'published' : 'draft'
   const category = String(form.get('category') ?? '').trim()
 
-  values = { title, subtitle, description, body_md, status, category }
+  values = { title, body_md, status, category }
 
-  if (!title || !subtitle || !description || !body_md || !category) {
-    error = 'All fields are required.'
+  if (!title || !body_md || !category) {
+    error = 'Title, body, and category are required.'
   } else {
+    const description = excerptFromMarkdown(body_md)
     const body_html = renderMarkdown(body_md)
     const category_id = (await findOrCreateCategory(DB, category)) as number
     await updatePost(DB, id, {
       slug: existing.slug,
       title,
-      subtitle,
+      subtitle: existing.subtitle,
       description,
       body_md,
       body_html,
@@ -69,8 +66,8 @@ const categories = await listCategories(DB)
           <a href={`/blog/${existing.category_slug}/${existing.slug}`} target="_blank" rel="noopener">↗</a>
         </div>
         <span class="hint">
-          The slug is set once from the title and subtitle and doesn't change on edit; the category segment updates
-          automatically if you change the category below.
+          The slug is set once from the title and doesn't change on edit; the category segment updates automatically
+          if you change the category below.
         </span>
       </div>
 
@@ -80,18 +77,8 @@ const categories = await listCategories(DB)
       </div>
 
       <div class="field">
-        <label for="subtitle">Subtitle</label>
-        <input type="text" id="subtitle" name="subtitle" value={values.subtitle} required />
-      </div>
-
-      <div class="field">
-        <label for="description">Description</label>
-        <span class="hint">Used for SEO and the blog index.</span>
-        <input type="text" id="description" name="description" value={values.description} required />
-      </div>
-
-      <div class="field">
         <label for="body_md">Body</label>
+        <span class="hint">The SEO description is regenerated automatically from the body on save.</span>
         <MarkdownEditorField name="body_md" initialValue={values.body_md} />
       </div>
 
