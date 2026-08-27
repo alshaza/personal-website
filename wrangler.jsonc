@@ -1,58 +1,63 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "personal-website",
-  "main": "./dist/_worker.js/index.js",
-  "compatibility_date": "2025-09-27",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
-  "observability": {
-    "enabled": false,
-    "head_sampling_rate": 1,
-    "logs": {
-      "enabled": true,
-      "head_sampling_rate": 1,
-      "persist": true,
-      "invocation_logs": true
-    },
-    "traces": {
-      "enabled": false,
-      "persist": true,
-      "head_sampling_rate": 1
-    }
-  },
-  // The @astrojs/cloudflare adapter wires the worker entry + static assets at build time.
-  // Run `wrangler d1 create alshaza` and paste the returned database_id below, then
-  // `wrangler d1 migrations apply alshaza --local` (dev) / `--remote` (production).
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "alshaza",
-      "database_id": "791238c4-02f6-480c-931b-60c25643995f",
-      "migrations_dir": "migrations"
-    }
-  ],
-  // Blog post images. One-time setup before the first deploy:
-  // `wrangler r2 bucket create alshaza-blog-images`. Served back to visitors via
-  // /api/blog-images/[key] — no public bucket access / custom domain needed.
-  "r2_buckets": [
-    {
-      "binding": "IMAGES",
-      "bucket_name": "alshaza-blog-images"
-    }
-  ],
-  // Free on any plan: sends only to this pre-verified Email Routing destination
-  // address, so no paid Email Sending domain onboarding is required.
-  "send_email": [
-    {
-      "name": "EMAIL",
-      "destination_address": "rami.shahade@gmail.com"
-    }
-  ],
-  // Without this, env.ASSETS is undefined in production and the adapter's
-  // static-asset/404 fallback (handler.js) throws on any unmatched route.
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "./dist"
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "personal-website",
+	"main": "./dist/_worker.js/index.js",
+	"compatibility_date": "2025-09-27",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"observability": {
+		"enabled": false,
+		"head_sampling_rate": 1,
+		"logs": {
+			"enabled": true,
+			"head_sampling_rate": 1,
+			"persist": true,
+			"invocation_logs": true
+		},
+		"traces": {
+			"enabled": false,
+			"persist": true,
+			"head_sampling_rate": 1
+		}
+	},
+	// The @astrojs/cloudflare adapter wires the worker entry + static assets at build time.
+	// Run `wrangler d1 create alshaza` and paste the returned database_id below, then
+	// `wrangler d1 migrations apply alshaza --local` (dev) / `--remote` (production).
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "alshaza",
+			"database_id": "791238c4-02f6-480c-931b-60c25643995f",
+			"migrations_dir": "migrations"
+		}
+	],
+	// Blog post images. One-time setup before the first deploy:
+	// `wrangler r2 bucket create alshaza-blog-images`. Served back to visitors via
+	// /api/blog-images/[key] — no public bucket access / custom domain needed.
+	"r2_buckets": [
+		{
+			"binding": "IMAGES",
+			"bucket_name": "alshaza-blog-images"
+		},
+		{
+			"bucket_name": "alshaza-blog-images",
+			"binding": "alshaza_blog_images",
+			"remote": true
+		}
+	],
+	// Free on any plan: sends only to this pre-verified Email Routing destination
+	// address, so no paid Email Sending domain onboarding is required.
+	"send_email": [
+		{
+			"name": "EMAIL",
+			"destination_address": "rami.shahade@gmail.com"
+		}
+	],
+	// Without this, env.ASSETS is undefined in production and the adapter's
+	// static-asset/404 fallback (handler.js) throws on any unmatched route.
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist"
+	}
 }
