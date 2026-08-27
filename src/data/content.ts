@@ -374,6 +374,21 @@ export const contactFaqContent: { heading: string; items: FaqItem[] } = {
         'I help software engineers strengthen communication, leadership visibility, and promotion readiness, plus support with job search, interview prep, and compensation negotiation.',
     },
     {
+      question: 'How do you guide junior developers?',
+      answer:
+        'The focus is shifting from just doing tasks to earning trust: clear, readable updates, building a steady rhythm with your manager on expectations, and taking ownership that makes your impact easy for others to see and remember.',
+    },
+    {
+      question: 'How do you guide mid-level engineers?',
+      answer:
+        'The focus shifts to earning cross-team trust: building stakeholder presence, driving alignment across teams, tightening feedback loops, and building a promotion case tied to real ownership, not just execution.',
+    },
+    {
+      question: 'Do you offer CV and LinkedIn rewrite services?',
+      answer:
+        "No, I don't rewrite them for you. Instead, we work together on improving them, and I help you see and articulate the points where you excel compared to other candidates.",
+    },
+    {
       question: 'How does the free strategy call work?',
       answer:
         "It's a 30-minute call with no commitment. We talk through where you're stuck, whether that's promotion, job search, visibility, or negotiation, and you leave with a clear next step.",

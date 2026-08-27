@@ -43,13 +43,19 @@ export function ContactPage() {
                 width: '100%',
               }}
             >
-              <Box sx={{ flex: '1 1 320px', maxWidth: 400, textAlign: { xs: 'center', md: 'left' } }}>
+              <Box
+                sx={{
+                  flex: { xs: '0 0 auto', md: '1 1 320px' },
+                  maxWidth: { xs: 'none', md: 400 },
+                  textAlign: { xs: 'center', md: 'left' },
+                }}
+              >
                 <Typography variant="body1" color="text.secondary">
                   Have something on your mind? Write to me and state your problem, I will get back to you in
                   less than 24 hours.
                 </Typography>
               </Box>
-              <Box sx={{ flex: '1 1 480px', maxWidth: 640, width: '100%' }}>
+              <Box sx={{ flex: { xs: '0 0 auto', md: '1 1 480px' }, maxWidth: { xs: 'none', md: 640 }, width: '100%' }}>
                 <ContactForm />
               </Box>
             </Box>

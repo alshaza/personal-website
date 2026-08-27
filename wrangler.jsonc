@@ -39,11 +39,6 @@
 		{
 			"binding": "IMAGES",
 			"bucket_name": "alshaza-blog-images"
-		},
-		{
-			"bucket_name": "alshaza-blog-images",
-			"binding": "alshaza_blog_images",
-			"remote": true
 		}
 	],
 	// Free on any plan: sends only to this pre-verified Email Routing destination

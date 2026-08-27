@@ -15,12 +15,15 @@ export const CalendarSectionContainer = styled(Box)({
   maskComposite: 'intersect',
 })
 
-export const CalendarFrame = styled(Box)({
+export const CalendarFrame = styled(Box)(({ theme }) => ({
   width: '100%',
   '& iframe': {
     display: 'block',
     width: '100%',
     height: 700,
     border: 0,
+    [theme.breakpoints.down('sm')]: {
+      height: 1400,
+    },
   },
-})
+}))
