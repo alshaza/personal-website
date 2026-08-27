@@ -4,7 +4,7 @@ export const prerender = false
 import AdminLayout from '../../../layouts/AdminLayout.astro'
 import MarkdownEditorField from '../../../components/admin/MarkdownEditorField.astro'
 import { getPostById, updatePost } from '../../../lib/db'
-import { renderMarkdown } from '../../../lib/markdown'
+import { renderMarkdown, excerptFromMarkdown } from '../../../lib/markdown'
 
 const { DB } = Astro.locals.runtime.env
 const id = Number(Astro.params.id)
@@ -17,8 +17,6 @@ if (!existing) {
 let error: string | null = null
 let values = {
   title: existing.title,
-  subtitle: existing.subtitle,
-  description: existing.description,
   body_md: existing.body_md,
   status: existing.status,
 }
@@ -26,18 +24,25 @@ let values = {
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData()
   const title = String(form.get('title') ?? '').trim()
-  const subtitle = String(form.get('subtitle') ?? '').trim()
-  const description = String(form.get('description') ?? '').trim()
   const body_md = String(form.get('body_md') ?? '')
   const status = form.get('status') === 'published' ? 'published' : 'draft'
 
-  values = { title, subtitle, description, body_md, status }
+  values = { title, body_md, status }
 
-  if (!title || !subtitle || !description || !body_md) {
-    error = 'All fields are required.'
+  if (!title || !body_md) {
+    error = 'Title and body are required.'
   } else {
+    const description = excerptFromMarkdown(body_md)
     const body_html = renderMarkdown(body_md)
-    await updatePost(DB, id, { slug: existing.slug, title, subtitle, description, body_md, body_html, status })
+    await updatePost(DB, id, {
+      slug: existing.slug,
+      title,
+      subtitle: existing.subtitle,
+      description,
+      body_md,
+      body_html,
+      status,
+    })
     return Astro.redirect('/admin')
   }
 }
@@ -54,7 +59,7 @@ if (Astro.request.method === 'POST') {
           <span>/blog/{existing.slug}</span>
           <a href={`/blog/${existing.slug}`} target="_blank" rel="noopener">↗</a>
         </div>
-        <span class="hint">Set once from the title and subtitle when the post was created; it doesn't change on edit.</span>
+        <span class="hint">Set once from the title when the post was created; it doesn't change on edit.</span>
       </div>
 
       <div class="field">
@@ -63,18 +68,8 @@ if (Astro.request.method === 'POST') {
       </div>
 
       <div class="field">
-        <label for="subtitle">Subtitle</label>
-        <input type="text" id="subtitle" name="subtitle" value={values.subtitle} required />
-      </div>
-
-      <div class="field">
-        <label for="description">Description</label>
-        <span class="hint">Used for SEO and the blog index.</span>
-        <input type="text" id="description" name="description" value={values.description} required />
-      </div>
-
-      <div class="field">
         <label for="body_md">Body</label>
+        <span class="hint">The SEO description is regenerated automatically from the body on save.</span>
         <MarkdownEditorField name="body_md" initialValue={values.body_md} />
       </div>
 
