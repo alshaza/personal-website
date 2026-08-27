@@ -6,7 +6,12 @@ import { BlogIndexPage } from '../../components/pages/blog-index-page'
 import { listPublishedPosts } from '../../lib/db'
 
 const { DB } = Astro.locals.runtime.env
-const posts = await listPublishedPosts(DB)
+let posts: Awaited<ReturnType<typeof listPublishedPosts>> = []
+try {
+  posts = await listPublishedPosts(DB)
+} catch (err) {
+  console.error('listPublishedPosts failed:', err)
+}
 ---
 
 <BaseLayout path="/blog">

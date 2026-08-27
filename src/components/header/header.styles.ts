@@ -1,4 +1,4 @@
-import { Box, Stack, styled } from '@mui/material'
+import { Box, IconButton, Stack, styled } from '@mui/material'
 
 export const HeaderContainer = styled(Stack)({
   width: '100%',
@@ -58,10 +58,9 @@ export const HeaderNavSection = styled(Box)({
 export const HeaderNavLinks = styled('nav')(({ theme }) => ({
   display: 'none',
   alignItems: 'center',
-  gap: 6,
-  [theme.breakpoints.up('md')]: {
+  gap: 4,
+  [theme.breakpoints.up('sm')]: {
     display: 'flex',
-    gap: 8,
   },
 }))
 
@@ -73,7 +72,6 @@ export const HeaderNavLink = styled('a')(({ theme }) => ({
   fontWeight: 600,
   padding: '8px 12px',
   whiteSpace: 'nowrap',
-  marginRight:0,
   transition: 'background-color 180ms ease, color 180ms ease',
   '&:hover': {
     backgroundColor: theme.palette.action.hover,
@@ -82,8 +80,15 @@ export const HeaderNavLink = styled('a')(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
   },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '1.05rem',
+    padding: '6px 10px',
+  },
+}))
+
+export const HeaderMobileMenuButton = styled(IconButton)(({ theme }) => ({
+  marginRight: 0,
   [theme.breakpoints.up('sm')]: {
-    fontSize: '0.95rem',
-    padding: '10px 16px',
+    display: 'none',
   },
 }))

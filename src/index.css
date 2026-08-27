@@ -23,6 +23,15 @@ body {
   margin: 0;
   overflow-x: clip;
   background-color: var(--color-cream);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea,
+[contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 #root {

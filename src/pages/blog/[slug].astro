@@ -8,7 +8,12 @@ import { seoImageUrl, siteUrl } from '../../data/seo-content'
 
 const { slug } = Astro.params
 const { DB } = Astro.locals.runtime.env
-const post = slug ? await getPublishedPostBySlug(DB, slug) : null
+let post = null
+try {
+  post = slug ? await getPublishedPostBySlug(DB, slug) : null
+} catch (err) {
+  console.error('getPublishedPostBySlug failed:', err)
+}
 
 if (!post) {
   Astro.response.status = 404

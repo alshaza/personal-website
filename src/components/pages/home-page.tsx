@@ -1,5 +1,6 @@
 import { Providers } from '../Providers'
 import { Header } from '../header/header'
+import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
 import { HeroSection } from '../hero-section/hero-section'
 import { ImpactStats } from '../impact-stats/impact-stats'
@@ -25,6 +26,7 @@ export function HomePage() {
             description={bookingFunnelContent.defaultFooterDescription}
           />
         </MainContainer>
+        <Footer />
       </AppContainer>
     </Providers>
   )

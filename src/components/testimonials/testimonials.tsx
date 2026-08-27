@@ -18,7 +18,7 @@ export function Testimonials() {
   const hasOutcomes = transformationStories.length > 0
 
   return (
-    <TestimonialsContainer as="section">
+    <TestimonialsContainer as="section" id="reviews" sx={{ scrollMarginTop: 96 }}>
       <SectionHeading variant="h2">
         {sectionTitle}
       </SectionHeading>

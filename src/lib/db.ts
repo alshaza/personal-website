@@ -148,6 +148,11 @@ export interface ContactSubmission {
   created_at: string
 }
 
+export async function countContactSubmissions(db: D1Database): Promise<number> {
+  const row = await db.prepare(`SELECT COUNT(*) as count FROM contact_submissions`).first<{ count: number }>()
+  return row?.count ?? 0
+}
+
 export async function listContactSubmissions(db: D1Database): Promise<ContactSubmission[]> {
   const { results } = await db
     .prepare(`SELECT id, name, email, message, created_at FROM contact_submissions ORDER BY created_at DESC`)

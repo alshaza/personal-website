@@ -1,11 +1,10 @@
 import { Fragment } from 'react'
 import { Typography } from '@mui/material'
-import { ctaContent, heroContent } from '../../data/content'
+import { heroContent } from '../../data/content'
 import { trackEvent } from '../../lib/analytics'
 import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
 import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
 import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
-import { externalNewTabLinkProps } from '../../lib/external-link-props'
 import {
   CTAButton,
   HeroContainer,
@@ -21,8 +20,9 @@ import {
 
 const CTA_MICRO_COPY_SEPARATOR = ' · '
 
+const BOOK_CALL_PATH = '/contact#calendar-booking'
+
 export function HeroSection() {
-  const { calendarUrl } = ctaContent
   const ctaMicroSegments = heroContent.ctaMicroCopy.split(CTA_MICRO_COPY_SEPARATOR)
 
   return (
@@ -46,15 +46,14 @@ export function HeroSection() {
           <CTAButton
             variant="contained"
             size="large"
-            href={calendarUrl}
+            href={BOOK_CALL_PATH}
             onClick={() => {
               trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
                 [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.BOOK_CALL,
                 [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.HERO,
-                [ANALYTICS_PARAM_KEYS.TARGET_URL]: calendarUrl,
+                [ANALYTICS_PARAM_KEYS.TARGET_URL]: BOOK_CALL_PATH,
               })
             }}
-            {...externalNewTabLinkProps}
           >
             {heroContent.ctaLabel}
           </CTAButton>

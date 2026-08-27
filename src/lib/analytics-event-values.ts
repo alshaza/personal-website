@@ -9,11 +9,11 @@ export const ANALYTICS_BUTTON_VALUES = {
 
 export const ANALYTICS_LOCATION_VALUES = {
   CONTACT_CTA: 'contact_cta',
+  FOOTER: 'footer',
   HEADER: 'header',
   HERO: 'hero',
   HOW_CAN_I_HELP: 'how_can_i_help',
   IMAGE_SLIDER: 'image_slider',
-  COLLABORATE_PAGE: 'collaborate_page',
   CAREER_WIZARD: 'career_wizard',
   AUDIENCE_SEGMENTS: 'audience_segments',
   IMPACT_STATS: 'impact_stats',
@@ -23,7 +23,6 @@ export const ANALYTICS_CONTENT_TYPES = {
   NAV_LINK: 'nav_link',
   HELP_PREVIEW: 'help_preview',
   IMPACT_STAT_FLIP: 'impact_stat_flip',
-  COLLABORATE_OPPORTUNITY: 'collaborate_opportunity',
   CAREER_WIZARD_ANSWER: 'career_wizard_answer',
   HERO_SECONDARY_LINK: 'hero_secondary_link',
   IMAGE_SLIDER_CTA: 'image_slider_cta',

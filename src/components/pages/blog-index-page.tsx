@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { Providers } from '../Providers'
 import { Header } from '../header/header'
+import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
 import { ContactCTA } from '../contact-cta/contact-cta'
 import { BlogPostList, BlogPostCard } from './blog.styles'
@@ -22,8 +23,8 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
           </Box>
 
           {posts.length === 0 ? (
-            <Typography variant="body1" color="text.secondary">
-              No posts published yet — check back soon.
+            <Typography variant="h2" sx={{ fontSize: '1.5rem', color: 'text.secondary' }}>
+              Coming soon
             </Typography>
           ) : (
             <BlogPostList>
@@ -55,6 +56,7 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
             <ContactCTA />
           </Box>
         </MainContainer>
+        <Footer />
       </AppContainer>
     </Providers>
   )

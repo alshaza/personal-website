@@ -56,7 +56,7 @@ export const heroContent: HeroContent = {
   headingLines: ['Technical skills get you hired', 'Soft skills get you promoted'],
   subheading: 'Career growth mentoring for software engineers',
   body: 'I help engineers strengthen communication, influence, and leadership visibility so they can earn trust, negotiate confidently, and grow compensation.',
-  ctaLabel: 'Book Free 1:1 Career Strategy Call',
+  ctaLabel: 'Start on the right path',
   ctaMicroCopy: '30 minutes · No commitment · Walk away with a clear next-step plan',
 }
 
@@ -215,17 +215,6 @@ export const collaborateSliderCtaContent: CollaborateSliderCtaContent = {
   previewImageAlt: 'Book a discovery call',
 }
 
-export interface PageFooterCtaContent {
-  title: string
-  description: string
-}
-
-export const collaboratePageFooterCta: PageFooterCtaContent = {
-  title: 'Tell me what you have in mind',
-  description:
-    'Book a short call and share whether you are hiring, building a network, planning an episode, or scoping training. We can outline a simple next step together.',
-}
-
 export interface TestimonialSectionCopy {
   sectionTitle: string
   outcomesHeading: string
@@ -367,9 +356,79 @@ export interface CTAContent {
 
 export const ctaContent: CTAContent = {
   calendarUrl: 'https://calendar.app.google/my9YWe2TWbrTXEVo9',
-  calendarEmbedUrl: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3EySu9GcKq7maXrMJ9L8XyagAJt2egu1KUHxrqBmYtzsHqnxBjON5X9lcQRc1cHPgWKvXNeg24?gv=true',
+  calendarEmbedUrl: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3EySu9GcKq7maXrMJ9L8XyagAJt2egu1KUHxrqBmYtzsHqnxBjON5X9lcQRc1cHPgWKvXNeg24?gv=true&hl=en',
   linkedInUrl: 'https://www.linkedin.com/in/rami-alshaza',
 }
+
+export interface FaqItem {
+  question: string
+  answer: string
+}
+
+export const contactFaqContent: { heading: string; items: FaqItem[] } = {
+  heading: 'Frequently asked questions',
+  items: [
+    {
+      question: 'What does career coaching with you actually help with?',
+      answer:
+        'I help software engineers strengthen communication, leadership visibility, and promotion readiness, plus support with job search, interview prep, and compensation negotiation.',
+    },
+    {
+      question: 'How does the free strategy call work?',
+      answer:
+        "It's a 30-minute call with no commitment. We talk through where you're stuck, whether that's promotion, job search, visibility, or negotiation, and you leave with a clear next step.",
+    },
+    {
+      question: 'I just have a quick question, do I need to book a call?',
+      answer:
+        'No. Use the contact form for quick questions, and book a call only if you would rather talk it through together.',
+    },
+    {
+      question: 'Do you only work with engineers based in Germany?',
+      answer:
+        "No, coaching is remote and open worldwide, though many engineers I've worked with are navigating the German job market.",
+    },
+    {
+      question: 'What does a coaching engagement cost?',
+      answer:
+        'Pricing depends on your goals and is discussed after the free strategy call. There is no cost or commitment to that first conversation.',
+    },
+    {
+      question: 'Do you work with recruiters and talent partners?',
+      answer:
+        'Yes. If you want thoughtful introductions inside the engineering community, or a partner who understands how developers evaluate opportunities, book a short call and we can compare networks and explore win-win introductions.',
+    },
+    {
+      question: 'Are you open to podcasts, coaching collaborations, or content partnerships?',
+      answer:
+        'Yes. If you are building content for engineers, interviews, workshops, or co-hosted sessions, I enjoy thoughtful collaboration that respects both audiences and keeps advice practical.',
+    },
+    {
+      question: 'Do you offer corporate or team training for engineering orgs?',
+      answer:
+        'Yes. I run soft-skills training for developers covering communication under pressure, feedback, stakeholder updates, and promotion readiness, grounded in how real teams ship software.',
+    },
+  ],
+}
+
+export interface FooterLink {
+  id: string
+  label: string
+  href: string
+}
+
+export const footerNavLinks: FooterLink[] = [
+  { id: 'home', label: 'Home', href: '/' },
+  { id: 'blog', label: 'Blogs', href: '/blog' },
+  { id: 'contact', label: 'Contact', href: '/contact' },
+  { id: 'reviews', label: 'Reviews', href: '/#reviews' },
+  { id: 'faq', label: 'FAQ', href: '/contact#faq' },
+  { id: 'book_meeting', label: 'Book a meeting', href: '/contact#calendar-booking' },
+]
+
+export const footerSocialLinks: FooterLink[] = [
+  { id: 'linkedin', label: 'LinkedIn', href: ctaContent.linkedInUrl },
+]
 
 export interface ImpactStat {
   label: string
@@ -385,37 +444,3 @@ export const impactStatsContent = {
   ] satisfies ImpactStat[],
 }
 
-export interface CollaborateOpportunity {
-  id: string
-  title: string
-  body: string
-  ctaLabel: string
-  ctaHref: string
-}
-
-export const collaborateOpportunities: CollaborateOpportunity[] = [
-  {
-    id: 'recruiters_talent',
-    title: 'Recruiters and talent partners',
-    body:
-      'If you want thoughtful introductions inside the engineering community—or a partner who understands how developers evaluate opportunities—I am happy to compare networks and explore win-win introductions.',
-    ctaLabel: 'Book a short call',
-    ctaHref: ctaContent.calendarUrl,
-  },
-  {
-    id: 'coaches_podcasts',
-    title: 'Fellow coaches, creators, and podcasts',
-    body:
-      'If you are building content for engineers—interviews, workshops, or co-hosted sessions—I enjoy thoughtful collaboration that respects both audiences and keeps advice practical.',
-    ctaLabel: 'Propose a collaboration',
-    ctaHref: ctaContent.calendarUrl,
-  },
-  {
-    id: 'corporate_training',
-    title: 'Companies and engineering orgs',
-    body:
-      'Soft skills training for developers: communication under pressure, feedback, stakeholder updates, and promotion readiness—grounded in how real teams ship software.',
-    ctaLabel: 'Discuss training scope',
-    ctaHref: ctaContent.calendarUrl,
-  },
-]

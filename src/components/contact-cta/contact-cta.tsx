@@ -1,41 +1,11 @@
-import type { ReactNode } from 'react'
-import { Typography } from '@mui/material'
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import { bookingFunnelContent, ctaContent } from '../../data/content'
+import { Button, Typography } from '@mui/material'
+import { bookingFunnelContent } from '../../data/content'
 import { trackEvent } from '../../lib/analytics'
 import { ANALYTICS_EVENTS } from '../../lib/analytics-events'
 import { ANALYTICS_PARAM_KEYS } from '../../lib/analytics-event-params'
-import { ANALYTICS_BUTTON_VALUES, ANALYTICS_CONTENT_TYPES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
-import { externalNewTabLinkProps } from '../../lib/external-link-props'
+import { ANALYTICS_BUTTON_VALUES, ANALYTICS_LOCATION_VALUES } from '../../lib/analytics-event-values'
 import { FadeSection } from '../fade-section'
-import {
-  CTABookBlock,
-  CTACalendarEmbed,
-  CTAContainer,
-  CTAContent,
-  CTADescription,
-  CTAEmbedFallback,
-  CTAMicroLine,
-  ProcessBlock,
-  ProcessList,
-  ProcessStep,
-  CTAFooter,
-  CTALinkedInBlock,
-  CTALinkedInLink,
-} from './contact-cta.styles'
-
-function FadeMaybe({
-  off,
-  direction,
-  children,
-}: {
-  off: boolean
-  direction: 'left' | 'right'
-  children: ReactNode
-}) {
-  if (off) return children
-  return <FadeSection direction={direction}>{children}</FadeSection>
-}
+import { CTAContainer, CTAContent, CTADescription, CTAMicroLine } from './contact-cta.styles'
 
 interface ContactCTAProps {
   title?: string
@@ -48,98 +18,30 @@ export function ContactCTA({
   description = bookingFunnelContent.defaultFooterDescription,
   disableFade = false,
 }: ContactCTAProps) {
-  const { calendarUrl, calendarEmbedUrl, linkedInUrl } = ctaContent
-  const {
-    primaryCtaLabel,
-    ctaMicroCopy,
-    processHeading,
-    processSteps,
-  } = bookingFunnelContent
+  const { ctaMicroCopy } = bookingFunnelContent
 
-  return (
-    <CTAContainer as="section" role={'contentinfo'}>
-      <CTAContent>
-        <FadeMaybe off={disableFade} direction="left">
-          <CTABookBlock>
-            <Typography variant="h2" color="inherit">
-              {title}
-            </Typography>
-            <CTADescription variant="body1">
-              {description}
-            </CTADescription>
-            <CTAMicroLine variant="body2">
-              {ctaMicroCopy}
-            </CTAMicroLine>
-            <CTACalendarEmbed>
-              <iframe src={calendarEmbedUrl} title={primaryCtaLabel} />
-            </CTACalendarEmbed>
-            <CTAEmbedFallback
-              href={calendarUrl}
-              variant="body2"
-              underline="always"
-              onClick={() => {
-                trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
-                  [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.BOOK_CALL,
-                  [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.CONTACT_CTA,
-                  [ANALYTICS_PARAM_KEYS.TARGET_URL]: calendarUrl,
-                })
-              }}
-              {...externalNewTabLinkProps}
-            >
-              Trouble booking above? Open the scheduler in a new tab
-            </CTAEmbedFallback>
-            <ProcessBlock>
-              <Typography variant="subtitle1" component="p" sx={{ mb: 1.5, fontWeight: 600 }}>
-                {processHeading}
-              </Typography>
-              <ProcessList>
-                {processSteps.map((step) => (
-                  <ProcessStep key={step.title}>
-                    <Typography variant="subtitle2" component="p" fontWeight={600}>
-                      {step.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {step.description}
-                    </Typography>
-                  </ProcessStep>
-                ))}
-              </ProcessList>
-            </ProcessBlock>
-          </CTABookBlock>
-        </FadeMaybe>
-
-        <FadeMaybe off={disableFade} direction="right">
-          <CTALinkedInBlock>
-            <CTALinkedInLink
-              href={linkedInUrl}
-              {...externalNewTabLinkProps}
-              aria-label="Rami Alshaza LinkedIn profile"
-              onClick={() => {
-                trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
-                  [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.LINKEDIN_PROFILE,
-                  [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.CONTACT_CTA,
-                  [ANALYTICS_PARAM_KEYS.TARGET_URL]: linkedInUrl,
-                })
-                trackEvent(ANALYTICS_EVENTS.SELECT_CONTENT, {
-                  [ANALYTICS_PARAM_KEYS.CONTENT_TYPE]: ANALYTICS_CONTENT_TYPES.LINKEDIN_LINK,
-                  [ANALYTICS_PARAM_KEYS.ITEM_ID]: 'linkedin_profile',
-                  [ANALYTICS_PARAM_KEYS.TARGET_URL]: linkedInUrl,
-                  [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.CONTACT_CTA,
-                })
-              }}
-              underline="always"
-            >
-              <LinkedInIcon />
-              <Typography component="span" variant="body1" color="inherit">
-                Rami Alshaza
-              </Typography>
-            </CTALinkedInLink>
-          </CTALinkedInBlock>
-        </FadeMaybe>
-      </CTAContent>
-      <CTAFooter variant="body2">
-        Created by Rami © 2026
-      </CTAFooter>
-    </CTAContainer>
+  const content = (
+    <CTAContent>
+      <Typography variant="h2" color="inherit">
+        {title}
+      </Typography>
+      <CTADescription variant="body1">{description}</CTADescription>
+      <CTAMicroLine variant="body2">{ctaMicroCopy}</CTAMicroLine>
+      <Button
+        variant="contained"
+        href="/contact"
+        onClick={() => {
+          trackEvent(ANALYTICS_EVENTS.CTA_CLICK, {
+            [ANALYTICS_PARAM_KEYS.BUTTON_NAME]: ANALYTICS_BUTTON_VALUES.LETS_TALK,
+            [ANALYTICS_PARAM_KEYS.LOCATION]: ANALYTICS_LOCATION_VALUES.CONTACT_CTA,
+            [ANALYTICS_PARAM_KEYS.TARGET_URL]: '/contact',
+          })
+        }}
+      >
+        Let's talk
+      </Button>
+    </CTAContent>
   )
+
+  return <CTAContainer as="section">{disableFade ? content : <FadeSection direction="left">{content}</FadeSection>}</CTAContainer>
 }

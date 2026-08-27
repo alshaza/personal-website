@@ -1,3 +1,5 @@
+import { contactFaqContent } from './content'
+
 export type AppPath = '/' | '/contact' | '/blog'
 
 export const siteUrl = 'https://alshaza.de'
@@ -41,7 +43,7 @@ export const pageSeoMeta: Record<AppPath, PageSeoMeta> = {
   },
 }
 
-export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
+export const pageStructuredData: Record<AppPath, Record<string, unknown> | Array<Record<string, unknown>>> = {
   '/': {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
@@ -59,19 +61,33 @@ export const pageStructuredData: Record<AppPath, Record<string, unknown>> = {
     ],
     sameAs: ['https://www.linkedin.com/in/rami-alshaza'],
   },
-  '/contact': {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'Professional collaboration with Rami Alshaza',
-    provider: {
-      '@type': 'Person',
-      name: 'Rami Alshaza',
-      url: siteUrl,
+  '/contact': [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Professional collaboration with Rami Alshaza',
+      provider: {
+        '@type': 'Person',
+        name: 'Rami Alshaza',
+        url: siteUrl,
+      },
+      url: `${siteUrl}/contact`,
+      description: pageSeoMeta['/contact'].description,
+      serviceType: 'Recruiter partnerships, media collaboration, and corporate training',
     },
-    url: `${siteUrl}/contact`,
-    description: pageSeoMeta['/contact'].description,
-    serviceType: 'Recruiter partnerships, media collaboration, and corporate training',
-  },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: contactFaqContent.items.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
+    },
+  ],
   '/blog': {
     '@context': 'https://schema.org',
     '@type': 'Blog',

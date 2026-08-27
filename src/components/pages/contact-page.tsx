@@ -1,13 +1,16 @@
 import { Box, Typography } from '@mui/material'
 import { Providers } from '../Providers'
 import { Header } from '../header/header'
+import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
-import { CollaborateOpportunities } from '../collaborate-opportunities/collaborate-opportunities'
-import { ContactCTA } from '../contact-cta/contact-cta'
+import { BookingProcess } from '../booking-process/booking-process'
+import { Testimonials } from '../testimonials/testimonials'
 import { ContactForm } from '../contact-form/contact-form'
-import { collaborateContent, collaboratePageFooterCta } from '../../data/content'
+import { CalendarSection } from '../calendar-section/calendar-section'
+import { FaqSection } from '../faq-section/faq-section'
+import { collaborateContent } from '../../data/content'
 
-export function ContactPage() {
+export function ContactPage({ submissionCount = 0 }: { submissionCount?: number }) {
   return (
     <Providers>
       <AppContainer>
@@ -22,20 +25,47 @@ export function ContactPage() {
             </Typography>
           </Box>
 
-          <CollaborateOpportunities />
+          <BookingProcess />
 
-          <Box component="section" sx={{ mt: 6 }}>
-            <Typography variant="h2" sx={{ fontSize: '1.75rem', mb: 2 }}>
+          <Testimonials />
+
+          <Box component="section" id="contact-form" sx={{ mt: 6, scrollMarginTop: 96, width: '100%' }}>
+            <Typography variant="h2" sx={{ fontSize: '1.75rem', mb: 4, textAlign: 'center' }}>
               Send a message
             </Typography>
-            <ContactForm />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                gap: { xs: 4, md: 10 },
+                alignItems: { xs: 'stretch', md: 'center' },
+                justifyContent: 'center',
+                width: '100%',
+              }}
+            >
+              <Box sx={{ flex: '1 1 320px', maxWidth: 400, textAlign: { xs: 'center', md: 'left' } }}>
+                <Typography variant="body1" color="text.secondary">
+                  Have something on your mind? Write to me and state your problem, I will get back to you in
+                  less than 24 hours.
+                </Typography>
+                {submissionCount > 0 && (
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 2, fontWeight: 600 }}>
+                    {submissionCount} {submissionCount === 1 ? 'person has' : 'people have'} already sent a
+                    message.
+                  </Typography>
+                )}
+              </Box>
+              <Box sx={{ flex: '1 1 480px', maxWidth: 640, width: '100%' }}>
+                <ContactForm />
+              </Box>
+            </Box>
           </Box>
 
-          <ContactCTA
-            title={collaboratePageFooterCta.title}
-            description={collaboratePageFooterCta.description}
-          />
+          <CalendarSection />
+
+          <FaqSection />
         </MainContainer>
+        <Footer />
       </AppContainer>
     </Providers>
   )

@@ -1,10 +1,10 @@
 import { styled } from '@mui/material'
 
 export const FormContainer = styled('form')({
-  maxWidth: 560,
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  gap: 16,
+  gap: 24,
 })
 
 export const HoneypotField = styled('input')({
