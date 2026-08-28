@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import type { MouseEvent } from 'react'
+import { useMemo, useState } from 'react'
 import ShareIcon from '@mui/icons-material/Share'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import ScheduleIcon from '@mui/icons-material/Schedule'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
-import WaterDropIcon from '@mui/icons-material/WaterDrop'
-import { Alert, Box, IconButton, Snackbar, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined'
+import { Alert, Box, Chip, IconButton, Snackbar, Typography } from '@mui/material'
+import { keyframes } from '@mui/material/styles'
 import { Providers } from '../Providers'
 import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
@@ -14,7 +15,16 @@ import { BlogPostActions, BlogPostBody, BlogPostMeta } from './blog.styles'
 import type { Post, PostEngagement } from '../../lib/db'
 import { siteUrl } from '../../data/seo-content'
 
-type Reaction = 'fire' | 'water' | null
+type Reaction = 'fire' | null
+
+const WORDS_PER_MINUTE = 200
+
+const firePop = keyframes({
+  '0%': { transform: 'scale(1)' },
+  '30%': { transform: 'scale(1.3)' },
+  '60%': { transform: 'scale(0.95)' },
+  '100%': { transform: 'scale(1)' },
+})
 
 interface BlogPostPageProps {
   post: Post
@@ -23,18 +33,24 @@ interface BlogPostPageProps {
 }
 
 export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPageProps) {
-  const [reaction, setReaction] = useState<Reaction>(engagement.userReaction)
+  const [reaction, setReaction] = useState<Reaction>(engagement.userReaction === 'fire' ? 'fire' : null)
   const [fire, setFire] = useState(engagement.fire)
-  const [water, setWater] = useState(engagement.water)
   const [copied, setCopied] = useState(false)
+  const [justReacted, setJustReacted] = useState(false)
 
   const postUrl = `${siteUrl}/blog/${categorySlug}/${post.slug}`
 
-  const handleReactionChange = (_event: MouseEvent<HTMLElement>, next: Reaction) => {
+  const readingMinutes = useMemo(() => {
+    const wordCount = post.body_html.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length
+    return Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE))
+  }, [post.body_html])
+
+  const handleReactionToggle = () => {
     const previous = reaction
+    const next: Reaction = previous === 'fire' ? null : 'fire'
     setFire((count) => count + (next === 'fire' ? 1 : 0) - (previous === 'fire' ? 1 : 0))
-    setWater((count) => count + (next === 'water' ? 1 : 0) - (previous === 'water' ? 1 : 0))
     setReaction(next)
+    if (next === 'fire') setJustReacted(true)
 
     fetch('/api/blog/react', {
       method: 'POST',
@@ -63,7 +79,7 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
       <AppContainer>
         <Header currentPath="/blog" />
         <MainContainer role="main">
-          <Box component="article" sx={{ mt: 4, mb: 6 }}>
+          <Box component="article" sx={{ mt: 4, mb: 6, maxWidth: 720, mx: 'auto' }}>
             <Typography variant="h1" gutterBottom>
               {post.title}
             </Typography>
@@ -84,6 +100,15 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
                 component="span"
                 sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}
               >
+                <ScheduleIcon fontSize="inherit" />
+                {readingMinutes} min read
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                component="span"
+                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}
+              >
                 <VisibilityIcon fontSize="inherit" />
                 {engagement.views} {engagement.views === 1 ? 'view' : 'views'}
               </Typography>
@@ -92,22 +117,16 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
             <BlogPostBody dangerouslySetInnerHTML={{ __html: post.body_html }} />
 
             <BlogPostActions>
-              <ToggleButtonGroup
-                value={reaction}
-                exclusive
-                onChange={handleReactionChange}
-                size="small"
-                aria-label="React to this post"
-              >
-                <ToggleButton value="fire" aria-label="Loved it">
-                  <LocalFireDepartmentIcon fontSize="small" sx={{ mr: 0.75 }} />
-                  {fire}
-                </ToggleButton>
-                <ToggleButton value="water" aria-label="Not for me">
-                  <WaterDropIcon fontSize="small" sx={{ mr: 0.75 }} />
-                  {water}
-                </ToggleButton>
-              </ToggleButtonGroup>
+              <Chip
+                icon={reaction === 'fire' ? <LocalFireDepartmentIcon /> : <LocalFireDepartmentOutlinedIcon />}
+                label={fire}
+                color="error"
+                variant={reaction === 'fire' ? 'filled' : 'outlined'}
+                onClick={handleReactionToggle}
+                onAnimationEnd={() => setJustReacted(false)}
+                sx={justReacted ? { animation: `${firePop} 0.4s ease` } : undefined}
+                aria-label="React with fire"
+              />
 
               <IconButton onClick={handleShare} aria-label="Share this post">
                 <ShareIcon />

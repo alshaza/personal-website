@@ -78,7 +78,7 @@ try {
                 <span class={`badge ${post.status}`}>{post.status}</span>
               </td>
               <td class="numeric">{post.views}</td>
-              <td class="numeric">🔥 {post.fire_count} · 💧 {post.water_count}</td>
+              <td class="numeric">🔥 {post.fire_count}</td>
               <td>{new Date(post.updated_at).toLocaleDateString()}</td>
               <td class="actions">
                 <a class="button secondary" href={`/blog/${post.category_slug}/${post.slug}`} target="_blank" rel="noopener">

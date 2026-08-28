@@ -24,7 +24,7 @@ export const BlogPostCard = styled('a')(({ theme }) => ({
 }))
 
 export const BlogPostBody = styled(Box)(({ theme }) => ({
-  maxWidth: 720,
+  fontFamily: "Georgia, Cambria, 'Times New Roman', Times, serif",
   '& img': {
     maxWidth: '100%',
     borderRadius: 8,
@@ -56,7 +56,6 @@ export const BlogPostActions = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 16,
-  maxWidth: 720,
   marginTop: 32,
   paddingTop: 24,
   borderTop: `1px solid ${theme.palette.divider}`,

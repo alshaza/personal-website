@@ -4,11 +4,11 @@ import { getOrSetVisitorId } from '../../../lib/visitor'
 
 export const prerender = false
 
-const VALID_REACTIONS = new Set(['fire', 'water'])
+const VALID_REACTIONS = new Set(['fire'])
 
 interface ReactBody {
   slug?: string
-  reaction?: 'fire' | 'water' | null
+  reaction?: 'fire' | null
 }
 
 export const POST: APIRoute = async ({ request, locals, cookies }) => {
