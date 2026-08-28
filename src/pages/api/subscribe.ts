@@ -1,30 +1,12 @@
 import type { APIRoute } from 'astro'
-import { insertContactSubmission } from '../../lib/db'
+import { insertNewsletterSubscriber } from '../../lib/db'
 import { cleanInput, EMAIL_RE } from '../../lib/form-validation'
 import { verifyTurnstileToken } from '../../lib/turnstile-server'
 
 export const prerender = false
 
-async function notifyByEmail(
-  email: SendEmail,
-  submission: { name: string; email: string; message: string },
-): Promise<void> {
-  try {
-    await email.send({
-      from: 'Contact form <contact-form@alshaza.de>',
-      to: 'rami.shahade@gmail.com',
-      replyTo: submission.email,
-      subject: `New contact form submission from ${submission.name}`,
-      text: `From: ${submission.name} <${submission.email}>\n\n${submission.message}`,
-      html: `<p><strong>From:</strong> ${submission.name} &lt;${submission.email}&gt;</p><p>${submission.message.replace(/\n/g, '<br>')}</p>`,
-    })
-  } catch (err) {
-    console.error('notifyByEmail failed:', err)
-  }
-}
-
 export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
-  const { DB, TURNSTILE_SECRET, EMAIL } = locals.runtime.env
+  const { DB, TURNSTILE_SECRET } = locals.runtime.env
   const form = await request.formData()
 
   // Honeypot: real visitors never fill this hidden field.
@@ -32,13 +14,11 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
     return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json' } })
   }
 
-  const name = cleanInput(String(form.get('name') ?? ''), 200)
   const email = cleanInput(String(form.get('email') ?? ''), 320)
-  const message = cleanInput(String(form.get('message') ?? ''), 5000)
   const token = String(form.get('cf-turnstile-response') ?? '')
 
-  if (!name || !email || !message || !EMAIL_RE.test(email)) {
-    return new Response(JSON.stringify({ success: false, error: 'Please fill in all fields with a valid email.' }), {
+  if (!email || !EMAIL_RE.test(email)) {
+    return new Response(JSON.stringify({ success: false, error: 'Please enter a valid email.' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
@@ -60,20 +40,14 @@ export const POST: APIRoute = async ({ request, locals, clientAddress }) => {
     })
   }
 
-  const inserted = await insertContactSubmission(DB, {
-    name,
+  // Duplicate emails are just ignored (not reported as an error) so the
+  // response never reveals whether an address is already on file.
+  await insertNewsletterSubscriber(DB, {
     email,
-    message,
     ip: clientAddress ?? null,
     user_agent: request.headers.get('user-agent'),
     turnstile_ok: true,
   })
-
-  // Same email has already reached out before — skip re-notifying, but still
-  // report success so we don't reveal whether an address is already on file.
-  if (inserted) {
-    locals.runtime.ctx.waitUntil(notifyByEmail(EMAIL, { name, email, message }))
-  }
 
   return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json' } })
 }

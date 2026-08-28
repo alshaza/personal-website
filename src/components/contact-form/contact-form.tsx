@@ -1,16 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Alert, Button, Link, TextField, Typography } from '@mui/material'
+import { loadTurnstileScript } from '../../lib/turnstile-client'
 import { FormContainer, HoneypotField } from './contact-form.styles'
 
-declare global {
-  interface Window {
-    turnstile?: {
-      reset: (container?: string | HTMLElement) => void
-    }
-  }
-}
-
-const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
 const TURNSTILE_SITE_KEY = (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined)?.trim()
 
 const COOLDOWN_COOKIE = 'contact_last_sent'
@@ -38,13 +30,7 @@ export function ContactForm() {
   useEffect(() => {
     setCooldownRemainingMs(getCooldownRemainingMs())
 
-    if (!TURNSTILE_SITE_KEY) return
-    if (document.querySelector(`script[src="${TURNSTILE_SCRIPT_SRC}"]`)) return
-    const script = document.createElement('script')
-    script.src = TURNSTILE_SCRIPT_SRC
-    script.async = true
-    script.defer = true
-    document.head.appendChild(script)
+    if (TURNSTILE_SITE_KEY) loadTurnstileScript()
   }, [])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

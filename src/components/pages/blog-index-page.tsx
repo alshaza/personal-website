@@ -1,9 +1,10 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Chip, Typography } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Providers } from '../Providers'
 import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
-import { BlogPostList, BlogPostCard } from './blog.styles'
+import { BlogPostList, BlogPostCard, categoryColor } from './blog.styles'
 import type { PostSummary } from '../../lib/db'
 
 export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
@@ -36,15 +37,34 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
                     <Typography variant="body1" color="text.secondary">
                       {post.description}
                     </Typography>
-                    {post.published_at && (
-                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>
-                        {new Date(post.published_at).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1.5, flexWrap: 'wrap' }}>
+                      <Chip
+                        label={`#${post.category_name.replace(/\s+/g, '')}`}
+                        size="small"
+                        sx={{
+                          bgcolor: categoryColor(post.category_slug).bg,
+                          color: categoryColor(post.category_slug).text,
+                          fontWeight: 600,
+                        }}
+                      />
+                      {post.published_at && (
+                        <Typography variant="body2" color="text.secondary">
+                          {new Date(post.published_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </Typography>
+                      )}
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}
+                      >
+                        <VisibilityIcon fontSize="inherit" />
+                        {post.views} {post.views === 1 ? 'view' : 'views'}
                       </Typography>
-                    )}
+                    </Box>
                   </BlogPostCard>
                 </li>
               ))}

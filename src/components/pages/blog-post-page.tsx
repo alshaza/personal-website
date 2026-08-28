@@ -11,6 +11,7 @@ import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
 import { BlogPostActions, BlogPostBody, BlogPostMeta } from './blog.styles'
+import { InterestSignup } from '../interest-signup/interest-signup'
 import type { Post, PostEngagement } from '../../lib/db'
 import { siteUrl } from '../../data/seo-content'
 
@@ -131,6 +132,8 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
                 <ShareIcon />
               </IconButton>
             </BlogPostActions>
+
+            <InterestSignup />
           </Box>
         </MainContainer>
         <Footer />

@@ -38,12 +38,13 @@ export interface Category {
 export type PostSummary = Pick<
   Post,
   'slug' | 'title' | 'description' | 'cover_image_url' | 'published_at'
-> & { category_slug: string }
+> & { category_slug: string; category_name: string; views: number }
 
 export async function listPublishedPosts(db: D1Database): Promise<PostSummary[]> {
   const { results } = await db
     .prepare(
-      `SELECT p.slug, p.title, p.description, p.cover_image_url, p.published_at, c.slug AS category_slug
+      `SELECT p.slug, p.title, p.description, p.cover_image_url, p.published_at, c.slug AS category_slug, c.name AS category_name,
+        (SELECT COUNT(*) FROM post_views v WHERE v.post_id = p.id) AS views
        FROM posts p
        JOIN categories c ON c.id = p.category_id
        WHERE p.status = 'published'
@@ -317,6 +318,10 @@ export async function deleteSession(db: D1Database, tokenHash: string): Promise<
 
 // --- Contact submissions ---
 
+function isUniqueViolation(err: unknown): boolean {
+  return err instanceof Error && err.message.includes('UNIQUE constraint failed')
+}
+
 export interface ContactSubmissionInput {
   name: string
   email: string
@@ -326,14 +331,21 @@ export interface ContactSubmissionInput {
   turnstile_ok: boolean
 }
 
-export async function insertContactSubmission(db: D1Database, input: ContactSubmissionInput): Promise<void> {
-  await db
-    .prepare(
-      `INSERT INTO contact_submissions (name, email, message, ip, user_agent, turnstile_ok)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-    )
-    .bind(input.name, input.email, input.message, input.ip, input.user_agent, input.turnstile_ok ? 1 : 0)
-    .run()
+/** Returns false (and inserts nothing) if this email already submitted the contact form. */
+export async function insertContactSubmission(db: D1Database, input: ContactSubmissionInput): Promise<boolean> {
+  try {
+    await db
+      .prepare(
+        `INSERT INTO contact_submissions (name, email, message, ip, user_agent, turnstile_ok)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+      )
+      .bind(input.name, input.email, input.message, input.ip, input.user_agent, input.turnstile_ok ? 1 : 0)
+      .run()
+    return true
+  } catch (err) {
+    if (isUniqueViolation(err)) return false
+    throw err
+  }
 }
 
 export interface ContactSubmission {
@@ -353,4 +365,27 @@ export async function listContactSubmissions(db: D1Database): Promise<ContactSub
 
 export async function deleteContactSubmission(db: D1Database, id: number): Promise<void> {
   await db.prepare(`DELETE FROM contact_submissions WHERE id = ?`).bind(id).run()
+}
+
+// --- Newsletter subscribers ---
+
+export interface NewsletterSubscriberInput {
+  email: string
+  ip: string | null
+  user_agent: string | null
+  turnstile_ok: boolean
+}
+
+/** Returns false (and inserts nothing) if this email is already subscribed. */
+export async function insertNewsletterSubscriber(db: D1Database, input: NewsletterSubscriberInput): Promise<boolean> {
+  try {
+    await db
+      .prepare(`INSERT INTO newsletter_subscribers (email, ip, user_agent, turnstile_ok) VALUES (?, ?, ?, ?)`)
+      .bind(input.email, input.ip, input.user_agent, input.turnstile_ok ? 1 : 0)
+      .run()
+    return true
+  } catch (err) {
+    if (isUniqueViolation(err)) return false
+    throw err
+  }
 }
