@@ -33,7 +33,7 @@ export function BlogIndexPage({ posts, seenPostIds }: { posts: PostSummary[]; se
               {posts.map((post) => (
                 <li key={post.slug}>
                   <BlogPostCard href={`/blog/${post.category_slug}/${post.slug}`}>
-                    <Typography variant="h2" sx={{ fontSize: '1.3rem', mb: 1 }}>
+                    <Typography variant="h2" sx={{ fontSize: '1.1rem', mb: 1 }}>
                       {post.title}
                     </Typography>
                     <Typography variant="body1" color="text.secondary">

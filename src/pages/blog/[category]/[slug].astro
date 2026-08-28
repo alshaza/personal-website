@@ -37,21 +37,34 @@ if (post) {
   markPostSeen(Astro.cookies, post.id)
 }
 
-const structuredData = post && {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: post.title,
-  description: post.description,
-  url: `${siteUrl}/blog/${post.category_slug}/${post.slug}`,
-  image: post.og_image_url ?? post.cover_image_url ?? seoImageUrl,
-  datePublished: post.published_at,
-  dateModified: post.updated_at,
-  author: {
-    '@type': 'Person',
-    name: 'Rami Alshaza',
-    url: siteUrl,
+const postUrl = post && `${siteUrl}/blog/${post.category_slug}/${post.slug}`
+
+const structuredData = post && [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    url: postUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    image: post.og_image_url ?? post.cover_image_url ?? seoImageUrl,
+    datePublished: post.published_at,
+    dateModified: post.updated_at,
+    author: {
+      '@type': 'Person',
+      name: 'Rami Alshaza',
+      url: siteUrl,
+    },
   },
-}
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Blog', item: `${siteUrl}/blog` },
+      { '@type': 'ListItem', position: 2, name: post.title },
+    ],
+  },
+]
 ---
 
 {post ? (
