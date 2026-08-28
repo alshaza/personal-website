@@ -31,14 +31,9 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
               {posts.map((post) => (
                 <li key={post.slug}>
                   <BlogPostCard href={`/blog/${post.category_slug}/${post.slug}`}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="h2" sx={{ fontSize: '1.5rem', mb: 1 }}>
-                        {post.title}
-                      </Typography>
-                      {isNewPost(post.published_at, post.views) && (
-                        <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600, mb: 1 }} />
-                      )}
-                    </Box>
+                    <Typography variant="h2" sx={{ fontSize: '1.3rem', mb: 1 }}>
+                      {post.title}
+                    </Typography>
                     <Typography variant="body1" color="text.secondary">
                       {post.description}
                     </Typography>
@@ -69,6 +64,9 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
                         <VisibilityIcon fontSize="inherit" />
                         {post.views}
                       </Typography>
+                      {isNewPost(post.published_at, post.views) && (
+                        <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600 }} />
+                      )}
                     </Box>
                   </BlogPostCard>
                 </li>

@@ -57,30 +57,48 @@ export function InterestSignup() {
   if (status === 'success') {
     return (
       <Alert severity="success" sx={{ mt: 4 }}>
-        Thanks — you're on the list!
+        I will inform you with updates as soon as I start. Thank you for your support!
       </Alert>
     )
   }
 
   return (
-    <Box sx={{ mt: 4, pt: 3, borderTop: (theme) => `1px solid ${theme.palette.divider}` }}>
-      <Typography variant="body1" sx={{ mb: 2 }}>
-        Interested in this content? I'm considering more articles like this on Substack or Medium about soft
-        skills in software engineering — are you interested?
+    <Box
+      sx={{
+        mt: 4,
+        textAlign: 'center',
+        borderRadius: '16px',
+        boxShadow: 'var(--shadow-blue)',
+        padding: '40px 24px',
+      }}
+    >
+      <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 700, mb: 2 }}>
+        Interested in soft skill content?
       </Typography>
-
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        I'm considering more articles like this on Substack or Medium about soft
+        skills in software engineering. Should I ping you when I start?
+      </Typography>
       {!expanded ? (
         <Button
-          variant="outlined"
+          variant="contained"
+          size="large"
           onClick={() => {
             setExpanded(true)
           }}
-          sx={{ animation: `${pulse} 2s ease-in-out infinite` }}
+          sx={{
+            paddingLeft: 4,
+            paddingRight: 4,
+            paddingTop: 1.5,
+            paddingBottom: 1.5,
+            fontSize: '1rem',
+            animation: `${pulse} 2s ease-in-out infinite`,
+          }}
         >
           I'm interested
         </Button>
       ) : (
-        <InterestForm ref={formRef} onSubmit={handleSubmit}>
+        <InterestForm ref={formRef} onSubmit={handleSubmit} sx={{ justifyContent: 'center' }}>
           <HoneypotField type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" />
           <TextField
             label="Email"
@@ -89,6 +107,7 @@ export function InterestSignup() {
             required
             size="small"
             autoFocus
+            autoComplete="email"
             value={email}
             onChange={(event) => {
               setEmail(event.target.value)

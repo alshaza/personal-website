@@ -1,12 +1,10 @@
 import { Box, Card, Typography, styled } from '@mui/material'
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 
-export const TestimonialsContainer = styled(Box)(({ theme }) => ({
+export const TestimonialsContainer = styled(Box)(() => ({
   marginTop: 'var(--section-spacing)',
-  border: `2px solid ${theme.palette.primary.main}`,
   borderRadius: 16,
   padding: '40px 24px',
-  boxShadow: 'var(--shadow-blue)',
 }))
 
 export const SectionHeading = styled(Typography)(({ theme }) => ({

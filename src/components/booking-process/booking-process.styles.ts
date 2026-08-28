@@ -7,7 +7,6 @@ export const BookingProcessContainer = styled(Box)({
 export const BookingProcessCard = styled(Box)(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius),
   backgroundColor: theme.palette.background.paper,
-  boxShadow: 'var(--shadow-blue)',
   padding: theme.spacing(3),
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4),
@@ -38,7 +37,6 @@ export const OptionCard = styled('a')(({ theme }) => ({
   }),
   '&:hover': {
     borderColor: theme.palette.primary.main,
-    boxShadow: theme.shadows[4],
   },
 }))
 

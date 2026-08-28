@@ -94,14 +94,9 @@ export function BlogPostPage({ post, categorySlug, categoryName, engagement }: B
               </Typography>
             </Breadcrumbs>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Typography variant="h1" gutterBottom>
-                {post.title}
-              </Typography>
-              {isNewPost(post.published_at, engagement.views) && (
-                <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600, mb: 1 }} />
-              )}
-            </Box>
+            <Typography variant="h1" gutterBottom sx={{ fontSize: { xs: '1.75rem', sm: '2.25rem' } }}>
+              {post.title}
+            </Typography>
 
             <BlogPostMeta>
               {post.published_at && (
@@ -131,6 +126,9 @@ export function BlogPostPage({ post, categorySlug, categoryName, engagement }: B
                 <VisibilityIcon fontSize="inherit" />
                 {engagement.views}
               </Typography>
+              {isNewPost(post.published_at, engagement.views) && (
+                <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600 }} />
+              )}
             </BlogPostMeta>
 
             <BlogPostBody dangerouslySetInnerHTML={{ __html: post.body_html }} />
