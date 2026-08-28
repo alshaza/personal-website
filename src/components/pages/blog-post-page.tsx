@@ -10,7 +10,6 @@ import { Providers } from '../Providers'
 import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
-import { ContactCTA } from '../contact-cta/contact-cta'
 import { BlogPostActions, BlogPostBody, BlogPostMeta } from './blog.styles'
 import type { Post, PostEngagement } from '../../lib/db'
 import { siteUrl } from '../../data/seo-content'
@@ -64,7 +63,7 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.share({ title: post.title, text: post.description, url: postUrl })
+        await navigator.share({ url: postUrl, title: post.title })
       } catch {
         // user dismissed the share sheet
       }
@@ -133,8 +132,6 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
               </IconButton>
             </BlogPostActions>
           </Box>
-
-          <ContactCTA />
         </MainContainer>
         <Footer />
       </AppContainer>

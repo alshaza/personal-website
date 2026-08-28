@@ -3,7 +3,6 @@ import { Providers } from '../Providers'
 import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
-import { ContactCTA } from '../contact-cta/contact-cta'
 import { BlogPostList, BlogPostCard } from './blog.styles'
 import type { PostSummary } from '../../lib/db'
 
@@ -51,10 +50,6 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
               ))}
             </BlogPostList>
           )}
-
-          <Box sx={{ mt: 6 }}>
-            <ContactCTA />
-          </Box>
         </MainContainer>
         <Footer />
       </AppContainer>
