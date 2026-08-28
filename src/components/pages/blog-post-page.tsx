@@ -83,11 +83,14 @@ export function BlogPostPage({ post, categorySlug, categoryName, engagement, alr
         <MainContainer role="main">
           <Box component="article" sx={{ mt: 4, mb: 6, maxWidth: 720, mx: 'auto' }}>
             <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
-              <Link underline="hover" color="inherit" href="/blog">
+              <Link variant="body2" underline="hover" color="inherit" href="/blog">
                 Blog
               </Link>
-              <Typography color="text.primary">{categoryName}</Typography>
+              <Typography variant="body2" color="text.primary">
+                {categoryName}
+              </Typography>
               <Typography
+                variant="body2"
                 color="text.secondary"
                 sx={{ maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
               >
