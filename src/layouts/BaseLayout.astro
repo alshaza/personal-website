@@ -27,11 +27,7 @@ const seo = Astro.props
 
     <SeoHead {...seo} />
 
-    <!-- Google Analytics -->
-    <script
-      is:inline
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-KZ7P24KQE9"></script>
+    <!-- Google Analytics (deferred until after load, so it doesn't compete for bandwidth) -->
     <script is:inline>
       window.dataLayer = window.dataLayer || []
       function gtag() {
@@ -39,6 +35,12 @@ const seo = Astro.props
       }
       gtag('js', new Date())
       gtag('config', 'G-KZ7P24KQE9')
+      window.addEventListener('load', function () {
+        var s = document.createElement('script')
+        s.async = true
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-KZ7P24KQE9'
+        document.head.appendChild(s)
+      })
     </script>
 
     <!-- Fonts: Inter -->
