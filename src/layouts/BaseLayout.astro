@@ -36,10 +36,13 @@ const seo = Astro.props
       gtag('js', new Date())
       gtag('config', 'G-KZ7P24KQE9')
       window.addEventListener('load', function () {
-        var s = document.createElement('script')
-        s.async = true
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-KZ7P24KQE9'
-        document.head.appendChild(s)
+        var load = function () {
+          var s = document.createElement('script')
+          s.async = true
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-KZ7P24KQE9'
+          document.head.appendChild(s)
+        }
+        window.requestIdleCallback ? window.requestIdleCallback(load) : setTimeout(load, 1)
       })
     </script>
 
