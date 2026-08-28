@@ -12,6 +12,8 @@ interface Props {
   ogType?: string
   image?: string
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>
+  /** Path to this page's markdown mirror, e.g. "/blog/career/some-post.md". Static AppPath pages infer it automatically. */
+  markdownPath?: string
 }
 
 const { path, ...overrides } = Astro.props
@@ -25,6 +27,7 @@ const ogType = overrides.ogType ?? base?.ogType ?? 'website'
 const image = overrides.image ?? seoImageUrl
 const canonicalPath = overrides.canonicalPath ?? base?.canonicalPath ?? path ?? '/'
 const canonicalUrl = new URL(canonicalPath, siteUrl).href
+const markdownPath = overrides.markdownPath ?? (path ? (path === '/' ? '/index.md' : `${path}.md`) : undefined)
 
 const structuredData =
   overrides.structuredData ?? (path ? pageStructuredData[path] : undefined)
@@ -34,6 +37,14 @@ const structuredData =
 <meta name="description" content={description} />
 {keywords && <meta name="keywords" content={keywords} />}
 <link rel="canonical" href={canonicalUrl} />
+{
+  markdownPath && (
+    <>
+      <link rel="alternate" type="text/markdown" href={new URL(markdownPath, siteUrl).href} />
+      <link rel="describedby" href={new URL('/llms.txt', siteUrl).href} />
+    </>
+  )
+}
 
 <meta property="og:type" content={ogType} />
 <meta property="og:title" content={title} />

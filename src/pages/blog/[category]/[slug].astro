@@ -54,6 +54,7 @@ const structuredData = post && {
     title={`${post.title} | Rami Alshaza Blog`}
     description={post.description}
     canonicalPath={`/blog/${post.category_slug}/${post.slug}`}
+    markdownPath={`/blog/${post.category_slug}/${post.slug}.md`}
     ogType="website"
     image={post.og_image_url ?? post.cover_image_url ?? seoImageUrl}
     structuredData={structuredData ?? undefined}
