@@ -8,6 +8,16 @@ import { InterestForm } from './interest-signup.styles'
 
 const TURNSTILE_SITE_KEY = (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined)?.trim()
 
+const SUBSCRIBED_COOKIE = 'interest_subscribed'
+
+function hasSubscribed(): boolean {
+  return document.cookie.includes(`${SUBSCRIBED_COOKIE}=1`)
+}
+
+function markSubscribed() {
+  document.cookie = `${SUBSCRIBED_COOKIE}=1; max-age=${60 * 60 * 24 * 365}; path=/; samesite=lax`
+}
+
 const pulse = keyframes({
   '0%, 100%': { boxShadow: '0 0 0 0 rgba(25, 118, 210, 0.35)' },
   '50%': { boxShadow: '0 0 0 8px rgba(25, 118, 210, 0)' },
@@ -18,7 +28,7 @@ type Status = 'idle' | 'submitting' | 'success' | 'error'
 export function InterestSignup() {
   const [expanded, setExpanded] = useState(false)
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<Status>('idle')
+  const [status, setStatus] = useState<Status>(() => (typeof document !== 'undefined' && hasSubscribed() ? 'success' : 'idle'))
   const [error, setError] = useState<string | null>(null)
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -41,6 +51,7 @@ export function InterestSignup() {
         : { success: false, error: 'Something went wrong. Please try again.' }
 
       if (result.success) {
+        markSubscribed()
         setStatus('success')
       } else {
         setStatus('error')
@@ -52,14 +63,6 @@ export function InterestSignup() {
       setError('Network error. Please try again.')
       window.turnstile?.reset()
     }
-  }
-
-  if (status === 'success') {
-    return (
-      <Alert severity="success" sx={{ mt: 4 }}>
-        I will inform you with updates as soon as I start. Thank you for your support!
-      </Alert>
-    )
   }
 
   return (
@@ -79,7 +82,11 @@ export function InterestSignup() {
         I'm considering more articles like this on Substack or Medium about soft
         skills in software engineering. Should I ping you when I start?
       </Typography>
-      {!expanded ? (
+      {status === 'success' ? (
+        <Alert severity="success">
+          I will inform you with updates as soon as I start. Thank you for your support!
+        </Alert>
+      ) : !expanded ? (
         <Button
           variant="contained"
           size="large"
