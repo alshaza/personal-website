@@ -15,12 +15,8 @@ export const BlogPostCard = styled('a')(({ theme }) => ({
   color: 'inherit',
   padding: '20px 24px',
   borderRadius: 12,
-  border: `1px solid ${theme.palette.divider}`,
-  transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-  '&:hover': {
-    borderColor: theme.palette.primary.main,
-    boxShadow: theme.shadows[2],
-  },
+  border: `1px solid ${theme.palette.primary.main}`,
+  boxShadow: 'var(--shadow-blue)',
 }))
 
 export const BlogPostBody = styled(Box)(({ theme }) => ({
