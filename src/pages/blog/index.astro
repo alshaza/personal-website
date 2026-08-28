@@ -4,6 +4,7 @@ export const prerender = false
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { BlogIndexPage } from '../../components/pages/blog-index-page'
 import { listPublishedPosts } from '../../lib/db'
+import { getSeenPostIds } from '../../lib/blog-seen-posts'
 
 const { DB } = Astro.locals.runtime.env
 let posts: Awaited<ReturnType<typeof listPublishedPosts>> = []
@@ -12,8 +13,10 @@ try {
 } catch (err) {
   console.error('listPublishedPosts failed:', err)
 }
+
+const seenPostIds = [...getSeenPostIds(Astro.cookies)]
 ---
 
 <BaseLayout path="/blog">
-  <BlogIndexPage posts={posts} client:visible />
+  <BlogIndexPage posts={posts} seenPostIds={seenPostIds} client:visible />
 </BaseLayout>

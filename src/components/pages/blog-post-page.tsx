@@ -31,9 +31,10 @@ interface BlogPostPageProps {
   categorySlug: string
   categoryName: string
   engagement: PostEngagement
+  alreadySeen: boolean
 }
 
-export function BlogPostPage({ post, categorySlug, categoryName, engagement }: BlogPostPageProps) {
+export function BlogPostPage({ post, categorySlug, categoryName, engagement, alreadySeen }: BlogPostPageProps) {
   const [reaction, setReaction] = useState<Reaction>(engagement.userReaction === 'fire' ? 'fire' : null)
   const [fire, setFire] = useState(engagement.fire)
   const [copied, setCopied] = useState(false)
@@ -126,7 +127,7 @@ export function BlogPostPage({ post, categorySlug, categoryName, engagement }: B
                 <VisibilityIcon fontSize="inherit" />
                 {engagement.views}
               </Typography>
-              {isNewPost(post.published_at, engagement.views) && (
+              {!alreadySeen && isNewPost(post.published_at, engagement.views) && (
                 <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600 }} />
               )}
             </BlogPostMeta>

@@ -5,6 +5,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro'
 import { BlogPostPage } from '../../../components/pages/blog-post-page'
 import { getPublishedPostBySlug, recordViewAndGetEngagement, type PostEngagement } from '../../../lib/db'
 import { getOrSetVisitorId } from '../../../lib/visitor'
+import { getSeenPostIds, markPostSeen } from '../../../lib/blog-seen-posts'
 import { seoImageUrl, siteUrl } from '../../../data/seo-content'
 
 const { category, slug } = Astro.params
@@ -23,6 +24,7 @@ if (!post) {
 }
 
 let engagement: PostEngagement = { views: 0, fire: 0, water: 0, userReaction: null }
+let alreadySeen = false
 if (post) {
   try {
     const visitorId = getOrSetVisitorId(Astro.cookies)
@@ -30,6 +32,9 @@ if (post) {
   } catch (err) {
     console.error('recordViewAndGetEngagement failed:', err)
   }
+
+  alreadySeen = getSeenPostIds(Astro.cookies).has(post.id)
+  markPostSeen(Astro.cookies, post.id)
 }
 
 const structuredData = post && {
@@ -64,6 +69,7 @@ const structuredData = post && {
       categorySlug={post.category_slug}
       categoryName={post.category_name}
       engagement={engagement}
+      alreadySeen={alreadySeen}
       client:visible
     />
   </BaseLayout>

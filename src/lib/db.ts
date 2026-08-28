@@ -37,13 +37,13 @@ export interface Category {
 
 export type PostSummary = Pick<
   Post,
-  'slug' | 'title' | 'description' | 'cover_image_url' | 'published_at'
+  'id' | 'slug' | 'title' | 'description' | 'cover_image_url' | 'published_at'
 > & { category_slug: string; category_name: string; views: number }
 
 export async function listPublishedPosts(db: D1Database): Promise<PostSummary[]> {
   const { results } = await db
     .prepare(
-      `SELECT p.slug, p.title, p.description, p.cover_image_url, p.published_at, c.slug AS category_slug, c.name AS category_name,
+      `SELECT p.id, p.slug, p.title, p.description, p.cover_image_url, p.published_at, c.slug AS category_slug, c.name AS category_name,
         (SELECT COUNT(*) FROM post_views v WHERE v.post_id = p.id) AS views
        FROM posts p
        JOIN categories c ON c.id = p.category_id

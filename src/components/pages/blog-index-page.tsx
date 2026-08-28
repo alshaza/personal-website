@@ -7,7 +7,9 @@ import { AppContainer, MainContainer } from '../layout.styles'
 import { BlogPostList, BlogPostCard, categoryColor, isNewPost } from './blog.styles'
 import type { PostSummary } from '../../lib/db'
 
-export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
+export function BlogIndexPage({ posts, seenPostIds }: { posts: PostSummary[]; seenPostIds: number[] }) {
+  const seen = new Set(seenPostIds)
+
   return (
     <Providers>
       <AppContainer>
@@ -64,7 +66,7 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
                         <VisibilityIcon fontSize="inherit" />
                         {post.views}
                       </Typography>
-                      {isNewPost(post.published_at, post.views) && (
+                      {!seen.has(post.id) && isNewPost(post.published_at, post.views) && (
                         <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600 }} />
                       )}
                     </Box>
