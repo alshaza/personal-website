@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import { Providers } from '../Providers'
 import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
@@ -8,6 +9,7 @@ import { AudienceSegments } from '../audience-segments/audience-segments'
 import { HowCanIHelp } from '../how-can-i-help/how-can-i-help'
 import { Testimonials } from '../testimonials/testimonials'
 import { ContactCTA } from '../contact-cta/contact-cta'
+import { InterestSignup } from '../interest-signup/interest-signup'
 import { bookingFunnelContent } from '../../data/content'
 
 export function HomePage() {
@@ -21,6 +23,9 @@ export function HomePage() {
           <AudienceSegments />
           <HowCanIHelp />
           <Testimonials />
+          <Box sx={{ maxWidth: 720, mx: 'auto', width: '100%' }}>
+            <InterestSignup />
+          </Box>
           <ContactCTA
             title={bookingFunnelContent.defaultFooterTitle}
             description={bookingFunnelContent.defaultFooterDescription}

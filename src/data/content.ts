@@ -23,7 +23,6 @@ export interface HeroContent {
   subheading: string
   body: string
   ctaLabel: string
-  ctaMicroCopy: string
 }
 
 export interface Testimonial {
@@ -57,7 +56,6 @@ export const heroContent: HeroContent = {
   subheading: 'Career growth mentoring for software engineers',
   body: 'I help engineers strengthen communication, influence, and leadership visibility so they can earn trust, negotiate confidently, and grow compensation.',
   ctaLabel: 'Start on the right path',
-  ctaMicroCopy: '30 minutes · No commitment · Walk away with a clear next-step plan',
 }
 
 export interface FunnelNarrativeContent {
@@ -150,25 +148,21 @@ export const aboutMeContent: AboutMeContent = {
   ],
 }
 
-export interface CollaborateContent {
-  heading: string
-  description: string
-}
-
-export const collaborateContent: CollaborateContent = {
-  heading: 'Collaborate',
-  description:
-    'I am open to partnerships with recruiters, fellow coaches, podcast hosts, and companies that want practical soft-skills training for engineering teams. If you want to connect professionals, co-create content, or upskill developers, let us start with a short conversation.',
-}
-
 export interface BookingProcessStep {
   title: string
   description: string
 }
 
+export interface BookingContactOption {
+  title: string
+  description: string
+  targetId: string
+}
+
 export interface BookingFunnelContent {
   primaryCtaLabel: string
   ctaMicroCopy: string
+  contactOptions: BookingContactOption[]
   processHeading: string
   processSteps: BookingProcessStep[]
   defaultFooterTitle: string
@@ -178,6 +172,20 @@ export interface BookingFunnelContent {
 export const bookingFunnelContent: BookingFunnelContent = {
   primaryCtaLabel: 'Book Free 1:1 Career Strategy Call',
   ctaMicroCopy: '30 minutes · No commitment · Get your next-step plan',
+  contactOptions: [
+    {
+      title: 'Ask a quick question',
+      description:
+        'Have something short on your mind? Drop it in the contact form below and I will get back to you within 24 hours.',
+      targetId: 'contact-form',
+    },
+    {
+      title: 'Book a free call',
+      description:
+        'Want to talk it through together and find a solution? Grab a free 30-minute slot on my calendar — no commitment.',
+      targetId: 'calendar-booking',
+    },
+  ],
   processHeading: 'How booking works',
   processSteps: [
     {

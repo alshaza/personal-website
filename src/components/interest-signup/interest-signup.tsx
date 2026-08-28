@@ -66,7 +66,7 @@ export function InterestSignup() {
     <Box sx={{ mt: 4, pt: 3, borderTop: (theme) => `1px solid ${theme.palette.divider}` }}>
       <Typography variant="body1" sx={{ mb: 2 }}>
         Interested in this content? I'm considering more articles like this on Substack or Medium about soft
-        skills in software engineering — let me know with your email.
+        skills in software engineering — are you interested?
       </Typography>
 
       {!expanded ? (

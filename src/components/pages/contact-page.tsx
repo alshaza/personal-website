@@ -8,7 +8,6 @@ import { Testimonials } from '../testimonials/testimonials'
 import { ContactForm } from '../contact-form/contact-form'
 import { CalendarSection } from '../calendar-section/calendar-section'
 import { FaqSection } from '../faq-section/faq-section'
-import { collaborateContent } from '../../data/content'
 
 export function ContactPage() {
   return (
@@ -16,15 +15,6 @@ export function ContactPage() {
       <AppContainer>
         <Header currentPath="/contact" />
         <MainContainer role="main">
-          <Box component="section" sx={{ mt: 4 }}>
-            <Typography variant="h1" gutterBottom>
-              {collaborateContent.heading}
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 720 }}>
-              {collaborateContent.description}
-            </Typography>
-          </Box>
-
           <BookingProcess />
 
           <Testimonials />

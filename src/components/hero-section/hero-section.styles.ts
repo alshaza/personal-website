@@ -140,24 +140,6 @@ export const HeroCTAStack = styled(Stack)(({ theme }) => ({
   },
 }))
 
-export const HeroCtaMicroCopy = styled(Typography)(({ theme }) => ({
-  maxWidth: 'min(100%, 420px)',
-  textAlign: 'center',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: 'none',
-    whiteSpace: 'nowrap',
-  },
-  [theme.breakpoints.up('md')]: {
-    textAlign: 'left',
-  },
-}))
-
-export const HeroCtaMicroCopySegment = styled('span', {
-  shouldForwardProp: (prop) => prop !== 'phrase',
-})<{ phrase: boolean }>(({ phrase }) => ({
-  whiteSpace: phrase ? 'nowrap' : 'normal',
-}))
-
 export const HeroSecondaryLink = styled(Link)(({ theme }) => ({
   marginTop: theme.spacing(0.5),
   fontWeight: 600,

@@ -4,20 +4,20 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import ScheduleIcon from '@mui/icons-material/Schedule'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import LocalFireDepartmentOutlinedIcon from '@mui/icons-material/LocalFireDepartmentOutlined'
-import { Alert, Box, Chip, IconButton, Snackbar, Typography } from '@mui/material'
+import { Alert, Box, Breadcrumbs, Chip, IconButton, Link, Snackbar, Typography } from '@mui/material'
 import { keyframes } from '@mui/material/styles'
 import { Providers } from '../Providers'
 import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
-import { BlogPostActions, BlogPostBody, BlogPostMeta } from './blog.styles'
+import { BlogPostActions, BlogPostBody, BlogPostMeta, isNewPost } from './blog.styles'
 import { InterestSignup } from '../interest-signup/interest-signup'
 import type { Post, PostEngagement } from '../../lib/db'
 import { siteUrl } from '../../data/seo-content'
 
 type Reaction = 'fire' | null
 
-const WORDS_PER_MINUTE = 200
+const WORDS_PER_MINUTE = 100
 
 const firePop = keyframes({
   '0%': { transform: 'scale(1)' },
@@ -29,10 +29,11 @@ const firePop = keyframes({
 interface BlogPostPageProps {
   post: Post
   categorySlug: string
+  categoryName: string
   engagement: PostEngagement
 }
 
-export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPageProps) {
+export function BlogPostPage({ post, categorySlug, categoryName, engagement }: BlogPostPageProps) {
   const [reaction, setReaction] = useState<Reaction>(engagement.userReaction === 'fire' ? 'fire' : null)
   const [fire, setFire] = useState(engagement.fire)
   const [copied, setCopied] = useState(false)
@@ -80,9 +81,27 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
         <Header currentPath="/blog" />
         <MainContainer role="main">
           <Box component="article" sx={{ mt: 4, mb: 6, maxWidth: 720, mx: 'auto' }}>
-            <Typography variant="h1" gutterBottom>
-              {post.title}
-            </Typography>
+            <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
+              <Link underline="hover" color="inherit" href="/blog">
+                Blog
+              </Link>
+              <Typography color="text.primary">{categoryName}</Typography>
+              <Typography
+                color="text.secondary"
+                sx={{ maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+              >
+                {post.title}
+              </Typography>
+            </Breadcrumbs>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Typography variant="h1" gutterBottom>
+                {post.title}
+              </Typography>
+              {isNewPost(post.published_at, engagement.views) && (
+                <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600, mb: 1 }} />
+              )}
+            </Box>
 
             <BlogPostMeta>
               {post.published_at && (
@@ -110,7 +129,7 @@ export function BlogPostPage({ post, categorySlug, engagement }: BlogPostPagePro
                 sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}
               >
                 <VisibilityIcon fontSize="inherit" />
-                {engagement.views} {engagement.views === 1 ? 'view' : 'views'}
+                {engagement.views}
               </Typography>
             </BlogPostMeta>
 

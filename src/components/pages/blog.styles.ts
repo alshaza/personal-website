@@ -78,3 +78,17 @@ export function categoryColor(categorySlug: string) {
   for (let i = 0; i < categorySlug.length; i++) hash = (hash * 31 + categorySlug.charCodeAt(i)) | 0
   return CATEGORY_PALETTE[Math.abs(hash) % CATEGORY_PALETTE.length]
 }
+
+function startOfWeek(date: Date): number {
+  const d = new Date(date)
+  d.setHours(0, 0, 0, 0)
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7)) // Monday
+  return d.getTime()
+}
+
+/** Barely any traction yet, or published this calendar week — worth flagging as new. */
+export function isNewPost(publishedAt: string | null, views: number): boolean {
+  if (views <= 1) return true
+  if (!publishedAt) return false
+  return startOfWeek(new Date(publishedAt)) === startOfWeek(new Date())
+}

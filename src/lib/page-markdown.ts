@@ -9,7 +9,7 @@ import {
   testimonials,
   aboutMeContent,
   timelineEntries,
-  collaborateContent,
+  bookingFunnelContent,
   contactFaqContent,
   ctaContent,
 } from '../data/content'
@@ -68,9 +68,9 @@ ${timelineEntries
 }
 
 export function renderContactMarkdown(): string {
-  return `# ${collaborateContent.heading}
+  return `# How working together works
 
-${collaborateContent.description}
+${bookingFunnelContent.contactOptions.map((o) => `## ${o.title}\n\n${o.description}`).join('\n\n')}
 
 ## Frequently asked questions
 

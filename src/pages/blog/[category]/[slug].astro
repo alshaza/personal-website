@@ -59,7 +59,13 @@ const structuredData = post && {
     image={post.og_image_url ?? post.cover_image_url ?? seoImageUrl}
     structuredData={structuredData ?? undefined}
   >
-    <BlogPostPage post={post} categorySlug={post.category_slug} engagement={engagement} client:visible />
+    <BlogPostPage
+      post={post}
+      categorySlug={post.category_slug}
+      categoryName={post.category_name}
+      engagement={engagement}
+      client:visible
+    />
   </BaseLayout>
 ) : (
   <BaseLayout

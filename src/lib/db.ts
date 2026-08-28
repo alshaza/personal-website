@@ -57,15 +57,15 @@ export async function listPublishedPosts(db: D1Database): Promise<PostSummary[]>
 export async function getPublishedPostBySlug(
   db: D1Database,
   slug: string,
-): Promise<(Post & { category_slug: string }) | null> {
+): Promise<(Post & { category_slug: string; category_name: string }) | null> {
   const post = await db
     .prepare(
-      `SELECT p.*, c.slug AS category_slug FROM posts p
+      `SELECT p.*, c.slug AS category_slug, c.name AS category_name FROM posts p
        JOIN categories c ON c.id = p.category_id
        WHERE p.slug = ? AND p.status = 'published'`,
     )
     .bind(slug)
-    .first<Post & { category_slug: string }>()
+    .first<Post & { category_slug: string; category_name: string }>()
   return post ?? null
 }
 

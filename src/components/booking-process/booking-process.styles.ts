@@ -1,34 +1,46 @@
-import { alpha, Box, styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 
 export const BookingProcessContainer = styled(Box)({
-  marginTop: 'var(--section-spacing)',
+  marginTop: 32,
 })
 
 export const BookingProcessCard = styled(Box)(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius),
-  border: 'none',
-  borderLeft: `4px solid ${theme.palette.primary.main}`,
   backgroundColor: theme.palette.background.paper,
   boxShadow: 'var(--shadow-blue)',
-  padding: theme.spacing(3, 3, 3, 3.25),
-  transition: theme.transitions.create(['border-left-color', 'box-shadow', 'background-color'], {
-    duration: theme.transitions.duration.shorter,
-  }),
+  padding: theme.spacing(3),
   [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4, 4, 4, 4.5),
-  },
-  '&:hover': {
-    borderLeftColor: theme.palette.primary.dark,
-    backgroundColor: alpha(theme.palette.primary.main, 0.04),
-    boxShadow: 'var(--shadow-blue)',
+    padding: theme.spacing(4),
   },
 }))
 
-export const BookingProcessActions = styled(Box)({
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: 12,
-})
+export const OptionsGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  gap: 16,
+  marginTop: 8,
+  [theme.breakpoints.up('sm')]: {
+    gridTemplateColumns: '1fr 1fr',
+  },
+}))
+
+export const OptionCard = styled('a')(({ theme }) => ({
+  display: 'block',
+  textDecoration: 'none',
+  color: 'inherit',
+  padding: theme.spacing(3),
+  borderRadius: Number(theme.shape.borderRadius),
+  border: `1px solid ${theme.palette.divider}`,
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: 'var(--shadow-blue)',
+  transition: theme.transitions.create(['border-color', 'box-shadow'], {
+    duration: theme.transitions.duration.shorter,
+  }),
+  '&:hover': {
+    borderColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[4],
+  },
+}))
 
 export const ProcessList = styled(Box)({
   display: 'flex',

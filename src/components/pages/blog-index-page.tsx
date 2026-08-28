@@ -4,7 +4,7 @@ import { Providers } from '../Providers'
 import { Header } from '../header/header'
 import { Footer } from '../footer/footer'
 import { AppContainer, MainContainer } from '../layout.styles'
-import { BlogPostList, BlogPostCard, categoryColor } from './blog.styles'
+import { BlogPostList, BlogPostCard, categoryColor, isNewPost } from './blog.styles'
 import type { PostSummary } from '../../lib/db'
 
 export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
@@ -31,9 +31,14 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
               {posts.map((post) => (
                 <li key={post.slug}>
                   <BlogPostCard href={`/blog/${post.category_slug}/${post.slug}`}>
-                    <Typography variant="h2" sx={{ fontSize: '1.5rem', mb: 1 }}>
-                      {post.title}
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="h2" sx={{ fontSize: '1.5rem', mb: 1 }}>
+                        {post.title}
+                      </Typography>
+                      {isNewPost(post.published_at, post.views) && (
+                        <Chip label="New" size="small" color="primary" sx={{ fontWeight: 600, mb: 1 }} />
+                      )}
+                    </Box>
                     <Typography variant="body1" color="text.secondary">
                       {post.description}
                     </Typography>
@@ -62,7 +67,7 @@ export function BlogIndexPage({ posts }: { posts: PostSummary[] }) {
                         sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}
                       >
                         <VisibilityIcon fontSize="inherit" />
-                        {post.views} {post.views === 1 ? 'view' : 'views'}
+                        {post.views}
                       </Typography>
                     </Box>
                   </BlogPostCard>
