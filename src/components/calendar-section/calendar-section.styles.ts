@@ -9,7 +9,7 @@ export const CalendarSectionContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '64px 24px',
+  padding: '64px 0',
 })
 
 export const CalendarBackground = styled(Box)({
@@ -17,7 +17,7 @@ export const CalendarBackground = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '48px 24px',
+  padding: '48px 0',
   backgroundColor: '#ffffff',
   maskImage: CALENDAR_FADE_MASK,
   maskComposite: 'intersect',

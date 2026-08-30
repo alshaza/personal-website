@@ -10,7 +10,6 @@ import {
   HeroCTAStack,
   HeroHeading,
   HeroHeadingLine,
-  HeroImageWrapper,
   HeroSubheading,
   HeroTextWrapper,
 } from './hero-section.styles'
@@ -20,9 +19,6 @@ const CONTACT_PATH = '/contact'
 export function HeroSection() {
   return (
     <HeroContainer as="section">
-      <HeroImageWrapper>
-        <img src="/main-image.webp" alt="Rami Alshaza" fetchPriority="high" />
-      </HeroImageWrapper>
       <HeroTextWrapper>
         <HeroHeading variant="h1" gutterBottom>
           {heroContent.headingLines.map((line) => (

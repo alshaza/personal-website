@@ -65,6 +65,7 @@ export const HeaderNavLinks = styled('nav')(({ theme }) => ({
 }))
 
 export const HeaderNavLink = styled('a')(({ theme }) => ({
+  position: 'relative',
   textDecoration: 'none',
   borderRadius: 8,
   color: theme.palette.text.primary,
@@ -77,8 +78,16 @@ export const HeaderNavLink = styled('a')(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
   '&.active': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 12,
+      right: 12,
+      bottom: 2,
+      height: 3,
+      borderRadius: 1,
+      backgroundColor: theme.palette.primary.main,
+    },
   },
   [theme.breakpoints.up('md')]: {
     fontSize: '1.05rem',
