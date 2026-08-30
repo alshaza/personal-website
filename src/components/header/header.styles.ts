@@ -67,16 +67,11 @@ export const HeaderNavLinks = styled('nav')(({ theme }) => ({
 export const HeaderNavLink = styled('a')(({ theme }) => ({
   position: 'relative',
   textDecoration: 'none',
-  borderRadius: 8,
   color: theme.palette.text.primary,
   fontSize: '0.84rem',
-  fontWeight: 600,
-  padding: '8px 12px',
+  fontWeight: 500,
+  padding: '8px 8px',
   whiteSpace: 'nowrap',
-  transition: 'background-color 180ms ease, color 180ms ease',
-  '&:hover': {
-    backgroundColor: theme.palette.action.hover,
-  },
   '&.active': {
     '&::after': {
       content: '""',
@@ -84,14 +79,13 @@ export const HeaderNavLink = styled('a')(({ theme }) => ({
       left: 12,
       right: 12,
       bottom: 2,
+      borderRadius: 90,
       height: 3,
-      borderRadius: 1,
       backgroundColor: theme.palette.primary.main,
     },
   },
   [theme.breakpoints.up('md')]: {
     fontSize: '1.05rem',
-    padding: '6px 10px',
   },
 }))
 

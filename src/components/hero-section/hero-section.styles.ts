@@ -5,12 +5,12 @@ export const HeroContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: 'calc(100vh - 100px)',
+  minHeight: 'calc(100vh - 150px)',
   gap: 32,
   [theme.breakpoints.up('md')]: {
     flexDirection: 'row',
     gap: 64,
-    minHeight: 'calc(100vh - 100px)',
+    minHeight: 'calc(100vh - 150px)',
   },
 }))
 
