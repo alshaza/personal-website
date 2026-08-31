@@ -2,7 +2,7 @@ import { marked } from 'marked'
 import sanitizeHtml from 'sanitize-html'
 
 export function renderMarkdown(markdown: string): string {
-  const rawHtml = marked.parse(markdown, { async: false }) as string
+  const rawHtml = marked.parse(markdown, { async: false, breaks: true }) as string
   return sanitizeHtml(rawHtml, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2']),
     allowedAttributes: {
