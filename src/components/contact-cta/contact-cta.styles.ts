@@ -12,8 +12,7 @@ export const CTAContent = styled(Box)({
   alignItems: 'center',
   textAlign: 'center',
   gap: 20,
-  maxWidth: 640,
-  margin: '0 auto',
+  width: '100%',
 })
 
 export const CTADescription = styled(Typography)(({ theme }) => ({
